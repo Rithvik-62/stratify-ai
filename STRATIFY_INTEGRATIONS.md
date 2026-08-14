@@ -1,29 +1,44 @@
-# STRATIFY — Integration Matrix & Connection Audit
+# 🔌 STRATIFY — Enterprise Tool Integrations Specification
 
-This document maintains the official connection status matrix across all tools in the STRATIFY platform.
-
----
-
-## Connection Matrix
-
-| Tool / Component | Integration Type | Status | Execution / Trigger Method | Manual Action Required |
-| :--- | :--- | :--- | :--- | :--- |
-| **Transaction Generator** | Local File Simulation | **Connected** | `python realtime/generator.py` | None |
-| **Alteryx Designer** | Desktop Workflow (.yxmd) | **Manual Guide** | Alteryx Designer GUI Run | Open `alteryx/STRATIFY_Realtime_ETL.yxmd` & run batch |
-| **Snowflake DWH** | Cloud SQL Connector | **Connected** | Direct DB Connection (`JQOFPHS-OZ81390`) | Credentials in `.env` |
-| **Python Analytics** | Python DWH Queries | **Connected** | `database/queries.py` | None |
-| **STRATIFY Dashboard** | Streamlit & Plotly UI | **Connected** | `python -m streamlit run app.py` | None |
-| **UiPath RPA** | RPA File Automation | **Connected** | `python uipath/uipath_automation.py` | Archival automated |
-| **Email Distribution** | SMTP Transport | **Manual / Optional** | `uipath/uipath_automation.py` | Set `SMTP_USER` / `SMTP_PASSWORD` in `.env` |
-| **DeepSeek AI** | REST API | **Optional / Live** | `ai/deepseek_insights.py` | Set `DEEPSEEK_API_KEY` in `.env` |
+This document specifies the technical connection protocols and schemas for all integrated tools in the STRATIFY platform.
 
 ---
 
-## Manual Tool Guidelines
+## 1. Tool 1: Alteryx Designer ETL Engine
+- **Workflow File:** `alteryx/Stratify_ETL(final).yxmd`
+- **Parity Engine:** `realtime/pipeline.py`
+- **Input Directory:** `realtime/incoming/` (`sales_batch_*.csv`)
+- **Output Directory:** `realtime/processed/` (`sales_clean_*.csv`)
+- **Quarantine Directory:** `realtime/rejected/`
+- **Transformations:** Null imputation, schema standardization, positive constraint checks, deduplication against existing `Sale_ID` catalog.
 
-### Alteryx Manual Workflow Steps
-1. Open **Alteryx Designer**.
-2. File $\rightarrow$ Open Workflow $\rightarrow$ `d:\stratify-ai\alteryx\STRATIFY_Realtime_ETL.yxmd`.
-3. Verify Input directory is set to `d:\stratify-ai\realtime\incoming\`.
-4. Verify Output directory is set to `d:\stratify-ai\realtime\cleaned\`.
-5. Click **Run** (Ctrl + R).
+---
+
+## 2. Tool 2: Snowflake Cloud Data Warehouse
+- **Cloud Provider:** Amazon Web Services (AWS)
+- **Region:** `ap-southeast-7`
+- **Account:** `JQOFPHS-OZ81390`
+- **Database / Schema:** `NOVAKART_DB.ANALYTICS`
+- **Stage Object:** `@NOVAKART_DB.ANALYTICS.NOVAKART_STAGE`
+- **Target Table:** `RAW_SALES` (Ingestion via `MERGE INTO`)
+- **Analytical Views:** `VW_STRATIFY_REALTIME_KPI`, `VW_STRATIFY_SALES_REALTIME`, `VW_EXECUTIVE_SUMMARY`, `VW_RETAIL_KPI_SUMMARY`, `VW_PRODUCT_PERFORMANCE`, `VW_CUSTOMER_ANALYSIS`, `VW_INVENTORY_ANALYSIS`, `VW_FINANCE_SUMMARY`, `VW_EMPLOYEE_ANALYSIS`.
+
+---
+
+## 3. Tool 3: DeepSeek AI Generative Decision Layer
+- **Endpoint:** `https://api.deepseek.com/v1/chat/completions`
+- **Model:** `deepseek-chat` (v3 reasoning engine)
+- **Input Context:** Structured factual metrics calculated by Python & SQL (Net Revenue, Profit, Margin, Inventory risks, Top SKUs).
+- **Output:** Strategic CDO Executive Summary, Strategic Risks, Growth Opportunities, and Recommended Management Actions.
+- **Resilience:** Graceful fallback to rule-based executive synthesis if API key is unconfigured or network times out.
+
+---
+
+## 4. Tool 4: UiPath RPA Automation & Gmail SMTP
+- **Script:** `uipath/uipath_automation.py`
+- **Trigger:** Auto-triggered after Executive PDF report generation in `reports/`.
+- **Workflow Steps:**
+  1. Detect new `STRATIFY_Executive_Business_Report_*.pdf`.
+  2. Archive older reports into `reports/archive/`.
+  3. Append execution log to `uipath/uipath_execution_log.csv`.
+  4. Dispatch email with PDF attachment via Gmail SMTP (SSL Port 587).

@@ -7,7 +7,7 @@ import streamlit as st
 from datetime import datetime
 from database.snowflake_connection import db
 
-def render_top_navigation():
+def render_top_navigation(last_refresh_time=None):
     """Renders high-end modern top navigation bar with high-contrast typography and glowing pulse."""
     
     st.markdown("""
@@ -129,7 +129,7 @@ def render_top_navigation():
     """, unsafe_allow_html=True)
 
     status_text, is_live = db.get_status()
-    sync_str = db.last_sync_time.strftime("%H:%M:%S") if db.last_sync_time else datetime.now().strftime("%H:%M:%S")
+    refresh_str = last_refresh_time or (db.last_sync_time.strftime("%Y-%m-%d %H:%M:%S") if db.last_sync_time else datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
     col_nav1, col_nav2 = st.columns([7, 5])
 
@@ -156,7 +156,7 @@ def render_top_navigation():
             </div>
             <div class="meta-info">
                 <div>Warehouse: <b>NOVAKART_DB.ANALYTICS</b></div>
-                <div>Last Sync: <b>{sync_str}</b></div>
+                <div>LAST REFRESH: <b>{refresh_str}</b></div>
             </div>
         </div>
         """, unsafe_allow_html=True)

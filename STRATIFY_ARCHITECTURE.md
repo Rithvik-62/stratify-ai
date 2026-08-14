@@ -1,71 +1,96 @@
-# STRATIFY — Decision Intelligence Platform Architecture
+# ⚡ STRATIFY — Enterprise System Architecture & Data Engineering Guide
+**Platform:** STRATIFY — Executive Business Intelligence & Decision Intelligence Platform  
+**Target Architecture:** 4-Tool Enterprise Data Pipeline (Near-Real-Time Batch BI)  
 
-## System Overview
+---
 
-STRATIFY is an enterprise-grade Retail Intelligence and Data Analytics Platform designed on a **Near-Real-Time Batch Processing** architecture.
+## 1. End-to-End Pipeline Architecture
 
 ```
-┌───────────────────────────────┐
-│     SOURCE DATA SIMULATOR     │
-│   (realtime/generator.py)     │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│        INCOMING BUFFER        │
-│   (realtime/incoming/*.csv)   │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│         ALTERYX ETL           │
-│  (Data Cleaning & Validation) │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│        SNOWFLAKE DWH          │
-│   (NOVAKART_DB.ANALYTICS)     │
-│  - Stage: NOVAKART_STAGE      │
-│  - Table: RAW_SALES (MERGE)   │
-│  - Views: REALTIME KPI        │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│      PYTHON ANALYTICS         │
-│   (queries.py & health score) │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│      STRATIFY DASHBOARD       │
-│  (Streamlit + Plotly Dark UI) │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│      UIPATH RPA & REPORT      │
-│  (generate_pdf_report & RPA)  │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│     DEEPSEEK AI INSIGHTS      │
-│  (Generative Decision Layer)  │
-└───────────────────────────────┘
+                BUSINESS DATA SOURCE (POS Terminals)
+                                 │
+                                 ▼
+                     INCOMING CSV MICRO-BATCH
+                    (realtime/incoming/*.csv)
+                                 │
+                                 ▼
+                    ┌─────────────────────────┐
+                    │       TOOL 1:           │
+                    │   ALTERYX ETL ENGINE    │
+                    │ (Validation & Cleanse)  │
+                    └────────────┬────────────┘
+                                 │
+                            CLEAN DATA
+                                 │
+                                 ▼
+                    ┌─────────────────────────┐
+                    │       TOOL 2:           │
+                    │   SNOWFLAKE CLOUD DWH   │
+                    │ (Stage, Tables & Views) │
+                    └────────────┬────────────┘
+                                 │
+                          ANALYTICS VIEWS
+                                 │
+                                 ▼
+                    ┌─────────────────────────┐
+                    │   PYTHON DATA SERVICES  │
+                    │ (KPIService, Analytics) │
+                    └────────────┬────────────┘
+                                 │
+             ┌───────────────────┼───────────────────┐
+             │                   │                   │
+             ▼                   ▼                   ▼
+    ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+    │  WEB DASHBOARD  │ │  DEEPSEEK AI    │ │  EXECUTIVE PDF  │
+    │  (Streamlit UI) │ │ (CDO Insights)  │ │ (ReportLab 8-Pg)│
+    └────────┬────────┘ └────────┬────────┘ └────────┬────────┘
+             │                   │                   │
+             └───────────────────┼───────────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────────────┐
+                    │       TOOL 4:           │
+                    │    UIPATH RPA ROBOT     │
+                    │ (Archival & Gmail SMTP) │
+                    └─────────────────────────┘
 ```
 
 ---
 
-## Technical Component Matrix
+## 2. Core Architectural Principles
+
+1. **Near-Real-Time Batch Processing:**  
+   STRATIFY simulates real-world operational data ingestion using micro-batches. Each incoming batch is processed through the ETL, warehouse, analytics, and reporting pipeline.
+
+2. **Snowflake as the Single Source of Truth (SSOT):**  
+   All metrics displayed on the dashboard, in DeepSeek AI prompts, and in the PDF report are queried directly from Snowflake Data Warehouse (`NOVAKART_DB.ANALYTICS`). No local CSV files are used for reporting.
+
+3. **Idempotent Ingestion & MERGE Logic:**  
+   Transactions are deduplicated using `SALE_ID` as the primary key. If a record already exists in Snowflake, the `MERGE INTO` statement prevents duplicate insertion.
+
+4. **Transparent Governance & Health Scoring:**  
+   Business health scores, profit margins, and departmental ratios are computed using explicit mathematical formulas in Python and SQL—never fabricated.
+
+---
+
+## 3. Technology Stack & Component Specifications
 
 | Layer | Technology / Tool | Implementation File | Role |
 | :--- | :--- | :--- | :--- |
-| **Source System** | Python | `realtime/generator.py` | Simulates operational retail transaction batches. |
-| **ETL & Data Prep** | Alteryx | `alteryx/STRATIFY_Realtime_ETL.yxmd` | Standardizes, cleanses, and calculates financial metrics. |
-| **Data Warehouse** | Snowflake | `NOVAKART_DB.ANALYTICS` | Central cloud analytical DWH (Account: `JQOFPHS-OZ81390`). |
-| **Analytics Engine** | Python | `database/queries.py` | Queries Snowflake DWH & calculates Business Health Score. |
-| **Reporting & RPA** | ReportLab & Python | `reports/generate_pdf_report.py`, `uipath/uipath_automation.py` | Compiles executive PDF reports & archives logs. |
-| **User Interface** | Streamlit & Plotly | `app.py`, `components/` | Enterprise BI Executive Dashboard. |
-| **AI Intelligence** | DeepSeek API | `ai/deepseek_insights.py` | Generative AI executive decision support layer. |
+| **Data Generation** | Python 3.11+ | `realtime/generator.py` | Generates realistic retail transactions across 4 branches. |
+| **ETL & Data Prep** | Alteryx Designer | `alteryx/Stratify_ETL(final).yxmd` | Validates schema, cleans nulls, and standardizes data types. |
+| **ETL Parity Engine** | Python | `realtime/pipeline.py` | Automated command-line execution engine for Alteryx logic. |
+| **Cloud Data Warehouse** | Snowflake Cloud | `NOVAKART_DB.ANALYTICS` | AWS `ap-southeast-7` instance running star-schema analytics. |
+| **Data Service Layer** | Python Service Classes | `analytics/services.py` | `KPIService`, `AnalyticsService`, `HistoricalService`, `PipelineService`. |
+| **Generative AI** | DeepSeek AI API | `ai/deepseek_insights.py` | Interprets factual financial KPIs for executive CDO decision support. |
+| **Executive Reporting** | ReportLab Platypus | `reports/generate_pdf_report.py` | Compiles formal 8-page Executive Review PDF documents. |
+| **Process Automation** | UiPath & Gmail SMTP | `uipath/uipath_automation.py` | Detects new reports, archives older versions, and dispatches emails. |
+| **Executive Dashboard** | Streamlit & Plotly | `app.py`, `components/` | High-contrast modern luxury executive BI control center. |
+
+---
+
+## 4. Security & Governance
+
+- All secrets and credentials reside in environment variables or `.env` (`SNOWFLAKE_PASSWORD`, `DEEPSEEK_API_KEY`, `SMTP_PASSWORD`).
+- No credentials are committed to version control.
+- An example environment template is provided in `.env.example`.

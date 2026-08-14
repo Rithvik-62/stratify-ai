@@ -1,6 +1,6 @@
 """
 STRATIFY — Decision Intelligence Platform
-Unified Enterprise BI Dashboard (app.py) - Enhanced 4-Tool Architecture, ML Forecasting, RFM & What-If Simulation
+Unified Enterprise BI Dashboard (app.py) - Clean Service Layer, Configurable Refresh & Near-Real-Time Data Pipeline
 """
 
 import streamlit as st
@@ -15,13 +15,9 @@ import glob
 # Ensure root import path
 sys.path.append(os.path.dirname(__file__))
 
-# Import database & query functions
+# Import Database of Record & Clean Service Layer
 from database.snowflake_connection import db
-from database.queries import (
-    fetch_realtime_kpis, fetch_realtime_sales, fetch_historical_comparison,
-    fetch_customers, fetch_products, fetch_inventory, fetch_finance,
-    fetch_employees, fetch_data_freshness, fetch_comprehensive_ratios
-)
+from analytics.services import KPIService, AnalyticsService, HistoricalService, PipelineService
 
 # Import AI & Reporting & RPA Modules
 from ai.deepseek_insights import generate_ai_insights
@@ -140,12 +136,28 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Auto Refresh Control (30s default)
-if HAS_AUTOREFRESH:
-    st_autorefresh(interval=30000, limit=None, key="stratify_unified_30s_autorefresh")
+# Initialize Session State
+if "last_refresh_timestamp" not in st.session_state:
+    st.session_state.last_refresh_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-# Render Top Navigation Header & Brand Identity
-render_top_navigation()
+if "refresh_interval_setting" not in st.session_state:
+    st.session_state.refresh_interval_setting = "10 Seconds (Default)"
+
+# Configurable Auto-Refresh Logic
+refresh_interval_map = {
+    "10 Seconds (Default)": 10000,
+    "30 Seconds": 30000,
+    "60 Seconds": 60000,
+    "5 Minutes": 300000,
+    "OFF": None
+}
+selected_interval_ms = refresh_interval_map.get(st.session_state.refresh_interval_setting, 10000)
+
+if HAS_AUTOREFRESH and selected_interval_ms is not None:
+    st_autorefresh(interval=selected_interval_ms, limit=None, key="stratify_configurable_autorefresh")
+
+# Render Top Navigation Header with Last Refresh Time
+render_top_navigation(last_refresh_time=st.session_state.last_refresh_timestamp)
 
 # Connection Test & Offline Safeguard
 status_label, is_connected = db.get_status()
@@ -167,21 +179,22 @@ if not is_connected:
     """, unsafe_allow_html=True)
     st.stop()
 
-# Fetch Real Data from Snowflake
-kpi_dict = fetch_realtime_kpis()
-sales_df = fetch_realtime_sales()
-hist_comp = fetch_historical_comparison()
-customers_df = fetch_customers()
-products_df = fetch_products()
-inventory_df = fetch_inventory()
-finance_df = fetch_finance()
-employees_df = fetch_employees()
-freshness_df = fetch_data_freshness()
-ratios_list = fetch_comprehensive_ratios()
+# Fetch Real Factual Data from Snowflake via Service Layer
+kpi_dict = KPIService.get_realtime_kpis()
+sales_df = AnalyticsService.get_sales()
+hist_comp = HistoricalService.get_historical_comparison()
+customers_df = AnalyticsService.get_customers()
+products_df = AnalyticsService.get_products()
+inventory_df = AnalyticsService.get_inventory()
+finance_df = AnalyticsService.get_finance()
+employees_df = AnalyticsService.get_employees()
+freshness_df = AnalyticsService.get_freshness()
+ratios_list = KPIService.get_comprehensive_ratios()
 
-# Pipeline file counts
-incoming_cnt = len(glob.glob(os.path.join(os.path.dirname(__file__), "realtime", "incoming", "*.csv")))
-processed_cnt = len(glob.glob(os.path.join(os.path.dirname(__file__), "realtime", "processed", "*.csv")))
+# Pipeline file counts & health
+pipe_counts = PipelineService.get_pipeline_counts()
+incoming_cnt = pipe_counts["incoming"]
+processed_cnt = pipe_counts["processed"]
 
 # Check Gmail SMTP Status
 smtp_pass = os.getenv("SMTP_PASSWORD", "")
@@ -190,8 +203,8 @@ smtp_ready = bool(smtp_pass and "your_gmail_app_password" not in smtp_pass)
 # Render Live Real-Time Ticker Bar
 render_realtime_ticker(sales_df, is_live=is_connected, smtp_ready=smtp_ready)
 
-# Role-Based Persona / Multi-Branch Switcher (RBAC)
-col_rbac, col_empty = st.columns([6, 6])
+# Executive Controls: Branch Switcher & Configurable Auto-Refresh
+col_rbac, col_refr = st.columns([7, 5])
 with col_rbac:
     selected_branch = st.selectbox(
         "👤 EXECUTIVE ROLE & BRANCH VIEWPORT",
@@ -204,6 +217,16 @@ with col_rbac:
         ],
         index=0
     )
+
+with col_refr:
+    selected_refresh_choice = st.selectbox(
+        "⏱️ AUTO-REFRESH CADENCE (NEAR-REAL-TIME)",
+        ["10 Seconds (Default)", "30 Seconds", "60 Seconds", "5 Minutes", "OFF"],
+        index=0
+    )
+    if selected_refresh_choice != st.session_state.refresh_interval_setting:
+        st.session_state.refresh_interval_setting = selected_refresh_choice
+        st.rerun()
 
 # Dynamic branch data filtering
 if "Delhi" in selected_branch:
@@ -223,20 +246,22 @@ with ctl1:
     if smtp_ready:
         st.success(f"🟢 Gmail SMTP Active ({os.getenv('SMTP_USER')})")
     else:
-        st.info("⚠️ Gmail SMTP: Set `SMTP_PASSWORD` in `.env` to enable auto email delivery")
+        st.info("⚠️ Gmail SMTP: Set `SMTP_PASSWORD` in `.env` for auto email delivery")
 with ctl2:
-    if st.button("⚡ RUN AUTOMATED 4-TOOL PIPELINE NOW", use_container_width=True):
-        with st.spinner("Executing 4-Tool Automated Pipeline (POS Generator -> Alteryx -> Snowflake DWH -> DeepSeek AI -> UiPath RPA -> Gmail SMTP)..."):
+    if st.button("⚡ RUN DEMO PIPELINE NOW", use_container_width=True):
+        with st.spinner("Executing 4-Tool Automated Pipeline (POS Generator ➔ Alteryx ➔ Snowflake DWH ➔ DeepSeek AI ➔ UiPath RPA ➔ Gmail SMTP)..."):
             from run_master_pipeline import run_master_automated_pipeline
             run_master_automated_pipeline()
             db.test_connection()
             st.cache_data.clear()
-            st.success("🎉 Full 4-Tool Enterprise Pipeline Executed Automatically!")
+            st.session_state.last_refresh_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            st.success("🎉 Full 4-Tool Enterprise Pipeline Executed Successfully!")
             st.rerun()
 with ctl3:
-    if st.button("🔄 REFRESH SNOWFLAKE DATA NOW", use_container_width=True):
+    if st.button("🔄 REAL REFRESH NOW", use_container_width=True):
         db.test_connection()
         st.cache_data.clear()
+        st.session_state.last_refresh_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         st.rerun()
 with ctl4:
     if st.button("📄 GENERATE PDF & DISPATCH VIA GMAIL", use_container_width=True):
@@ -244,6 +269,7 @@ with ctl4:
             pdf_p = generate_executive_report()
             rpa = StratifyUiPathAutomation()
             rpa.run_report_archival_workflow()
+            st.session_state.last_refresh_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             st.success(f"Report compiled & dispatched: {os.path.basename(pdf_p)}")
 
 st.markdown("<br>", unsafe_allow_html=True)
@@ -321,7 +347,7 @@ with t_overview:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 8. Horizontal Pipeline Monitor
-    render_horizontal_pipeline_visualizer(incoming_cnt=incoming_cnt, processed_cnt=processed_cnt)
+    render_horizontal_pipeline_visualizer(incoming_cnt=incoming_cnt, processed_cnt=processed_cnt, sales_df=sales_df)
 
 # ============================================================================
 # TAB 2: CONVERSATIONAL AI COPILOT
@@ -357,22 +383,31 @@ with t_depts:
     ])
 
     with d_tab1:
-        st.markdown("##### Sales Performance Transactions")
+        st.markdown("##### Sales Performance Transactions (Snowflake DWH)")
         if active_sales_df is not None and not active_sales_df.empty:
+            s_c1, s_c2, s_c3 = st.columns(3)
+            with s_c1:
+                st.metric("Branch Revenue", f"₹{active_sales_df['REVENUE'].sum():,.2f}")
+            with s_c2:
+                st.metric("Branch Profit", f"₹{active_sales_df['PROFIT'].sum():,.2f}")
+            with s_c3:
+                st.metric("Transactions", f"{len(active_sales_df)}")
             st.dataframe(active_sales_df, use_container_width=True)
 
     with d_tab2:
-        st.markdown("##### Master Customer Accounts")
+        st.markdown("##### Master Customer Accounts (`CUSTOMERS` Table)")
         if customers_df is not None and not customers_df.empty:
+            st.metric("Total Master Customer Accounts", len(customers_df))
             st.dataframe(customers_df, use_container_width=True)
 
     with d_tab3:
-        st.markdown("##### Product SKU Catalog")
+        st.markdown("##### Product SKU Catalog (`PRODUCTS` Table)")
         if products_df is not None and not products_df.empty:
+            st.metric("Total Active Product SKUs", len(products_df))
             st.dataframe(products_df, use_container_width=True)
 
     with d_tab4:
-        st.markdown("##### Warehouse Inventory Status")
+        st.markdown("##### Warehouse Inventory Status (`INVENTORY` Table)")
         if inventory_df is not None and not inventory_df.empty:
             curr_col = 'CURRENT_STOCK' if 'CURRENT_STOCK' in inventory_df.columns else 'Current_Stock'
             min_col = 'MINIMUM_STOCK' if 'MINIMUM_STOCK' in inventory_df.columns else 'Minimum_Stock'
@@ -380,12 +415,12 @@ with t_depts:
             st.dataframe(inventory_df, use_container_width=True)
 
     with d_tab5:
-        st.markdown("##### Finance & Cost Audit")
+        st.markdown("##### Finance & Cost Audit (`FINANCE` Table)")
         if finance_df is not None and not finance_df.empty:
             st.dataframe(finance_df, use_container_width=True)
 
     with d_tab6:
-        st.markdown("##### Workforce Performance")
+        st.markdown("##### Workforce Performance (`EMPLOYEES` Table)")
         if employees_df is not None and not employees_df.empty:
             st.dataframe(employees_df, use_container_width=True)
 
