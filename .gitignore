@@ -1,7 +1,10 @@
 # ============================================================
 # STRATIFY — Git Ignore Configuration (.gitignore)
-# Protect Sensitive Credentials, Caches, & Build Artifacts
+# Protect Sensitive Credentials, Caches, & Archived Files
 # ============================================================
+
+# Archive Unused Legacy Folder & Migration Audit
+archive_unused/
 
 # Environment Variables & Sensitive Credentials
 .env

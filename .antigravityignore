@@ -1,7 +1,9 @@
 # ============================================================
-# STRATIFY — Antigravity / Gemini Workspace Ignore Configuration (.antigravityignore)
-# Exclude Heavy Caches, Virtual Envs, & Internal Artifacts
+# STRATIFY — Antigravity Workspace Ignore Configuration (.antigravityignore)
+# Exclude Heavy Caches, Virtual Envs, & Archived Folders
 # ============================================================
+
+archive_unused/
 
 # Version Control & IDEs
 .git/
@@ -19,12 +21,6 @@ venv/
 .venv/
 env/
 
-# Node Modules & Frontend Build Outputs
-node_modules/
-frontend/dist/
-frontend/build/
-
 # Logs & Scratch Files
 *.log
 .gemini/
-scratch/

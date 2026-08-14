@@ -1,5 +1,0 @@
-Inventory_ID,Product_ID,Warehouse,Current_Stock,Minimum_Stock,Maximum_Stock,Stock_Status,Validation_Status
-INV_001,PROD_001,NovaKart WH Delhi Main,18,20,200,Critical,Valid
-INV_002,PROD_002,NovaKart WH Delhi Main,145,50,500,Healthy,Valid
-INV_003,PROD_003,NovaKart WH Mumbai Hub,8,15,300,Critical,Valid
-INV_004,PROD_004,NovaKart WH Bangalore South,85,30,250,Healthy,Valid

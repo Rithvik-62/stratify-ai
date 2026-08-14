@@ -1,8 +1,9 @@
 # ============================================================
 # STRATIFY — Gemini CLI Workspace Ignore Configuration (.geminiignore)
-# Exclude Heavy Caches, Virtual Envs, & Internal Artifacts
+# Exclude Heavy Caches, Virtual Envs, & Archived Folders
 # ============================================================
 
+archive_unused/
 .git/
 .idea/
 .vscode/
@@ -13,6 +14,5 @@ __pycache__/
 venv/
 .venv/
 env/
-node_modules/
 *.log
 .gemini/

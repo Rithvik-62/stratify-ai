@@ -1,4 +1,0 @@
-Sale_ID,Date,Customer_ID,Product_ID,Branch,Quantity,Unit_Price,Discount,Cost,Revenue,Profit,Validation_Status
-SALE_006,2024-01-22,,PROD_001,Apex Delhi POS,1,45999,0,30000,45999,15999,Missing Customer ID
-SALE_007,2024-01-25,CUST_001,,Apex Delhi POS,1,45999,0,30000,45999,15999,Missing Product ID
-SALE_008,2024-01-28,CUST_002,PROD_002,Apex Delhi POS,-2,3299,0,1500,-6598,-3598,Invalid Quantity

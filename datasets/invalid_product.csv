@@ -1,4 +1,0 @@
-Product_ID,Product_Name,Category,Brand,Cost_Price,Selling_Price,GST,Validation_Status
-PROD_006,Loss Selling Product,Electronics,NovaKart,5000,4000,18,Invalid Price
-PROD_007,Missing Brand SKU,Apparel,,500,1200,12,Missing Brand
-PROD_008,Invalid GST Product,Home,HomeBest,1000,2000,15,Invalid GST

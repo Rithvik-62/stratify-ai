@@ -1,6 +1,0 @@
-Employee_ID,Name,Department,Role,Salary,Performance_Score,Validation_Status
-EMP_001,Vikram Sethi,Sales,Regional Sales Manager,1200000,5,Valid
-EMP_002,Ananya Roy,Finance,Financial Analyst,850000,4,Valid
-EMP_003,Karan Malhotra,IT,Data Engineer,1100000,5,Valid
-EMP_004,Deepika Rao,Marketing,Campaign Specialist,750000,3,Valid
-EMP_005,Manish Gupta,Operations,Warehouse Lead,650000,4,Valid

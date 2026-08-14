@@ -1,8 +1,0 @@
-Customer_ID,Customer_Name,Email,Phone,Gender,Age,City,State,Country,Pincode,Industry,Customer_Segment,Signup_Date,Last_Purchase_Date,Loyalty_Status,Validation_Status
-CUST0030,Kavya Mehta,kavya.mehta81@outlook.com,642394260,Female,35,Nagpur,Maharashtra,India,440072,Manufacturing,Wholesale,2025-05-02,2026-03-28,Silver,Invalid Phone
-CUST0130,Manav Bhat,manav.bhat25@yahoo.com,631989243,Male,65,Kochi,Kerala,India,682054,Financial Services,Wholesale,2024-09-22,2025-03-11,Platinum,Invalid Phone
-CUST0207,Rekha Mehta,rekha.mehta54@outlook.com,787424000,Female,34,Pune,Maharashtra,India,411046,Manufacturing,Corporate,2025-06-06,2026-02-10,Gold,Invalid Phone
-CUST0264,Neeraj Bhat,neeraj.bhat80@outlook.com,611605433,Male,62,Nagpur,Maharashtra,India,440022,Manufacturing,Wholesale,2025-04-01,2025-09-27,Silver,Invalid Phone
-CUST0296,Deepak Verma,deepak.verma95@outlook.com,690771151,Male,34,Kolkata,West Bengal,India,700085,Manufacturing,Retail,2024-12-25,2025-01-23,Silver,Invalid Phone
-CUST0455,Deepa Choudhury,deepa.choudhury48@yahoo.com,625731275,Female,46,Noida,Uttar Pradesh,India,201054,Healthcare,Corporate,2025-07-13,2025-07-15,Platinum,Invalid Phone
-CUST0471,Sonam Iyer,sonam.iyer68@outlook.com,879502107,Female,60,Kochi,Kerala,India,682024,Healthcare,Corporate,2025-10-17,2025-10-27,Platinum,Invalid Phone
