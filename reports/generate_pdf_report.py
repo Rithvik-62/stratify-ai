@@ -66,13 +66,28 @@ class NumberedCanvas(canvas.Canvas):
         self.drawRightString(576, 28, f"Page {self._pageNumber} of {page_count}")
         self.restoreState()
 
+def get_reports_dir():
+    """Returns a writeable directory path for generating PDF reports."""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    try:
+        test_file = os.path.join(base_dir, "_test_write.tmp")
+        with open(test_file, "w") as f:
+            f.write("test")
+        if os.path.exists(test_file):
+            os.remove(test_file)
+        return base_dir
+    except Exception:
+        import tempfile
+        tmp_dir = os.path.join(tempfile.gettempdir(), "stratify_reports")
+        os.makedirs(tmp_dir, exist_ok=True)
+        return tmp_dir
+
 def generate_executive_report():
     """Generates a complete 8-page Light-Themed Executive Business Report."""
-    os.makedirs(REPORTS_DIR, exist_ok=True)
-    
+    out_dir = get_reports_dir()
     timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
     pdf_filename = f"STRATIFY_Executive_Business_Report_{timestamp_str}.pdf"
-    pdf_path = os.path.join(REPORTS_DIR, pdf_filename)
+    pdf_path = os.path.join(out_dir, pdf_filename)
 
     # Fetch Real Data from Snowflake
     kpis = fetch_realtime_kpis() or {}

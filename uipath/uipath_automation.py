@@ -27,18 +27,37 @@ try:
 except ImportError:
     pass
 
-UIPATH_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(UIPATH_DIR)
-REPORTS_DIR = os.path.join(ROOT_DIR, "reports")
+def get_writeable_dir(subfolder):
+    """Returns a writeable directory path for logging and archiving."""
+    uipath_dir = os.path.dirname(os.path.abspath(__file__))
+    base_dir = os.path.join(os.path.dirname(uipath_dir), subfolder)
+    try:
+        os.makedirs(base_dir, exist_ok=True)
+        test_file = os.path.join(base_dir, "_test_write.tmp")
+        with open(test_file, "w") as f:
+            f.write("test")
+        if os.path.exists(test_file):
+            os.remove(test_file)
+        return base_dir
+    except Exception:
+        import tempfile
+        tmp_dir = os.path.join(tempfile.gettempdir(), f"stratify_{subfolder}")
+        os.makedirs(tmp_dir, exist_ok=True)
+        return tmp_dir
+
+REPORTS_DIR = get_writeable_dir("reports")
 ARCHIVE_DIR = os.path.join(REPORTS_DIR, "archive")
-LOG_PATH = os.path.join(UIPATH_DIR, "uipath_execution_log.csv")
+LOG_PATH = os.path.join(get_writeable_dir("uipath"), "uipath_execution_log.csv")
 
 class StratifyUiPathAutomation:
     """RPA Workflow Automation Engine for Executive Reporting & Email Distribution."""
 
     def __init__(self):
-        os.makedirs(ARCHIVE_DIR, exist_ok=True)
-        self._initialize_log()
+        try:
+            os.makedirs(ARCHIVE_DIR, exist_ok=True)
+            self._initialize_log()
+        except Exception:
+            pass
 
     def _initialize_log(self):
         """Initializes uipath_execution_log.csv if not present."""
