@@ -164,19 +164,28 @@ smtp_pass = os.getenv("SMTP_PASSWORD", "")
 smtp_ready = bool(smtp_pass and "your_gmail_app_password" not in smtp_pass)
 
 # Quick Action Controls Bar
-ctl1, ctl2, ctl3 = st.columns([4, 4, 4])
+ctl1, ctl2, ctl3, ctl4 = st.columns([3, 3, 3, 3])
 with ctl1:
     if smtp_ready:
         st.success(f"🟢 Gmail SMTP Active ({os.getenv('SMTP_USER')})")
     else:
         st.info("⚠️ Gmail SMTP: Set `SMTP_PASSWORD` in `.env` to enable auto email delivery")
 with ctl2:
-    if st.button("🔄 REFRESH SNOWFLAKE DATA NOW"):
+    if st.button("⚡ RUN AUTOMATED 4-TOOL PIPELINE NOW", use_container_width=True):
+        with st.spinner("Executing 4-Tool Automated Pipeline (POS Generator -> Alteryx -> Snowflake DWH -> DeepSeek AI -> UiPath RPA -> Gmail SMTP)..."):
+            from run_master_pipeline import run_master_automated_pipeline
+            run_master_automated_pipeline()
+            db.test_connection()
+            st.cache_data.clear()
+            st.success("🎉 Full 4-Tool Enterprise Pipeline Executed Automatically!")
+            st.rerun()
+with ctl3:
+    if st.button("🔄 REFRESH SNOWFLAKE DATA NOW", use_container_width=True):
         db.test_connection()
         st.cache_data.clear()
         st.rerun()
-with ctl3:
-    if st.button("📄 GENERATE PDF & DISPATCH VIA GMAIL"):
+with ctl4:
+    if st.button("📄 GENERATE PDF & DISPATCH VIA GMAIL", use_container_width=True):
         with st.spinner("Compiling PDF & Executing Gmail SMTP Dispatch..."):
             pdf_p = generate_executive_report()
             rpa = StratifyUiPathAutomation()
