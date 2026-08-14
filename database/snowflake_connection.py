@@ -26,17 +26,30 @@ except ImportError:
 # Thread lock to prevent concurrent GIL import deadlocks
 _snowflake_lock = threading.Lock()
 
+def get_config(key, default=""):
+    """Fetches config value from os.getenv or st.secrets (Streamlit Cloud compatible)."""
+    val = os.getenv(key)
+    if val:
+        return val
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and key in st.secrets:
+            return str(st.secrets[key])
+    except Exception:
+        pass
+    return default
+
 class SnowflakeDatabaseManager:
-    """Manages direct connectivity to Snowflake Data Warehouse (SiS & Local compatible)."""
+    """Manages direct connectivity to Snowflake Data Warehouse (SiS, Cloud & Local compatible)."""
 
     def __init__(self):
-        self.account = os.getenv("SNOWFLAKE_ACCOUNT", "")
-        self.user = os.getenv("SNOWFLAKE_USER", "")
-        self.password = os.getenv("SNOWFLAKE_PASSWORD", "")
-        self.database = os.getenv("SNOWFLAKE_DATABASE", "NOVAKART_DB")
-        self.schema = os.getenv("SNOWFLAKE_SCHEMA", "ANALYTICS")
-        self.warehouse = os.getenv("SNOWFLAKE_WAREHOUSE", "COMPUTE_WH")
-        self.role = os.getenv("SNOWFLAKE_ROLE", "ACCOUNTADMIN")
+        self.account = get_config("SNOWFLAKE_ACCOUNT", "")
+        self.user = get_config("SNOWFLAKE_USER", "")
+        self.password = get_config("SNOWFLAKE_PASSWORD", "")
+        self.database = get_config("SNOWFLAKE_DATABASE", "NOVAKART_DB")
+        self.schema = get_config("SNOWFLAKE_SCHEMA", "ANALYTICS")
+        self.warehouse = get_config("SNOWFLAKE_WAREHOUSE", "COMPUTE_WH")
+        self.role = get_config("SNOWFLAKE_ROLE", "ACCOUNTADMIN")
 
         self.conn = None
         self.snowpark_session = None
@@ -48,7 +61,7 @@ class SnowflakeDatabaseManager:
         self.test_connection()
 
     def test_connection(self):
-        """Tests Snowflake connection (Native SiS Session or Local Connector)."""
+        """Tests Snowflake connection (Native SiS Session, st.secrets, or Local Connector)."""
         with _snowflake_lock:
             # 1. Try Native Streamlit in Snowflake (SiS) Session first
             try:
@@ -63,14 +76,14 @@ class SnowflakeDatabaseManager:
             except Exception:
                 self.snowpark_session = None
 
-            # 2. Fallback to Local Snowflake Connector via credentials
-            self.account = os.getenv("SNOWFLAKE_ACCOUNT", "")
-            self.user = os.getenv("SNOWFLAKE_USER", "")
-            self.password = os.getenv("SNOWFLAKE_PASSWORD", "")
-            self.database = os.getenv("SNOWFLAKE_DATABASE", "NOVAKART_DB")
-            self.schema = os.getenv("SNOWFLAKE_SCHEMA", "ANALYTICS")
-            self.warehouse = os.getenv("SNOWFLAKE_WAREHOUSE", "COMPUTE_WH")
-            self.role = os.getenv("SNOWFLAKE_ROLE", "ACCOUNTADMIN")
+            # 2. Connector via Environment Variables or st.secrets
+            self.account = get_config("SNOWFLAKE_ACCOUNT", "")
+            self.user = get_config("SNOWFLAKE_USER", "")
+            self.password = get_config("SNOWFLAKE_PASSWORD", "")
+            self.database = get_config("SNOWFLAKE_DATABASE", "NOVAKART_DB")
+            self.schema = get_config("SNOWFLAKE_SCHEMA", "ANALYTICS")
+            self.warehouse = get_config("SNOWFLAKE_WAREHOUSE", "COMPUTE_WH")
+            self.role = get_config("SNOWFLAKE_ROLE", "ACCOUNTADMIN")
 
             if not (self.account and self.user and self.password):
                 self.is_connected = False
@@ -170,6 +183,14 @@ class SnowflakeDatabaseManager:
             pass
 
         try:
+            self.account = get_config("SNOWFLAKE_ACCOUNT", "")
+            self.user = get_config("SNOWFLAKE_USER", "")
+            self.password = get_config("SNOWFLAKE_PASSWORD", "")
+            self.database = get_config("SNOWFLAKE_DATABASE", "NOVAKART_DB")
+            self.schema = get_config("SNOWFLAKE_SCHEMA", "ANALYTICS")
+            self.warehouse = get_config("SNOWFLAKE_WAREHOUSE", "COMPUTE_WH")
+            self.role = get_config("SNOWFLAKE_ROLE", "ACCOUNTADMIN")
+
             if not (self.account and self.user and self.password):
                 return False
             import snowflake.connector
