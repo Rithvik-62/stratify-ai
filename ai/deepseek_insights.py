@@ -9,7 +9,6 @@ import os
 import sys
 import json
 import requests
-from dotenv import load_dotenv
 
 try:
     from dotenv import load_dotenv

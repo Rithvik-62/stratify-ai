@@ -16,7 +16,6 @@ from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 import pandas as pd
 from datetime import datetime
-from dotenv import load_dotenv
 
 try:
     from dotenv import load_dotenv
@@ -68,7 +67,11 @@ class StratifyUiPathAutomation:
 
     def send_gmail_smtp_report(self, pdf_path):
         """Sends PDF report attachment via Gmail SMTP server."""
-        load_dotenv(dotenv_path=ENV_PATH, override=True)
+        try:
+            from dotenv import load_dotenv
+            load_dotenv(dotenv_path=ENV_PATH, override=True)
+        except Exception:
+            pass
         smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
         smtp_port = int(os.getenv("SMTP_PORT", "587"))
         smtp_user = os.getenv("SMTP_USER", "").strip()
