@@ -1,6 +1,6 @@
 """
 STRATIFY — Decision Intelligence Platform
-Snowflake Data Warehouse Connection & Query Layer (Thread-Safe & Deadlock-Free)
+Snowflake Data Warehouse Connection & Query Layer (Thread-Safe, SiS & Local Compatible)
 """
 
 import os
@@ -8,28 +8,26 @@ import sys
 import threading
 import pandas as pd
 from datetime import datetime
-from dotenv import load_dotenv
 
 # Disable nanoarrow C-extension multithread lock deadlock on Windows
 os.environ["PYTHON_SNOWFLAKE_USE_NANOARROW"] = "false"
 
-# Load environment variables explicitly from root workspace .env file
-ENV_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
-load_dotenv(dotenv_path=ENV_PATH, override=True)
+# Safely import load_dotenv if available (local development)
+try:
+    from dotenv import load_dotenv
+    ENV_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
+    if os.path.exists(ENV_PATH):
+        load_dotenv(dotenv_path=ENV_PATH, override=True)
+    else:
+        load_dotenv()
+except ImportError:
+    pass
 
 # Thread lock to prevent concurrent GIL import deadlocks
 _snowflake_lock = threading.Lock()
 
-# Eagerly import snowflake connector under thread lock
-try:
-    with _snowflake_lock:
-        import snowflake.connector
-    SNOWFLAKE_IMPORT_OK = True
-except Exception as _e:
-    SNOWFLAKE_IMPORT_OK = False
-
 class SnowflakeDatabaseManager:
-    """Manages direct, thread-safe connectivity to Snowflake Data Warehouse (NOVAKART_DB.ANALYTICS)."""
+    """Manages direct connectivity to Snowflake Data Warehouse (SiS & Local compatible)."""
 
     def __init__(self):
         self.account = os.getenv("SNOWFLAKE_ACCOUNT", "")
@@ -41,15 +39,31 @@ class SnowflakeDatabaseManager:
         self.role = os.getenv("SNOWFLAKE_ROLE", "ACCOUNTADMIN")
 
         self.conn = None
+        self.snowpark_session = None
         self.is_connected = False
+        self.is_sis_native = False
         self.last_sync_time = None
         self.error_message = None
 
         self.test_connection()
 
     def test_connection(self):
-        """Tests Snowflake connection at application startup in a thread-safe manner."""
+        """Tests Snowflake connection (Native SiS Session or Local Connector)."""
         with _snowflake_lock:
+            # 1. Try Native Streamlit in Snowflake (SiS) Session first
+            try:
+                from snowflake.snowpark.context import get_active_session
+                self.snowpark_session = get_active_session()
+                if self.snowpark_session:
+                    self.is_connected = True
+                    self.is_sis_native = True
+                    self.last_sync_time = datetime.now()
+                    self.error_message = None
+                    return True
+            except Exception:
+                self.snowpark_session = None
+
+            # 2. Fallback to Local Snowflake Connector via credentials
             self.account = os.getenv("SNOWFLAKE_ACCOUNT", "")
             self.user = os.getenv("SNOWFLAKE_USER", "")
             self.password = os.getenv("SNOWFLAKE_PASSWORD", "")
@@ -71,6 +85,7 @@ class SnowflakeDatabaseManager:
                         pass
                     self.conn = None
 
+                import snowflake.connector
                 kwargs = {
                     "user": self.user,
                     "password": self.password,
@@ -84,9 +99,9 @@ class SnowflakeDatabaseManager:
                 if self.role:
                     kwargs["role"] = self.role
 
-                import snowflake.connector
                 self.conn = snowflake.connector.connect(**kwargs)
                 self.is_connected = True
+                self.is_sis_native = False
                 self.last_sync_time = datetime.now()
                 self.error_message = None
                 return True
@@ -96,8 +111,19 @@ class SnowflakeDatabaseManager:
                 return False
 
     def query(self, sql_query):
-        """Executes SQL query directly against Snowflake data warehouse using thread lock."""
+        """Executes SQL query against Snowflake (using Native SiS session or connector)."""
         with _snowflake_lock:
+            # Native SiS Query Execution
+            if self.is_sis_native and self.snowpark_session:
+                try:
+                    df = self.snowpark_session.sql(sql_query).to_pandas()
+                    self.last_sync_time = datetime.now()
+                    return df
+                except Exception as e:
+                    self.error_message = f"SiS Query Error: {e}"
+                    return None
+
+            # Local Connector Execution
             if not self.is_connected or not self.conn:
                 if not self._reconnect_nolock():
                     return None
@@ -105,20 +131,16 @@ class SnowflakeDatabaseManager:
             try:
                 cursor = self.conn.cursor()
                 cursor.execute(sql_query)
-                
-                # Fetch data safely without nanoarrow deadlock
                 try:
                     df = cursor.fetch_pandas_all()
                 except Exception:
                     rows = cursor.fetchall()
                     cols = [desc[0] for desc in cursor.description]
                     df = pd.DataFrame(rows, columns=cols)
-
                 cursor.close()
                 self.last_sync_time = datetime.now()
                 return df
             except Exception as e:
-                # Retry once on connection drop
                 try:
                     if self._reconnect_nolock():
                         cursor = self.conn.cursor()
@@ -136,7 +158,17 @@ class SnowflakeDatabaseManager:
                 return None
 
     def _reconnect_nolock(self):
-        """Helper to reconnect without taking extra lock."""
+        """Helper to reconnect without extra lock."""
+        try:
+            from snowflake.snowpark.context import get_active_session
+            self.snowpark_session = get_active_session()
+            if self.snowpark_session:
+                self.is_connected = True
+                self.is_sis_native = True
+                return True
+        except Exception:
+            pass
+
         try:
             if not (self.account and self.user and self.password):
                 return False
@@ -156,8 +188,7 @@ class SnowflakeDatabaseManager:
 
             self.conn = snowflake.connector.connect(**kwargs)
             self.is_connected = True
-            self.last_sync_time = datetime.now()
-            self.error_message = None
+            self.is_sis_native = False
             return True
         except Exception as e:
             self.is_connected = False
@@ -167,7 +198,8 @@ class SnowflakeDatabaseManager:
     def get_status(self):
         """Returns connection status label and details."""
         if self.is_connected:
-            return "● LIVE — SNOWFLAKE CONNECTED", True
+            lbl = "● LIVE — NATIVE SNOWFLAKE" if self.is_sis_native else "● LIVE — SNOWFLAKE CONNECTED"
+            return lbl, True
         return "● OFFLINE — DATA SOURCE UNAVAILABLE", False
 
 # Global database manager instance

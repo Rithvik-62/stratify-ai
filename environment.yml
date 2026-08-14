@@ -1,7 +1,10 @@
 name: app_environment
+channels:
+  - snowflake
 dependencies:
   - streamlit
   - plotly
   - pandas
   - numpy
   - reportlab
+  - requests

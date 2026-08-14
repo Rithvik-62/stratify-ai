@@ -18,8 +18,15 @@ import pandas as pd
 from datetime import datetime
 from dotenv import load_dotenv
 
-ENV_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
-load_dotenv(dotenv_path=ENV_PATH, override=True)
+try:
+    from dotenv import load_dotenv
+    ENV_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
+    if os.path.exists(ENV_PATH):
+        load_dotenv(dotenv_path=ENV_PATH, override=True)
+    else:
+        load_dotenv()
+except ImportError:
+    pass
 
 UIPATH_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(UIPATH_DIR)
