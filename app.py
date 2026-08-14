@@ -45,7 +45,6 @@ from components.rfm_analysis import render_rfm_intelligence_tab
 from components.scenario_simulator import render_scenario_simulator
 from components.data_quality import render_data_quality_hub
 from components.ai_chat import render_ai_copilot_tab
-from components.project_overview import render_project_overview_tab
 
 # Auto-refresh import
 try:
@@ -264,7 +263,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 # ============================================================================
 # MASTER NAVIGATION TABS (UNIFIED ENTERPRISE CAPABILITY SUITE)
 # ============================================================================
-t_overview, t_copilot, t_forecast, t_rfm, t_sim, t_depts, t_health, t_ai, t_dq, t_reports, t_deck, t_export = st.tabs([
+t_overview, t_copilot, t_forecast, t_rfm, t_sim, t_depts, t_health, t_ai, t_dq, t_reports, t_export = st.tabs([
     "📊 Executive Control Center",
     "💬 STRATIFY AI Copilot",
     "🔮 ML Predictive Forecasting",
@@ -275,7 +274,6 @@ t_overview, t_copilot, t_forecast, t_rfm, t_sim, t_depts, t_health, t_ai, t_dq, 
     "🤖 AI Insights (DeepSeek)",
     "🛡️ Data Quality & SLA Governance",
     "📄 Executive Reports & Gmail RPA",
-    "🎓 Presentation Deck & Architecture",
     "💾 One-Click Data Export Hub"
 ])
 
@@ -459,13 +457,7 @@ with t_reports:
                 st.download_button(f"⬇️ Download {fname}", f, file_name=fname, mime="application/pdf")
 
 # ============================================================================
-# TAB 11: PRESENTATION DECK & ARCHITECTURE GUIDE
-# ============================================================================
-with t_deck:
-    render_project_overview_tab()
-
-# ============================================================================
-# TAB 12: ONE-CLICK DATA EXPORT HUB
+# TAB 11: ONE-CLICK DATA EXPORT HUB
 # ============================================================================
 with t_export:
     st.markdown("### 💾 One-Click Enterprise Data Export Center")
