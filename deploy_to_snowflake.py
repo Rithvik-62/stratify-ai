@@ -26,7 +26,8 @@ def deploy_streamlit_to_snowflake():
         cursor.execute("USE DATABASE NOVAKART_DB")
         cursor.execute("USE SCHEMA ANALYTICS")
         cursor.execute("CREATE OR REPLACE STAGE NOVAKART_DB.ANALYTICS.STRATIFY_APP_STAGE")
-        print("  [OK] Stage created/verified.")
+        cursor.execute("REMOVE @NOVAKART_DB.ANALYTICS.STRATIFY_APP_STAGE")
+        print("  [OK] Stage created & cleared.")
 
         # 2. Upload Files to Stage
         print("[2/4] Uploading application files to Snowflake Stage...")
