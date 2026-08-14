@@ -1,6 +1,6 @@
 """
 STRATIFY — Decision Intelligence Platform
-Unified Enterprise BI Dashboard (app.py) - Enhanced Ratios, Data & Gmail SMTP Distribution
+Unified Enterprise BI Dashboard (app.py) - Enhanced 4-Tool Architecture, ML Forecasting, RFM & What-If Simulation
 """
 
 import streamlit as st
@@ -30,6 +30,7 @@ from uipath.uipath_automation import StratifyUiPathAutomation
 
 # Import UI Components
 from components.header import render_top_navigation
+from components.ticker import render_realtime_ticker
 from components.kpi_cards import render_executive_kpi_grid
 from components.health_score import render_business_health_score
 from components.charts import (
@@ -39,6 +40,10 @@ from components.charts import (
 )
 from components.transaction_feed import render_live_transaction_feed
 from components.pipeline_visualizer import render_horizontal_pipeline_visualizer
+from components.forecasting import render_forecasting_panel
+from components.rfm_analysis import render_rfm_intelligence_tab
+from components.scenario_simulator import render_scenario_simulator
+from components.data_quality import render_data_quality_hub
 
 # Auto-refresh import
 try:
@@ -109,20 +114,22 @@ st.markdown("""
 
     /* Custom Tab Styling */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
+        gap: 6px;
         background-color: #ffffff;
         padding: 8px;
         border-radius: 14px;
         border: 1px solid #e2e8f0;
         box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        overflow-x: auto;
     }
     .stTabs [data-baseweb="tab"] {
         border-radius: 8px;
-        padding: 10px 20px;
+        padding: 9px 16px;
         font-weight: 700;
-        font-size: 0.85rem;
+        font-size: 0.82rem;
         color: #64748b;
         transition: all 0.2s ease;
+        white-space: nowrap;
     }
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
@@ -179,6 +186,36 @@ processed_cnt = len(glob.glob(os.path.join(os.path.dirname(__file__), "realtime"
 smtp_pass = os.getenv("SMTP_PASSWORD", "")
 smtp_ready = bool(smtp_pass and "your_gmail_app_password" not in smtp_pass)
 
+# Render Live Real-Time Ticker Bar
+render_realtime_ticker(sales_df, is_live=is_connected, smtp_ready=smtp_ready)
+
+# Role-Based Persona / Multi-Branch Switcher (RBAC)
+col_rbac, col_empty = st.columns([6, 6])
+with col_rbac:
+    selected_branch = st.selectbox(
+        "👤 EXECUTIVE ROLE & BRANCH VIEWPORT",
+        [
+            "🌐 Global Enterprise (Consolidated All Branches)",
+            "📍 Apex Delhi POS",
+            "📍 Nexus Mumbai POS",
+            "📍 Horizon Bangalore POS",
+            "🛒 Online E-Commerce"
+        ],
+        index=0
+    )
+
+# Dynamic branch data filtering
+if "Delhi" in selected_branch:
+    active_sales_df = sales_df[sales_df['BRANCH'].str.contains("Delhi", case=False, na=False)] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+elif "Mumbai" in selected_branch:
+    active_sales_df = sales_df[sales_df['BRANCH'].str.contains("Mumbai", case=False, na=False)] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+elif "Bangalore" in selected_branch:
+    active_sales_df = sales_df[sales_df['BRANCH'].str.contains("Bangalore", case=False, na=False)] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+elif "Online" in selected_branch:
+    active_sales_df = sales_df[sales_df['BRANCH'].str.contains("Online", case=False, na=False)] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+else:
+    active_sales_df = sales_df
+
 # Quick Action Controls Bar
 ctl1, ctl2, ctl3, ctl4 = st.columns([3, 3, 3, 3])
 with ctl1:
@@ -211,7 +248,7 @@ with ctl4:
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ============================================================================
-# PROMINENT HIGH-VISIBILITY KPI METRICS GRID (EVERYTHING IN ONE PLACE AT TOP)
+# PROMINENT HIGH-VISIBILITY KPI METRICS GRID
 # ============================================================================
 cust_count = len(customers_df) if customers_df is not None else 486
 prod_count = len(products_df) if products_df is not None else 250
@@ -222,14 +259,20 @@ render_executive_kpi_grid(kpi_dict, cust_cnt=cust_count, prod_cnt=prod_count, cr
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Main Navigation Tabs (Unified View)
-t_overview, t_depts, t_health, t_ai, t_reports, t_pipeline = st.tabs([
+# ============================================================================
+# MASTER NAVIGATION TABS (UNIFIED ENTERPRISE CAPABILITY SUITE)
+# ============================================================================
+t_overview, t_forecast, t_rfm, t_sim, t_depts, t_health, t_ai, t_dq, t_reports, t_export = st.tabs([
     "📊 Executive Control Center",
-    "🏢 Department Analytics & Master Data",
-    "🏥 Comprehensive Ratios & Metrics",
+    "🔮 ML Predictive Forecasting",
+    "🎯 Customer RFM Intelligence",
+    "🎛️ Strategic What-If Simulator",
+    "🏢 Department Catalogs & Data Hub",
+    "🏥 12+ Comprehensive Ratios",
     "🤖 AI Insights (DeepSeek)",
-    "📄 Executive Reports & Gmail SMTP",
-    "⚙️ Pipeline Monitor & Quality"
+    "🛡️ Data Quality & SLA Governance",
+    "📄 Executive Reports & Gmail RPA",
+    "💾 One-Click Data Export Hub"
 ])
 
 # ============================================================================
@@ -251,27 +294,27 @@ with t_overview:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 3. Revenue Performance Over Time
-    render_revenue_performance_chart(sales_df)
+    render_revenue_performance_chart(active_sales_df)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 4. Branch Performance & Revenue Share Donut Chart
-    render_branch_performance_panels(sales_df)
+    render_branch_performance_panels(active_sales_df)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 5. Product Profit Margin Bubble Matrix
-    render_product_margin_bubble_chart(sales_df)
+    render_product_margin_bubble_chart(active_sales_df)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 6. Top Products Ranking Panel
-    render_top_products_ranking(products_df, sales_df)
+    render_top_products_ranking(products_df, active_sales_df)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 7. Live Transaction Stream
-    render_live_transaction_feed(sales_df)
+    render_live_transaction_feed(active_sales_df)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -279,7 +322,25 @@ with t_overview:
     render_horizontal_pipeline_visualizer(incoming_cnt=incoming_cnt, processed_cnt=processed_cnt)
 
 # ============================================================================
-# TAB 2: DEPARTMENT ANALYTICS & MASTER DATA
+# TAB 2: ML PREDICTIVE FORECASTING
+# ============================================================================
+with t_forecast:
+    render_forecasting_panel(sales_df)
+
+# ============================================================================
+# TAB 3: CUSTOMER RFM INTELLIGENCE
+# ============================================================================
+with t_rfm:
+    render_rfm_intelligence_tab(customers_df, sales_df)
+
+# ============================================================================
+# TAB 4: STRATEGIC WHAT-IF SIMULATOR
+# ============================================================================
+with t_sim:
+    render_scenario_simulator(kpi_dict)
+
+# ============================================================================
+# TAB 5: DEPARTMENT ANALYTICS & MASTER DATA
 # ============================================================================
 with t_depts:
     st.markdown("### 🏢 Department Level Performance & Master Catalogs")
@@ -289,8 +350,8 @@ with t_depts:
 
     with d_tab1:
         st.markdown("##### Sales Performance Transactions")
-        if sales_df is not None and not sales_df.empty:
-            st.dataframe(sales_df, use_container_width=True)
+        if active_sales_df is not None and not active_sales_df.empty:
+            st.dataframe(active_sales_df, use_container_width=True)
 
     with d_tab2:
         st.markdown("##### Master Customer Accounts")
@@ -321,7 +382,7 @@ with t_depts:
             st.dataframe(employees_df, use_container_width=True)
 
 # ============================================================================
-# TAB 3: COMPREHENSIVE RATIOS & METRICS
+# TAB 6: COMPREHENSIVE RATIOS & METRICS
 # ============================================================================
 with t_health:
     st.markdown("### 🏥 Comprehensive Operational Department Ratios & Metrics")
@@ -329,7 +390,7 @@ with t_health:
     st.dataframe(df_ratios, use_container_width=True)
 
 # ============================================================================
-# TAB 4: AI INSIGHTS (DEEPSEEK)
+# TAB 7: AI INSIGHTS (DEEPSEEK)
 # ============================================================================
 with t_ai:
     st.markdown("### 🤖 STRATIFY AI Intelligence Center")
@@ -342,7 +403,7 @@ with t_ai:
 
     st.markdown(f"""
     <div class="section-card-light">
-        <h4 style="color:#2563eb; margin-top:0;">🤖 AI-GENERATED INSIGHTS</h4>
+        <h4 style="color:#2563eb; margin-top:0;">🤖 AI-GENERATED STRATEGIC CDO INSIGHTS</h4>
         <p style="color:#0f172a; font-size:1.05rem; font-weight:600;">{ai_res['business_summary']}</p>
         <hr style="border-color:#e2e8f0; margin:16px 0;">
         <div style="display:flex; gap:20px;">
@@ -362,10 +423,16 @@ with t_ai:
     """, unsafe_allow_html=True)
 
 # ============================================================================
-# TAB 5: EXECUTIVE REPORTS & GMAIL SMTP
+# TAB 8: DATA QUALITY & SLA GOVERNANCE
+# ============================================================================
+with t_dq:
+    render_data_quality_hub(incoming_cnt, processed_cnt, sales_df)
+
+# ============================================================================
+# TAB 9: EXECUTIVE REPORTS & GMAIL SMTP
 # ============================================================================
 with t_reports:
-    st.markdown("### 📄 Executive Reports & Gmail SMTP Distribution")
+    st.markdown("### 📄 Executive Reports & UiPath RPA Automation")
 
     st.markdown("##### UiPath RPA & Gmail SMTP Execution Log (`uipath/uipath_execution_log.csv`)")
     rpa_log_path = os.path.join(os.path.dirname(__file__), "uipath", "uipath_execution_log.csv")
@@ -382,22 +449,33 @@ with t_reports:
                 st.download_button(f"⬇️ Download {fname}", f, file_name=fname, mime="application/pdf")
 
 # ============================================================================
-# TAB 6: PIPELINE MONITOR & QUALITY
+# TAB 10: ONE-CLICK DATA EXPORT HUB
 # ============================================================================
-with t_pipeline:
-    st.markdown("### ⚙️ Pipeline Monitor & Data Quality Center")
-    m1, m2, m3, m4 = st.columns(4)
-    with m1:
-        st.metric("Files Detected", incoming_cnt + processed_cnt)
-    with m2:
-        st.metric("Files Processed", processed_cnt)
-    with m3:
-        st.metric("Rows Loaded", len(sales_df) if sales_df is not None else 0)
-    with m4:
-        st.metric("Data Quality Score", "100%")
+with t_export:
+    st.markdown("### 💾 One-Click Enterprise Data Export Center")
+    st.markdown("Export live datasets and analytical summaries directly for external analysis in Excel, Power BI, or Tableau.")
 
-    st.markdown("##### Processing History (`realtime/logs/processing_log.csv`)")
-    log_path = os.path.join(os.path.dirname(__file__), "realtime", "logs", "processing_log.csv")
-    if os.path.exists(log_path):
-        df_log = pd.read_csv(log_path)
-        st.dataframe(df_log, use_container_width=True)
+    e1, e2, e3 = st.columns(3)
+    with e1:
+        if sales_df is not None:
+            csv_sales = sales_df.to_csv(index=False).encode('utf-8')
+            st.download_button("📥 Export Sales Transactions (CSV)", csv_sales, "STRATIFY_Sales_Transactions.csv", "text/csv", use_container_width=True)
+        if customers_df is not None:
+            csv_cust = customers_df.to_csv(index=False).encode('utf-8')
+            st.download_button("📥 Export Customers Master (CSV)", csv_cust, "STRATIFY_Customers_Master.csv", "text/csv", use_container_width=True)
+
+    with e2:
+        if products_df is not None:
+            csv_prod = products_df.to_csv(index=False).encode('utf-8')
+            st.download_button("📥 Export Product SKUs (CSV)", csv_prod, "STRATIFY_Product_Catalog.csv", "text/csv", use_container_width=True)
+        if inventory_df is not None:
+            csv_inv = inventory_df.to_csv(index=False).encode('utf-8')
+            st.download_button("📥 Export Inventory Status (CSV)", csv_inv, "STRATIFY_Inventory_Levels.csv", "text/csv", use_container_width=True)
+
+    with e3:
+        if finance_df is not None:
+            csv_fin = finance_df.to_csv(index=False).encode('utf-8')
+            st.download_button("📥 Export Finance Records (CSV)", csv_fin, "STRATIFY_Finance_Ledger.csv", "text/csv", use_container_width=True)
+        if employees_df is not None:
+            csv_emp = employees_df.to_csv(index=False).encode('utf-8')
+            st.download_button("📥 Export Workforce HR Data (CSV)", csv_emp, "STRATIFY_Workforce_Directory.csv", "text/csv", use_container_width=True)
