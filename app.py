@@ -55,63 +55,79 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Enterprise Light Theme CSS
+# Enterprise Modern Luxury Theme CSS
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
     
     html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
     }
     .stApp {
         background: #f8fafc;
         color: #0f172a;
     }
+    
+    /* Section Cards */
     .section-card-light {
         background: #ffffff;
         border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
     }
     .status-banner-offline {
         background: #fee2e2;
         border: 1px solid #fca5a5;
-        border-radius: 10px;
-        padding: 16px 20px;
-        margin-bottom: 20px;
+        border-radius: 14px;
+        padding: 18px 24px;
+        margin-bottom: 24px;
     }
-    /* Buttons */
+
+    /* Buttons Styling */
     .stButton>button {
-        background-color: #2563eb;
-        color: #ffffff;
-        border-radius: 8px;
-        font-weight: 600;
-        border: none;
-        padding: 8px 16px;
+        border-radius: 10px !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        font-weight: 700 !important;
+        padding: 10px 20px !important;
+        font-size: 0.85rem !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
     }
-    .stButton>button:hover {
-        background-color: #1d4ed8;
-        color: #ffffff;
+
+    /* Custom Primary Master Automation Button */
+    div.stButton > button:first-child {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
+    div.stButton > button:first-child:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 10px 20px -3px rgba(37, 99, 235, 0.35) !important;
+    }
+
     /* Custom Tab Styling */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
         background-color: #ffffff;
-        padding: 6px;
-        border-radius: 10px;
+        padding: 8px;
+        border-radius: 14px;
         border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
     .stTabs [data-baseweb="tab"] {
-        border-radius: 6px;
-        padding: 8px 16px;
-        font-weight: 600;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 700;
+        font-size: 0.85rem;
         color: #64748b;
+        transition: all 0.2s ease;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #2563eb !important;
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
         color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
     }
 </style>
 """, unsafe_allow_html=True)

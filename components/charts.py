@@ -1,6 +1,6 @@
 """
 STRATIFY — Decision Intelligence Platform
-Interactive Plotly Charts Component (charts.py) - Enterprise Light Theme
+Interactive Plotly Charts Component (charts.py) - Ultra-Modern Luxury Theme
 """
 
 import streamlit as st
@@ -10,7 +10,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 def render_historical_comparison_panel(hist_comp):
-    """Renders Historical Comparison summary metrics card & comparison grouped bar chart in Enterprise Light Theme."""
+    """Renders Historical Comparison summary metrics card & comparison grouped bar chart in Modern Luxury Theme."""
     st.markdown("### 📊 HISTORICAL PERFORMANCE COMPARISON")
 
     if not hist_comp:
@@ -25,18 +25,7 @@ def render_historical_comparison_panel(hist_comp):
     prior_prof = hist_comp["prior_prof"]
     prof_growth = hist_comp["prof_growth_pct"]
 
-    # Variance summary metric cards
-    c1, c2, c3, c4 = st.columns(4)
-    with c1:
-        st.metric("Current Period Revenue", f"₹{curr_rev:,.2f}", f"{rev_growth:+.1f}% vs prior")
-    with c2:
-        st.metric("Prior Period Revenue Baseline", f"₹{prior_rev:,.2f}")
-    with c3:
-        st.metric("Current Period Net Profit", f"₹{curr_prof:,.2f}", f"{prof_growth:+.1f}% vs prior")
-    with c4:
-        st.metric("Prior Period Net Profit Baseline", f"₹{prior_prof:,.2f}")
-
-    # Grouped Bar Comparison Chart (Light Theme)
+    # Grouped Bar Comparison Chart (Modern Theme)
     comp_df = pd.DataFrame([
         {"Period": "Prior Period Baseline", "Revenue": prior_rev, "Profit": prior_prof},
         {"Period": "Current Period", "Revenue": curr_rev, "Profit": curr_prof}
@@ -46,14 +35,14 @@ def render_historical_comparison_panel(hist_comp):
     fig_comp.add_trace(go.Bar(
         x=comp_df['Period'], y=comp_df['Revenue'],
         name='Net Revenue (INR)',
-        marker_color='#2563eb',
+        marker=dict(color='#2563eb', cornerradius=6),
         text=[f"₹{v:,.0f}" for v in comp_df['Revenue']],
         textposition='auto'
     ))
     fig_comp.add_trace(go.Bar(
         x=comp_df['Period'], y=comp_df['Profit'],
         name='Net Profit (INR)',
-        marker_color='#10b981',
+        marker=dict(color='#10b981', cornerradius=6),
         text=[f"₹{v:,.0f}" for v in comp_df['Profit']],
         textposition='auto'
     ))
@@ -63,20 +52,22 @@ def render_historical_comparison_panel(hist_comp):
         template="plotly_white",
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(family="Plus Jakarta Sans, sans-serif", color="#0f172a"),
         height=320,
+        margin=dict(t=30, b=20, l=10, r=10),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
     )
     st.plotly_chart(fig_comp, use_container_width=True)
 
 def render_revenue_performance_chart(sales_df):
-    """Renders main REVENUE PERFORMANCE chart with metric toggles and date range filters in Light Theme."""
+    """Renders main REVENUE PERFORMANCE chart with metric toggles and date range filters in Modern Theme."""
     st.markdown("### 📈 REVENUE PERFORMANCE OVER TIME")
 
     col_m, col_f = st.columns([6, 6])
     with col_m:
-        metric_choice = st.radio("SELECT METRIC", ["Revenue", "Profit", "Quantity"], horizontal=True, key="rev_perf_metric_light")
+        metric_choice = st.radio("SELECT METRIC", ["Revenue", "Profit", "Quantity"], horizontal=True, key="rev_perf_metric_lux")
     with col_f:
-        time_choice = st.radio("TIME HORIZON", ["7D", "30D", "90D", "ALL"], horizontal=True, key="rev_perf_time_light")
+        time_choice = st.radio("TIME HORIZON", ["7D", "30D", "90D", "ALL"], horizontal=True, key="rev_perf_time_lux")
 
     if sales_df is None or sales_df.empty:
         st.info("No transaction data available for chart rendering.")
@@ -101,13 +92,14 @@ def render_revenue_performance_chart(sales_df):
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(family="Plus Jakarta Sans, sans-serif", color="#0f172a"),
         height=340,
         margin=dict(t=10, b=30, l=10, r=10)
     )
     st.plotly_chart(fig, use_container_width=True)
 
 def render_branch_performance_panels(sales_df):
-    """Renders Revenue & Profit by Branch horizontal bars (Left) and Branch Revenue Share Donut Chart (Right) in Light Theme."""
+    """Renders Revenue & Profit by Branch horizontal bars (Left) and Branch Revenue Share Donut Chart (Right) in Modern Theme."""
     st.markdown("### 🏢 BRANCH PERFORMANCE & REVENUE SHARE")
 
     if sales_df is None or sales_df.empty:
@@ -130,24 +122,32 @@ def render_branch_performance_panels(sales_df):
         fig_r = px.bar(
             b_agg, x='Total_Revenue', y=branch_col, orientation='h',
             template="plotly_white", color='Total_Revenue',
-            color_continuous_scale='Blues',
+            color_continuous_scale=['#93c5fd', '#2563eb', '#1d4ed8'],
             labels={'Total_Revenue': 'Revenue (INR)', branch_col: 'Branch Name'}
         )
-        fig_r.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', height=300)
+        fig_r.update_layout(
+            paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+            font=dict(family="Plus Jakarta Sans, sans-serif", color="#0f172a"),
+            height=300
+        )
         st.plotly_chart(fig_r, use_container_width=True)
 
     with c_right:
         st.markdown("##### Branch Revenue Contribution (%)")
         fig_pie = px.pie(
             b_agg, names=branch_col, values='Total_Revenue',
-            hole=0.45, template="plotly_white",
-            color_discrete_sequence=px.colors.qualitative.Set2
+            hole=0.5, template="plotly_white",
+            color_discrete_sequence=['#2563eb', '#10b981', '#6366f1', '#f59e0b', '#ec4899']
         )
-        fig_pie.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', height=300)
+        fig_pie.update_layout(
+            paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+            font=dict(family="Plus Jakarta Sans, sans-serif", color="#0f172a"),
+            height=300
+        )
         st.plotly_chart(fig_pie, use_container_width=True)
 
 def render_product_margin_bubble_chart(sales_df):
-    """Renders Revenue vs Profit Margin % vs Quantity Bubble Chart in Light Theme."""
+    """Renders Revenue vs Profit Margin % vs Quantity Bubble Chart in Modern Theme."""
     st.markdown("### 🎯 PRODUCT PROFIT MARGIN MATRIX")
 
     if sales_df is None or sales_df.empty:
@@ -172,11 +172,15 @@ def render_product_margin_bubble_chart(sales_df):
         color_continuous_scale='Viridis',
         labels={'Revenue': 'Revenue (INR)', 'Profit_Margin_Pct': 'Profit Margin (%)'}
     )
-    fig_bubble.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', height=320)
+    fig_bubble.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(family="Plus Jakarta Sans, sans-serif", color="#0f172a"),
+        height=320
+    )
     st.plotly_chart(fig_bubble, use_container_width=True)
 
 def render_top_products_ranking(products_df, sales_df):
-    """Renders Top Products ranking (#1 to #5) with horizontal bar charts & metrics in Light Theme."""
+    """Renders Top Products ranking (#1 to #5) with horizontal bar charts & metrics in Modern Theme."""
     st.markdown("### 🏆 TOP PRODUCTS PERFORMANCE")
 
     if sales_df is None or sales_df.empty:
@@ -205,9 +209,13 @@ def render_top_products_ranking(products_df, sales_df):
 
     fig_tp = px.bar(
         merged, x='Revenue', y=name_col, orientation='h',
-        color='Profit', color_continuous_scale='Blues',
+        color='Profit', color_continuous_scale=['#93c5fd', '#2563eb', '#1d4ed8'],
         template="plotly_white",
         labels={'Revenue': 'Revenue (INR)', name_col: 'Product Name'}
     )
-    fig_tp.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', height=320, yaxis={'categoryorder': 'total ascending'})
+    fig_tp.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(family="Plus Jakarta Sans, sans-serif", color="#0f172a"),
+        height=320, yaxis={'categoryorder': 'total ascending'}
+    )
     st.plotly_chart(fig_tp, use_container_width=True)
