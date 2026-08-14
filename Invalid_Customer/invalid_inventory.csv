@@ -1,0 +1,4 @@
+Inventory_ID,Product_ID,Warehouse,Current_Stock,Minimum_Stock,Maximum_Stock,Stock_Status,Validation_Status
+INV_005,PROD_005,NovaKart WH Delhi Main,550,100,500,Overstock,Stock Above Maximum
+INV_006,PROD_006,NovaKart WH Delhi Main,-5,10,100,Critical,Negative Stock
+INV_007,PROD_007,"",50,10,100,Healthy,Missing Warehouse

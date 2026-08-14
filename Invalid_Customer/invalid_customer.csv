@@ -1,0 +1,15 @@
+Customer_ID,Customer_Name,Email,Phone,Gender,Age,City,State,Country,Pincode,Industry,Customer_Segment,Signup_Date,Last_Purchase_Date,Loyalty_Status,Validation_Status
+CUST0024,Smriti Agarwal,"",9054668893,Female,62,Kochi,Kerala,India,682038,IT Services,Corporate,2024-01-30,2025-03-03,Gold,Missing Email
+CUST0030,Kavya Mehta,kavya.mehta81@outlook.com,642394260,Female,35,Nagpur,Maharashtra,India,440072,Manufacturing,Wholesale,2025-05-02,2026-03-28,Silver,Invalid Phone
+CUST0106,Sai Choudhury,"",9142939685,Male,38,Indore,Madhya Pradesh,India,452027,Retail,Wholesale,2025-05-27,2026-06-12,Platinum,Missing Email
+CUST0130,Manav Bhat,manav.bhat25@yahoo.com,631989243,Male,65,Kochi,Kerala,India,682054,Financial Services,Wholesale,2024-09-22,2025-03-11,Platinum,Invalid Phone
+CUST0132,Varun Hegde,"",6756220863,Male,50,Noida,Uttar Pradesh,India,201041,E-Commerce,Corporate,2024-10-04,2024-12-22,Platinum,Missing Email
+CUST0166,Deepak Mehta,"",9218114374,Male,33,Mysuru,Karnataka,India,570069,Financial Services,Retail,2024-06-27,2024-08-06,Silver,Missing Email
+CUST0207,Rekha Mehta,rekha.mehta54@outlook.com,787424000,Female,34,Pune,Maharashtra,India,411046,Manufacturing,Corporate,2025-06-06,2026-02-10,Gold,Invalid Phone
+CUST0217,Vikrant Trivedi,"",9925132719,Male,33,Noida,Uttar Pradesh,India,201090,E-Commerce,Retail,2025-10-22,2025-11-30,Silver,Missing Email
+CUST0257,Aishwarya Rao,"",9621267969,Female,26,Pune,Maharashtra,India,411068,Healthcare,Wholesale,2025-04-05,2025-10-18,Gold,Missing Email
+CUST0264,Neeraj Bhat,neeraj.bhat80@outlook.com,611605433,Male,62,Nagpur,Maharashtra,India,440022,Manufacturing,Wholesale,2025-04-01,2025-09-27,Silver,Invalid Phone
+CUST0296,Deepak Verma,deepak.verma95@outlook.com,690771151,Male,34,Kolkata,West Bengal,India,700085,Manufacturing,Retail,2024-12-25,2025-01-23,Silver,Invalid Phone
+CUST0455,Deepa Choudhury,deepa.choudhury48@yahoo.com,625731275,Female,46,Noida,Uttar Pradesh,India,201054,Healthcare,Corporate,2025-07-13,2025-07-15,Platinum,Invalid Phone
+CUST0470,Tarun Pillai,"",6094388221,Male,55,Hyderabad,Telangana,India,500048,IT Services,Wholesale,2025-05-17,2026-05-28,Gold,Missing Email
+CUST0471,Sonam Iyer,sonam.iyer68@outlook.com,879502107,Female,60,Kochi,Kerala,India,682024,Healthcare,Corporate,2025-10-17,2025-10-27,Platinum,Invalid Phone

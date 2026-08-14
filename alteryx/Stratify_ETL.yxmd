@@ -1,0 +1,2332 @@
+<?xml version="1.0"?>
+<AlteryxDocument yxmdVer="2025.2" RunE2="T">
+  <Nodes>
+    <Node ToolID="1">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="80" y="54" width="997" height="332" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>📦 Customers ETL - NovaKart Retail</Caption>
+          <Style TextColor="#314c5a" FillColor="#e1f5fe" BorderColor="#0288d1" Transparency="25" Margin="25" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="101">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="105" y="198" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`</File>
+              <FormatSpecificOptions>
+                <FirstRowData>False</FirstRowData>
+                <ImportLine>1</ImportLine>
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Customers.xlsx
+Query=`Sheet1$`</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Customer_ID" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Customer_Name" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Email" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Phone" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Gender" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Age" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="Double" />
+                <Field name="City" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="State" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Country" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Pincode" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Industry" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Customer_Segment" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Signup_Date" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Last_Purchase_Date" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Loyalty_Status" size="255" source="File: D:\stratify-ai\datasets\Customers.xlsx|||`Sheet1$`" type="V_String" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="102">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="226" y="195" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Customer_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Customer_Name" selected="True" />
+                <SelectField field="Email" selected="True" type="WString" size="100" />
+                <SelectField field="Phone" selected="True" type="WString" size="20" />
+                <SelectField field="Gender" selected="True" />
+                <SelectField field="Age" selected="True" type="Int32" size="4" />
+                <SelectField field="City" selected="True" />
+                <SelectField field="State" selected="True" />
+                <SelectField field="Country" selected="True" type="WString" size="50" />
+                <SelectField field="Pincode" selected="True" type="WString" size="10" />
+                <SelectField field="Industry" selected="True" />
+                <SelectField field="Customer_Segment" selected="True" />
+                <SelectField field="Signup_Date" selected="True" type="Date" size="10" />
+                <SelectField field="Last_Purchase_Date" selected="True" type="Date" size="10" />
+                <SelectField field="Loyalty_Status" selected="True" />
+                <SelectField field="Name" selected="False" type="WString" size="100" />
+                <SelectField field="Segment" selected="False" type="WString" size="50" />
+                <SelectField field="Loyalty" selected="False" type="WString" size="50" />
+                <SelectField field="*Unknown" selected="False" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="104">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
+            <Position x="356" y="189" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <UniqueFields>
+                <Field field="Customer_ID" />
+              </UniqueFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxUnique" />
+        </Node>
+        <Node ToolID="105">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="466" y="198" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="IF IsNull([Phone])&#xA;OR Length(Trim([Phone])) != 10&#xA;OR !Contains(&quot;6789&quot;, Left(Trim([Phone]),1)) THEN&#xA;    &quot;Invalid Phone&quot;&#xA;&#xA;ELSEIF IsNull([Email])&#xA;OR Trim([Email]) = &quot;&quot; THEN&#xA;    &quot;Missing Email&quot;&#xA;&#xA;ELSEIF !Contains([Email], &quot;@&quot;) THEN&#xA;    &quot;Invalid Email&quot;&#xA;&#xA;ELSEIF IsNull([Age])&#xA;OR [Age] &lt; 18&#xA;OR [Age] &gt; 80 THEN&#xA;    &quot;Invalid Age&quot;&#xA;&#xA;ELSEIF IsNull([Pincode])&#xA;OR Length(Trim([Pincode])) != 6 THEN&#xA;    &quot;Invalid Pincode&quot;&#xA;&#xA;ELSEIF [Country] != &quot;India&quot; THEN&#xA;    &quot;Invalid Country&quot;&#xA;&#xA;ELSEIF [Customer_Segment] != &quot;Retail&quot;&#xA;AND [Customer_Segment] != &quot;Corporate&quot;&#xA;AND [Customer_Segment] != &quot;Wholesale&quot; THEN&#xA;    &quot;Invalid Segment&quot;&#xA;&#xA;ELSEIF [Loyalty_Status] != &quot;Silver&quot;&#xA;AND [Loyalty_Status] != &quot;Gold&quot;&#xA;AND [Loyalty_Status] != &quot;Platinum&quot; THEN&#xA;    &quot;Invalid Loyalty&quot;&#xA;&#xA;ELSE&#xA;    &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="WString" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Validation_Status = IF IsNull([Phone])
+OR Length(Trim([Phone])) != 10
+OR !Contai...</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="106">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="574" y="198" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Expression>[Validation_Status] == "Valid"</Expression>
+              <Mode>Custom</Mode>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>[Validation_Status] == "Valid"</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+        <Node ToolID="109">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="946" y="162" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\customers_clean.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>customers_clean.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="110">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="946" y="270" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_customer.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>invalid_customer.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="802">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="718" y="130" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_1edea0aae238443cb930a672c1f1b067~.yxdb</TempFile>
+              <TempFileDataProfiling />
+              <Layout>
+                <ViewMode>Single</ViewMode>
+                <ViewSize value="100" />
+                <View1>
+                  <DefaultTab>Profile</DefaultTab>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+                <View2 />
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="803">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="730" y="238" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_c1e0e76180044b21851382a18d83796b~.yxdb</TempFile>
+              <TempFileDataProfiling />
+              <Layout>
+                <ViewMode>Single</ViewMode>
+                <ViewSize value="100" />
+                <View1>
+                  <DefaultTab>Profile</DefaultTab>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+                <View2 />
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="817">
+          <GuiSettings>
+            <Position x="248" y="103" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Value name="Check Box (135)">False</Value>
+              <Value name="Check Box (136)">False</Value>
+              <Value name="List Box (11)">"Customer_ID","Customer_Name","Email","Phone","Gender","Age","City","State","Country","Pincode","Industry","Customer_Segment","Signup_Date","Last_Purchase_Date","Loyalty_Status"</Value>
+              <Value name="Check Box (84)">True</Value>
+              <Value name="Check Box (117)">True</Value>
+              <Value name="Check Box (15)">True</Value>
+              <Value name="Check Box (109)">False</Value>
+              <Value name="Check Box (122)">False</Value>
+              <Value name="Check Box (53)">False</Value>
+              <Value name="Check Box (58)">False</Value>
+              <Value name="Check Box (70)">False</Value>
+              <Value name="Check Box (77)">False</Value>
+              <Value name="Drop Down (81)">upper</Value>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings Macro="Cleanse.yxmc" />
+        </Node>
+        <Node ToolID="827">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="428" y="259" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\duplicate_customers.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>duplicate_customers.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="2">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="79" y="402" width="999" height="331" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>📦 Products ETL - NovaKart Retail</Caption>
+          <Style TextColor="#314c5a" FillColor="#e8f5e9" BorderColor="#388e3c" Transparency="25" Margin="25" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="201">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="104" y="541" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">D:\stratify-ai\datasets\Products.xlsx|||`Sheet1$`</File>
+              <FormatSpecificOptions>
+                <FirstRowData>False</FirstRowData>
+                <ImportLine>1</ImportLine>
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Products.xlsx
+Query=`Sheet1$`</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Product_ID" size="255" source="File: D:\stratify-ai\datasets\Products.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Product_Name" size="255" source="File: D:\stratify-ai\datasets\Products.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Category" size="255" source="File: D:\stratify-ai\datasets\Products.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Brand" size="255" source="File: D:\stratify-ai\datasets\Products.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Cost_Price" source="File: D:\stratify-ai\datasets\Products.xlsx|||`Sheet1$`" type="Double" />
+                <Field name="Selling_Price" source="File: D:\stratify-ai\datasets\Products.xlsx|||`Sheet1$`" type="Double" />
+                <Field name="Supplier_ID" size="255" source="File: D:\stratify-ai\datasets\Products.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="GST_Percentage" size="255" source="File: D:\stratify-ai\datasets\Products.xlsx|||`Sheet1$`" type="V_String" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="202">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="226" y="542" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Product_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Product_Name" selected="True" type="WString" size="150" />
+                <SelectField field="Category" selected="True" type="WString" size="50" />
+                <SelectField field="Brand" selected="True" type="WString" size="50" />
+                <SelectField field="Cost_Price" selected="True" />
+                <SelectField field="Selling_Price" selected="True" />
+                <SelectField field="Supplier_ID" selected="True" />
+                <SelectField field="GST_Percentage" selected="True" type="Double" size="8" />
+                <SelectField field="GST" selected="False" type="Int32" size="4" />
+                <SelectField field="*Unknown" selected="False" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="203">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="346" y="542" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="Trim([Product_ID])" field="Product_ID" size="50" type="WString" />
+                <FormulaField expression="Trim([Product_Name])" field="Product_Name" size="150" type="WString" />
+                <FormulaField expression="Trim([Category])" field="Category" size="50" type="WString" />
+                <FormulaField expression="Trim([Brand])" field="Brand" size="50" type="WString" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Product_ID = Trim([Product_ID])
+Product_Name = Trim([Product_Name])
+Category = T...</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="204">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
+            <Position x="466" y="542" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <UniqueFields>
+                <Field field="Product_ID" />
+              </UniqueFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Unique Product_ID</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxUnique" />
+        </Node>
+        <Node ToolID="205">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="586" y="542" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="IF IsNull([Product_ID]) OR Trim([Product_ID]) == &quot;&quot; THEN&#xA;    &quot;Missing Product ID&quot;&#xA;&#xA;ELSEIF IsNull([Product_Name]) OR Trim([Product_Name]) == &quot;&quot; THEN&#xA;    &quot;Missing Product Name&quot;&#xA;&#xA;ELSEIF IsNull([Category]) OR Trim([Category]) == &quot;&quot; THEN&#xA;    &quot;Missing Category&quot;&#xA;&#xA;ELSEIF IsNull([Brand]) OR Trim([Brand]) == &quot;&quot; THEN&#xA;    &quot;Missing Brand&quot;&#xA;&#xA;ELSEIF IsNull([Cost_Price]) OR IsNull([Selling_Price]) THEN&#xA;    &quot;Missing Price&quot;&#xA;&#xA;ELSEIF [Cost_Price] &lt;= 0 OR [Selling_Price] &lt;= 0 THEN&#xA;    &quot;Invalid Price&quot;&#xA;&#xA;ELSEIF [Selling_Price] &lt;= [Cost_Price] THEN&#xA;    &quot;Invalid Price&quot;&#xA;&#xA;ELSEIF IsNull([GST_Percentage]) THEN&#xA;    &quot;Missing GST&quot;&#xA;&#xA;ELSEIF [GST_Percentage] != 5&#xA;AND [GST_Percentage] != 12&#xA;AND [GST_Percentage] != 18&#xA;AND [GST_Percentage] != 28 THEN&#xA;    &quot;Invalid GST&quot;&#xA;&#xA;ELSE&#xA;    &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="V_String" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Validation_Status = IF IsNull([Product_ID]) OR Trim([Product_ID]) == "" THEN
+   ...</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="206">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="752" y="535" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Expression>[Validation_Status] == "Valid"</Expression>
+              <Mode>Custom</Mode>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>[Validation_Status] == "Valid"</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+        <Node ToolID="209">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="946" y="506" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\products_clean.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>products_clean.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="210">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="946" y="614" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_product.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>invalid_product.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="804">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="824" y="451" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_aa92d6ea0e3b4083a5bcd7255395af27~.yxdb</TempFile>
+              <TempFileDataProfiling />
+              <Layout>
+                <ViewMode>Single</ViewMode>
+                <ViewSize value="100" />
+                <View1>
+                  <DefaultTab>Profile</DefaultTab>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+                <View2 />
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="805">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="848" y="631" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_bb74a83d199947f984d02d7ba7c004e6~.yxdb</TempFile>
+              <Layout>
+                <View1>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="818">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="524" y="595" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\duplicate_products.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>duplicate_products.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="3">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="54" y="786" width="782" height="324" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>📦 Inventory ETL - NovaKart Retail</Caption>
+          <Style TextColor="#314c5a" FillColor="#fff3e0" BorderColor="#ef6c00" Transparency="25" Margin="25" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="301">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="79" y="835" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">.\datasets\Inventory.xlsx|||`Sheet1$`</File>
+              <FormatSpecificOptions>
+                <FirstRowData>False</FirstRowData>
+                <ImportLine>1</ImportLine>
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Inventory.xlsx
+Query=`Sheet1$`</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Inventory_ID" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Inventory.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Product_ID" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Inventory.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Warehouse" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Inventory.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Current_Stock" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Inventory.xlsx|||`Sheet1$`" type="Double" />
+                <Field name="Minimum_Stock" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Inventory.xlsx|||`Sheet1$`" type="Double" />
+                <Field name="Maximum_Stock" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Inventory.xlsx|||`Sheet1$`" type="Double" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="302">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="115" y="943" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Inventory_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Product_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Warehouse" selected="True" type="WString" size="100" />
+                <SelectField field="Current_Stock" selected="True" type="Int32" size="4" />
+                <SelectField field="Minimum_Stock" selected="True" type="Int32" size="4" />
+                <SelectField field="Maximum_Stock" selected="True" type="Int32" size="4" />
+                <SelectField field="*Unknown" selected="False" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="303">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="356" y="859" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="IF [Current_Stock] &lt;= [Minimum_Stock] THEN &quot;Critical&quot;&#xA;ELSEIF [Current_Stock] &lt;= ([Minimum_Stock] * 1.5) THEN &quot;Low Stock&quot;&#xA;ELSEIF [Current_Stock] &gt;= [Maximum_Stock] THEN &quot;Overstock&quot;&#xA;ELSE &quot;Healthy&quot;&#xA;ENDIF" field="Stock_Status" size="50" type="WString" />
+                <FormulaField expression="IF IsNull([Inventory_ID]) OR Trim([Inventory_ID]) == &quot;&quot; THEN&#xA;    &quot;Missing Inventory ID&quot;&#xA;&#xA;ELSEIF IsNull([Product_ID]) OR Trim([Product_ID]) == &quot;&quot; THEN&#xA;    &quot;Missing Product ID&quot;&#xA;&#xA;ELSEIF IsNull([Warehouse]) OR Trim([Warehouse]) == &quot;&quot; THEN&#xA;    &quot;Missing Warehouse&quot;&#xA;&#xA;ELSEIF IsNull([Current_Stock]) THEN&#xA;    &quot;Missing Current Stock&quot;&#xA;&#xA;ELSEIF IsNull([Minimum_Stock]) OR IsNull([Maximum_Stock]) THEN&#xA;    &quot;Missing Stock Threshold&quot;&#xA;&#xA;ELSEIF [Current_Stock] &lt; 0 THEN&#xA;    &quot;Negative Stock&quot;&#xA;&#xA;ELSEIF [Minimum_Stock] &lt; 0 OR [Maximum_Stock] &lt; 0 THEN&#xA;    &quot;Negative Threshold&quot;&#xA;&#xA;ELSEIF [Maximum_Stock] &lt;= [Minimum_Stock] THEN&#xA;    &quot;Invalid Thresholds&quot;&#xA;&#xA;ELSEIF [Current_Stock] &gt; [Maximum_Stock] THEN&#xA;    &quot;Stock Above Maximum&quot;&#xA;&#xA;ELSE&#xA;    &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="V_String" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Stock_Status = IF [Current_Stock] &lt;= [Minimum_Stock] THEN "Critical"
+ELSEIF [Cur...</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="304">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="466" y="922" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Expression>[Validation_Status] == "Valid"</Expression>
+              <Mode>Custom</Mode>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>[Validation_Status] == "Valid"</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+        <Node ToolID="307">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="706" y="886" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\inventory_clean.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>inventory_clean.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="308">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="706" y="994" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_inventory.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>invalid_inventory.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="806">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="574" y="886" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_e4911d10674c43aa9b8d46a759ef3482~.yxdb</TempFile>
+              <Layout>
+                <View1>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="807">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="610" y="994" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_bb573f2321274054ace42681e97a7127~.yxdb</TempFile>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="819">
+          <GuiSettings>
+            <Position x="176" y="967" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Value name="Check Box (135)">False</Value>
+              <Value name="Check Box (136)">False</Value>
+              <Value name="List Box (11)">"Inventory_ID","Product_ID","Warehouse"</Value>
+              <Value name="Check Box (84)">True</Value>
+              <Value name="Check Box (117)">False</Value>
+              <Value name="Check Box (15)">True</Value>
+              <Value name="Check Box (109)">False</Value>
+              <Value name="Check Box (122)">False</Value>
+              <Value name="Check Box (53)">False</Value>
+              <Value name="Check Box (58)">False</Value>
+              <Value name="Check Box (70)">False</Value>
+              <Value name="Check Box (77)">False</Value>
+              <Value name="Drop Down (81)">upper</Value>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings Macro="Cleanse.yxmc" />
+        </Node>
+        <Node ToolID="820">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
+            <Position x="260" y="871" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <UniqueFields>
+                <Field field="Inventory_ID" />
+              </UniqueFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxUnique" />
+        </Node>
+        <Node ToolID="821">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="284" y="955" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\duplicate_inventory.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>duplicate_inventory.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="4">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="78" y="1182" width="759" height="309" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>📦 Employees ETL - NovaKart Retail</Caption>
+          <Style TextColor="#314c5a" FillColor="#f3e5f5" BorderColor="#7b1fa2" Transparency="25" Margin="25" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="401">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="103" y="1279" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">.\datasets\Employees.xlsx|||`Sheet1$`</File>
+              <FormatSpecificOptions>
+                <FirstRowData>False</FirstRowData>
+                <ImportLine>1</ImportLine>
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Employees.xlsx
+Query=`Sheet1$`</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Employee_ID" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Employees.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Name" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Employees.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Department" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Employees.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Role" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Employees.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Salary" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Employees.xlsx|||`Sheet1$`" type="Double" />
+                <Field name="Performance_Score" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Employees.xlsx|||`Sheet1$`" type="Double" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="402">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="152" y="1351" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Employee_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Name" selected="True" type="WString" size="100" />
+                <SelectField field="Department" selected="True" type="WString" size="50" />
+                <SelectField field="Role" selected="True" type="WString" size="50" />
+                <SelectField field="Salary" selected="True" />
+                <SelectField field="Performance_Score" selected="True" type="Int32" size="4" />
+                <SelectField field="*Unknown" selected="False" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="403">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="346" y="1302" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="IF IsNull([Salary]) OR [Salary] &lt;= 0 THEN&#xA;    &quot;Invalid Salary&quot;&#xA;&#xA;ELSEIF IsNull([Performance_Score])&#xA;OR [Performance_Score] &lt; 1&#xA;OR [Performance_Score] &gt; 5 THEN&#xA;    &quot;Invalid Performance Score&quot;&#xA;&#xA;ELSEIF IsNull([Department])&#xA;OR Trim([Department]) = &quot;&quot; THEN&#xA;    &quot;Missing Department&quot;&#xA;&#xA;ELSEIF [Department] != &quot;Sales&quot;&#xA;AND [Department] != &quot;Finance&quot;&#xA;AND [Department] != &quot;HR&quot;&#xA;AND [Department] != &quot;IT&quot;&#xA;AND [Department] != &quot;Marketing&quot;&#xA;AND [Department] != &quot;Operations&quot;&#xA;AND [Department] != &quot;Management&quot; THEN&#xA;    &quot;Invalid Department&quot;&#xA;&#xA;ELSE&#xA;    &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="WString" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Validation_Status = IF IsNull([Salary]) OR [Salary] &lt;= 0 THEN
+    "Invalid Salar...</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="404">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="466" y="1302" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Expression>[Validation_Status] == "Valid"</Expression>
+              <Mode>Custom</Mode>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>[Validation_Status] == "Valid"</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+        <Node ToolID="407">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="706" y="1266" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\employees_clean.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>employees_clean.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="408">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="706" y="1374" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_employee.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>invalid_employee.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="808">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="524" y="1231" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_6f958cc0fca14662a28f149cbd31c3f3~.yxdb</TempFile>
+              <TempFileDataProfiling />
+              <Layout>
+                <ViewMode>Single</ViewMode>
+                <ViewSize value="100" />
+                <View1>
+                  <DefaultTab>Profile</DefaultTab>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+                <View2 />
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="809">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="560" y="1399" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_203514f2ed5c4c2aaa03473c4f3fcb73~.yxdb</TempFile>
+              <TempFileDataProfiling />
+              <Layout>
+                <ViewMode>Single</ViewMode>
+                <ViewSize value="100" />
+                <View1>
+                  <DefaultTab>Profile</DefaultTab>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+                <View2 />
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="822">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
+            <Position x="224" y="1267" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <UniqueFields>
+                <Field field="Employee_ID" />
+              </UniqueFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxUnique" />
+        </Node>
+        <Node ToolID="823">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="272" y="1375" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\duplicate_employee.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>duplicate_employee.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="5">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="66" y="1566" width="838" height="345" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>📦 Finance ETL - NovaKart Retail</Caption>
+          <Style TextColor="#314c5a" FillColor="#fffde7" BorderColor="#fbc02d" Transparency="25" Margin="25" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="501">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="91" y="1615" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">.\datasets\Finance.xlsx|||`Sheet1$`</File>
+              <FormatSpecificOptions>
+                <FirstRowData>False</FirstRowData>
+                <ImportLine>1</ImportLine>
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Finance.xlsx
+Query=`Sheet1$`</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Transaction_ID" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Finance.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Date" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Finance.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Department" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Finance.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Revenue" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Finance.xlsx|||`Sheet1$`" type="Double" />
+                <Field name="Expenses" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Finance.xlsx|||`Sheet1$`" type="Double" />
+                <Field name="Tax" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Finance.xlsx|||`Sheet1$`" type="Double" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="502">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="152" y="1699" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Transaction_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Date" selected="True" type="Date" size="10" />
+                <SelectField field="Department" selected="True" type="WString" size="50" />
+                <SelectField field="Revenue" selected="True" />
+                <SelectField field="Expenses" selected="True" />
+                <SelectField field="Tax" selected="True" />
+                <SelectField field="*Unknown" selected="False" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="503">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="392" y="1675" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="[Revenue] - [Expenses]" field="Profit" size="8" type="Double" />
+                <FormulaField expression="[Revenue] - [Expenses] - [Tax]" field="Net_Profit" size="8" type="Double" />
+                <FormulaField expression="IF IsNull([Revenue]) OR [Revenue] &lt;= 0 THEN&#xA;    &quot;Invalid Revenue&quot;&#xA;&#xA;ELSEIF IsNull([Expenses]) OR [Expenses] &lt; 0 THEN&#xA;    &quot;Invalid Expenses&quot;&#xA;&#xA;ELSEIF IsNull([Tax]) OR [Tax] &lt; 0 THEN&#xA;    &quot;Invalid Tax&quot;&#xA;&#xA;ELSEIF IsNull([Department]) OR Trim([Department]) = &quot;&quot; THEN&#xA;    &quot;Missing Department&quot;&#xA;&#xA;ELSEIF IsNull([Date]) THEN&#xA;    &quot;Missing Date&quot;&#xA;&#xA;ELSE&#xA;    &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="WString" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Profit = [Revenue] - [Expenses]
+Net_Profit = [Revenue] - [Expenses] - [Tax]
+Vali...</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="504">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="512" y="1699" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Expression>[Validation_Status] == "Valid"</Expression>
+              <Mode>Custom</Mode>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>[Validation_Status] == "Valid"</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+        <Node ToolID="507">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="752" y="1639" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\finance_clean.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>finance_clean.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="508">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="776" y="1759" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_finance.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>invalid_finance.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="810">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="668" y="1627" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_05516f491fa04fc191b113670a3ee552~.yxdb</TempFile>
+              <TempFileDataProfiling />
+              <Layout>
+                <ViewMode>Single</ViewMode>
+                <ViewSize value="100" />
+                <View1>
+                  <DefaultTab>Profile</DefaultTab>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+                <View2 />
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="811">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="680" y="1735" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_bfbcf883e25641a2bdf90b62d83d141b~.yxdb</TempFile>
+              <TempFileDataProfiling />
+              <Layout>
+                <ViewMode>Single</ViewMode>
+                <ViewSize value="100" />
+                <View1>
+                  <DefaultTab>Profile</DefaultTab>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+                <View2 />
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="824">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
+            <Position x="284" y="1699" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <UniqueFields>
+                <Field field="Transaction_ID" />
+              </UniqueFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxUnique" />
+        </Node>
+        <Node ToolID="825">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="320" y="1795" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\duplicate_finance.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>duplicate_finance.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="6">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="80" y="1965" width="867" height="707" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>📦 Sales ETL - NovaKart Retail</Caption>
+          <Style TextColor="#314c5a" FillColor="#ffebee" BorderColor="#c62828" Transparency="25" Margin="25" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="601">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="105" y="2062" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">.\datasets\Sales.xlsx|||`Sheet1$`</File>
+              <FormatSpecificOptions>
+                <FirstRowData>False</FirstRowData>
+                <ImportLine>1</ImportLine>
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Sales.xlsx
+Query=`Sheet1$`</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Sale_ID" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Sales.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Date" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Sales.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Customer_ID" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Sales.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Product_ID" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Sales.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Branch" size="255" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Sales.xlsx|||`Sheet1$`" type="V_String" />
+                <Field name="Quantity" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Sales.xlsx|||`Sheet1$`" type="Double" />
+                <Field name="Unit_Price" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Sales.xlsx|||`Sheet1$`" type="Double" />
+                <Field name="Discount" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Sales.xlsx|||`Sheet1$`" type="Double" />
+                <Field name="Cost" source="File: D:\CLT PROJECT\CLT_Mission\alteryx\datasets\Sales.xlsx|||`Sheet1$`" type="Double" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="602">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="226" y="2062" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Sale_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Date" selected="True" type="Date" size="10" />
+                <SelectField field="Customer_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Product_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Branch" selected="True" type="WString" size="50" />
+                <SelectField field="Quantity" selected="True" type="Int32" size="4" />
+                <SelectField field="Unit_Price" selected="True" />
+                <SelectField field="Discount" selected="True" />
+                <SelectField field="Cost" selected="True" />
+                <SelectField field="*Unknown" selected="False" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="603">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
+            <Position x="320" y="2059" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <UniqueFields>
+                <Field field="Sale_ID" />
+              </UniqueFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Unique Sale_ID</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxUnique" />
+        </Node>
+        <Node ToolID="604">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="466" y="2062" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="([Quantity] * [Unit_Price]) - [Discount]" field="Revenue" size="8" type="Double" />
+                <FormulaField expression="(([Quantity] * [Unit_Price]) - [Discount]) - ([Quantity] * [Cost])" field="Profit" size="8" type="Double" />
+                <FormulaField expression="IF IsNull([Customer_ID]) OR Trim([Customer_ID]) == &quot;&quot; THEN &quot;Missing Customer ID&quot;&#xA;ELSEIF IsNull([Product_ID]) OR Trim([Product_ID]) == &quot;&quot; THEN &quot;Missing Product ID&quot;&#xA;ELSEIF [Quantity] &lt;= 0 THEN &quot;Invalid Quantity&quot;&#xA;ELSEIF (([Quantity] * [Unit_Price]) - [Discount]) &lt;= 0 THEN &quot;Invalid Revenue&quot;&#xA;ELSE &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="WString" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>Revenue = ([Quantity] * [Unit_Price]) - [Discount]
+Profit = (([Quantity] * [Unit...</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="605">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="586" y="2062" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Expression>[Validation_Status] == "Valid"</Expression>
+              <Mode>Custom</Mode>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>[Validation_Status] == "Valid"</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+        <Node ToolID="608">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="826" y="2026" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\sales_clean.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>sales_clean.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="609">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="826" y="2134" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_sales.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>invalid_sales.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="812">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="718" y="2014" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_95c011729b4d4fc8b4f10b61f861f163~.yxdb</TempFile>
+              <Layout>
+                <View1>
+                  <Hints>
+                    <Table />
+                  </Hints>
+                </View1>
+              </Layout>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="813">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+            <Position x="718" y="2110" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_e5980a232c7c4008af94f140ffb467d4~.yxdb</TempFile>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+        </Node>
+        <Node ToolID="826">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="392" y="2107" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\duplicate_sales.csv</File>
+              <Passwords />
+              <Disable>False</Disable>
+              <FormatSpecificOptions>
+                <LineEndStyle>CRLF</LineEndStyle>
+                <Delimeter>,</Delimeter>
+                <ForceQuotes>False</ForceQuotes>
+                <HeaderRow>True</HeaderRow>
+                <CodePage>28591</CodePage>
+                <WriteBOM>True</WriteBOM>
+                <SuppressBlankFile>False</SuppressBlankFile>
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>duplicate_sales.csv</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="7">
+          <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+            <Position x="439" y="2250" width="376" height="397" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Caption>📦 Relationship Validation - Referencial Integrity Check</Caption>
+              <Style TextColor="#314c5a" FillColor="#e0f2f1" BorderColor="#00796b" Transparency="25" Margin="25" />
+              <Disabled value="False" />
+              <Folded value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <ChildNodes>
+            <Node ToolID="701">
+              <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
+                <Position x="512" y="2323" />
+              </GuiSettings>
+              <Properties>
+                <Configuration joinByRecordPos="False">
+                  <JoinInfo connection="Left">
+                    <Field field="Customer_ID" />
+                  </JoinInfo>
+                  <JoinInfo connection="Right">
+                    <Field field="Customer_ID" />
+                  </JoinInfo>
+                  <SelectConfiguration>
+                    <Configuration outputConnection="Join">
+                      <OrderChanged value="False" />
+                      <CommaDecimal value="False" />
+                      <SelectFields>
+                        <SelectField field="Left_Sale_ID" selected="True" input="Left_" />
+                        <SelectField field="Left_Date" selected="True" input="Left_" />
+                        <SelectField field="Left_Customer_ID" selected="True" input="Left_" />
+                        <SelectField field="Left_Product_ID" selected="True" input="Left_" />
+                        <SelectField field="Left_Branch" selected="True" input="Left_" />
+                        <SelectField field="Left_Quantity" selected="True" input="Left_" />
+                        <SelectField field="Left_Unit_Price" selected="True" input="Left_" />
+                        <SelectField field="Left_Discount" selected="True" input="Left_" />
+                        <SelectField field="Left_Cost" selected="True" input="Left_" />
+                        <SelectField field="Left_Revenue" selected="True" input="Left_" />
+                        <SelectField field="Left_Profit" selected="True" input="Left_" />
+                        <SelectField field="Left_Validation_Status" selected="True" input="Left_" />
+                        <SelectField field="Right_Customer_ID" selected="True" rename="Right_Customer_ID" input="Right_" />
+                        <SelectField field="Right_Customer_Name" selected="True" input="Right_" />
+                        <SelectField field="Right_Email" selected="True" input="Right_" />
+                        <SelectField field="Right_Phone" selected="True" input="Right_" />
+                        <SelectField field="Right_Gender" selected="True" input="Right_" />
+                        <SelectField field="Right_Age" selected="True" input="Right_" />
+                        <SelectField field="Right_City" selected="True" input="Right_" />
+                        <SelectField field="Right_State" selected="True" input="Right_" />
+                        <SelectField field="Right_Country" selected="True" input="Right_" />
+                        <SelectField field="Right_Pincode" selected="True" input="Right_" />
+                        <SelectField field="Right_Industry" selected="True" input="Right_" />
+                        <SelectField field="Right_Customer_Segment" selected="True" input="Right_" />
+                        <SelectField field="Right_Signup_Date" selected="True" input="Right_" />
+                        <SelectField field="Right_Last_Purchase_Date" selected="True" input="Right_" />
+                        <SelectField field="Right_Loyalty_Status" selected="True" input="Right_" />
+                        <SelectField field="Right_Validation_Status" selected="True" rename="Right_Validation_Status" input="Right_" />
+                        <SelectField field="*Unknown" selected="False" />
+                      </SelectFields>
+                    </Configuration>
+                  </SelectConfiguration>
+                </Configuration>
+                <Annotation DisplayMode="0">
+                  <Name />
+                  <DefaultAnnotationText />
+                  <Left value="False" />
+                </Annotation>
+              </Properties>
+              <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJoin" />
+            </Node>
+            <Node ToolID="703">
+              <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
+                <Position x="464" y="2443" />
+              </GuiSettings>
+              <Properties>
+                <Configuration joinByRecordPos="False">
+                  <JoinInfo connection="Left">
+                    <Field field="Product_ID" />
+                  </JoinInfo>
+                  <JoinInfo connection="Right">
+                    <Field field="Product_ID" />
+                  </JoinInfo>
+                  <SelectConfiguration>
+                    <Configuration outputConnection="Join">
+                      <OrderChanged value="False" />
+                      <CommaDecimal value="False" />
+                      <SelectFields>
+                        <SelectField field="Left_Sale_ID" selected="True" input="Left_" />
+                        <SelectField field="Left_Date" selected="True" input="Left_" />
+                        <SelectField field="Left_Customer_ID" selected="True" input="Left_" />
+                        <SelectField field="Left_Product_ID" selected="True" input="Left_" />
+                        <SelectField field="Left_Branch" selected="True" input="Left_" />
+                        <SelectField field="Left_Quantity" selected="True" input="Left_" />
+                        <SelectField field="Left_Unit_Price" selected="True" input="Left_" />
+                        <SelectField field="Left_Discount" selected="True" input="Left_" />
+                        <SelectField field="Left_Cost" selected="True" input="Left_" />
+                        <SelectField field="Left_Revenue" selected="True" input="Left_" />
+                        <SelectField field="Left_Profit" selected="True" input="Left_" />
+                        <SelectField field="Left_Validation_Status" selected="True" input="Left_" />
+                        <SelectField field="Right_Product_ID" selected="True" rename="Right_Product_ID" input="Right_" />
+                        <SelectField field="Right_Product_Name" selected="True" input="Right_" />
+                        <SelectField field="Right_Category" selected="True" input="Right_" />
+                        <SelectField field="Right_Brand" selected="True" input="Right_" />
+                        <SelectField field="Right_Cost_Price" selected="True" input="Right_" />
+                        <SelectField field="Right_Selling_Price" selected="True" input="Right_" />
+                        <SelectField field="Right_Supplier_ID" selected="True" input="Right_" />
+                        <SelectField field="Right_GST_Percentage" selected="True" input="Right_" />
+                        <SelectField field="Right_Validation_Status" selected="True" rename="Right_Validation_Status" input="Right_" />
+                        <SelectField field="*Unknown" selected="False" />
+                      </SelectFields>
+                    </Configuration>
+                  </SelectConfiguration>
+                </Configuration>
+                <Annotation DisplayMode="0">
+                  <Name />
+                  <DefaultAnnotationText />
+                  <Left value="False" />
+                </Annotation>
+              </Properties>
+              <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJoin" />
+            </Node>
+            <Node ToolID="705">
+              <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
+                <Position x="464" y="2563" />
+              </GuiSettings>
+              <Properties>
+                <Configuration joinByRecordPos="False">
+                  <JoinInfo connection="Left">
+                    <Field field="Product_ID" />
+                  </JoinInfo>
+                  <JoinInfo connection="Right">
+                    <Field field="Product_ID" />
+                  </JoinInfo>
+                  <SelectConfiguration>
+                    <Configuration outputConnection="Join">
+                      <OrderChanged value="False" />
+                      <CommaDecimal value="False" />
+                      <SelectFields>
+                        <SelectField field="Left_Inventory_ID" selected="True" input="Left_" />
+                        <SelectField field="Left_Product_ID" selected="True" input="Left_" />
+                        <SelectField field="Left_Warehouse" selected="True" input="Left_" />
+                        <SelectField field="Left_Current_Stock" selected="True" input="Left_" />
+                        <SelectField field="Left_Minimum_Stock" selected="True" input="Left_" />
+                        <SelectField field="Left_Maximum_Stock" selected="True" input="Left_" />
+                        <SelectField field="Left_Stock_Status" selected="True" input="Left_" />
+                        <SelectField field="Left_Validation_Status" selected="True" input="Left_" />
+                        <SelectField field="Right_Product_ID" selected="True" rename="Right_Product_ID" input="Right_" />
+                        <SelectField field="Right_Product_Name" selected="True" input="Right_" />
+                        <SelectField field="Right_Category" selected="True" input="Right_" />
+                        <SelectField field="Right_Brand" selected="True" input="Right_" />
+                        <SelectField field="Right_Cost_Price" selected="True" input="Right_" />
+                        <SelectField field="Right_Selling_Price" selected="True" input="Right_" />
+                        <SelectField field="Right_Supplier_ID" selected="True" input="Right_" />
+                        <SelectField field="Right_GST_Percentage" selected="True" input="Right_" />
+                        <SelectField field="Right_Validation_Status" selected="True" rename="Right_Validation_Status" input="Right_" />
+                        <SelectField field="*Unknown" selected="False" />
+                      </SelectFields>
+                    </Configuration>
+                  </SelectConfiguration>
+                </Configuration>
+                <Annotation DisplayMode="0">
+                  <Name />
+                  <DefaultAnnotationText />
+                  <Left value="False" />
+                </Annotation>
+              </Properties>
+              <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJoin" />
+            </Node>
+            <Node ToolID="814">
+              <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+                <Position x="584" y="2299" />
+              </GuiSettings>
+              <Properties>
+                <Configuration>
+                  <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_8175ea972f4d4f2ab9b48142b3cb8454~.yxdb</TempFile>
+                  <TempFileDataProfiling />
+                  <Layout>
+                    <ViewMode>Single</ViewMode>
+                    <ViewSize value="100" />
+                    <View1>
+                      <DefaultTab>Profile</DefaultTab>
+                      <Hints>
+                        <Table />
+                      </Hints>
+                    </View1>
+                    <View2 />
+                  </Layout>
+                </Configuration>
+                <Annotation DisplayMode="0">
+                  <Name />
+                  <DefaultAnnotationText />
+                  <Left value="False" />
+                </Annotation>
+              </Properties>
+              <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+            </Node>
+            <Node ToolID="815">
+              <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+                <Position x="596" y="2407" />
+              </GuiSettings>
+              <Properties>
+                <Configuration>
+                  <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_2ee0e10cd15e4a219e4cb023a21f498e~.yxdb</TempFile>
+                  <TempFileDataProfiling />
+                  <Layout>
+                    <ViewMode>Single</ViewMode>
+                    <ViewSize value="100" />
+                    <View1>
+                      <DefaultTab>Profile</DefaultTab>
+                      <Hints>
+                        <Table />
+                      </Hints>
+                    </View1>
+                    <View2 />
+                  </Layout>
+                </Configuration>
+                <Annotation DisplayMode="0">
+                  <Name />
+                  <DefaultAnnotationText />
+                  <Left value="False" />
+                </Annotation>
+              </Properties>
+              <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+            </Node>
+            <Node ToolID="816">
+              <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+                <Position x="608" y="2539" />
+              </GuiSettings>
+              <Properties>
+                <Configuration>
+                  <TempFile>C:\Users\RITHVIK\AppData\Local\Temp\Alteryx\Engine_2628_17603dc8a18344498e145cdb0575e378_\Engine_2628_907b31a44c994ce4b628eda45dd5de3e~.yxdb</TempFile>
+                  <TempFileDataProfiling />
+                  <Layout>
+                    <ViewMode>Single</ViewMode>
+                    <ViewSize value="100" />
+                    <View1>
+                      <DefaultTab>Profile</DefaultTab>
+                      <Hints>
+                        <Table />
+                      </Hints>
+                    </View1>
+                    <View2 />
+                  </Layout>
+                </Configuration>
+                <Annotation DisplayMode="0">
+                  <Name />
+                  <DefaultAnnotationText />
+                  <Left value="False" />
+                </Annotation>
+              </Properties>
+              <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+            </Node>
+          </ChildNodes>
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="8">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="81" y="2843" width="1230" height="184" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>📦 Output Summary - Export Destination Overview</Caption>
+          <Style TextColor="#314c5a" FillColor="#cfd8dc" BorderColor="#455a64" Transparency="25" Margin="25" />
+          <Disabled value="True" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="801">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="106" y="2892" width="1180" height="110" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>📦 STRATIFY AI - OUTPUT EXPORT DESTINATIONS SUMMARY
+- Clean Datasets exported to: .\outputs\ (customers_clean.csv, products_clean.csv, inventory_clean.csv, employees_clean.csv, finance_clean.csv, sales_clean.csv)
+- Invalid Records exported to: .\invalid\ (invalid_customers.csv, invalid_products.csv, invalid_inventory.csv, invalid_employees.csv, invalid_finance.csv, invalid_sales.csv)
+- Orphaned Foreign Key Relationships routed to Browse Tools inside Container 7 (Relationship Validation).</Text>
+              <Font name="Segoe UI" size="10" style="1" />
+              <TextColor name="Black" />
+              <FillColor r="255" g="255" b="255" />
+              <BorderColor r="69" g="90" b="100" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+      </ChildNodes>
+    </Node>
+  </Nodes>
+  <Connections>
+    <Connection>
+      <Origin ToolID="101" Connection="Output" />
+      <Destination ToolID="102" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="102" Connection="Output" />
+      <Destination ToolID="817" Connection="Input2" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="104" Connection="Unique" />
+      <Destination ToolID="105" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="104" Connection="Duplicates" />
+      <Destination ToolID="827" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="105" Connection="Output" />
+      <Destination ToolID="106" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="106" Connection="True" />
+      <Destination ToolID="109" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="106" Connection="False" />
+      <Destination ToolID="110" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="106" Connection="True" />
+      <Destination ToolID="802" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="106" Connection="False" />
+      <Destination ToolID="803" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="106" Connection="True" />
+      <Destination ToolID="701" Connection="Right" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="605" Connection="True" />
+      <Destination ToolID="701" Connection="Left" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="817" Connection="Output26" />
+      <Destination ToolID="104" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="201" Connection="Output" />
+      <Destination ToolID="202" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="202" Connection="Output" />
+      <Destination ToolID="203" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="203" Connection="Output" />
+      <Destination ToolID="204" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="204" Connection="Unique" />
+      <Destination ToolID="205" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="204" Connection="Duplicates" />
+      <Destination ToolID="818" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="205" Connection="Output" />
+      <Destination ToolID="206" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="206" Connection="True" />
+      <Destination ToolID="209" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="206" Connection="True" />
+      <Destination ToolID="703" Connection="Right" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="605" Connection="True" />
+      <Destination ToolID="703" Connection="Left" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="206" Connection="True" />
+      <Destination ToolID="705" Connection="Right" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="304" Connection="True" />
+      <Destination ToolID="705" Connection="Left" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="206" Connection="False" />
+      <Destination ToolID="210" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="206" Connection="True" />
+      <Destination ToolID="804" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="206" Connection="False" />
+      <Destination ToolID="805" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="301" Connection="Output" />
+      <Destination ToolID="302" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="302" Connection="Output" />
+      <Destination ToolID="819" Connection="Input2" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="303" Connection="Output" />
+      <Destination ToolID="304" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="304" Connection="True" />
+      <Destination ToolID="307" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="304" Connection="False" />
+      <Destination ToolID="308" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="304" Connection="True" />
+      <Destination ToolID="806" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="304" Connection="False" />
+      <Destination ToolID="807" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="819" Connection="Output26" />
+      <Destination ToolID="820" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="820" Connection="Unique" />
+      <Destination ToolID="303" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="820" Connection="Duplicates" />
+      <Destination ToolID="821" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="401" Connection="Output" />
+      <Destination ToolID="402" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="402" Connection="Output" />
+      <Destination ToolID="822" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="403" Connection="Output" />
+      <Destination ToolID="404" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="404" Connection="True" />
+      <Destination ToolID="407" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="404" Connection="False" />
+      <Destination ToolID="408" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="404" Connection="True" />
+      <Destination ToolID="808" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="404" Connection="False" />
+      <Destination ToolID="809" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="822" Connection="Duplicates" />
+      <Destination ToolID="823" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="822" Connection="Unique" />
+      <Destination ToolID="403" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="501" Connection="Output" />
+      <Destination ToolID="502" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="502" Connection="Output" />
+      <Destination ToolID="824" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="503" Connection="Output" />
+      <Destination ToolID="504" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="504" Connection="True" />
+      <Destination ToolID="507" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="504" Connection="False" />
+      <Destination ToolID="508" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="504" Connection="True" />
+      <Destination ToolID="810" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="504" Connection="False" />
+      <Destination ToolID="811" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="824" Connection="Unique" />
+      <Destination ToolID="503" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="824" Connection="Duplicates" />
+      <Destination ToolID="825" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="601" Connection="Output" />
+      <Destination ToolID="602" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="602" Connection="Output" />
+      <Destination ToolID="603" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="603" Connection="Unique" />
+      <Destination ToolID="604" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="603" Connection="Duplicates" />
+      <Destination ToolID="826" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="604" Connection="Output" />
+      <Destination ToolID="605" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="605" Connection="True" />
+      <Destination ToolID="608" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="605" Connection="False" />
+      <Destination ToolID="609" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="605" Connection="True" />
+      <Destination ToolID="812" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="605" Connection="False" />
+      <Destination ToolID="813" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="701" Connection="Left" />
+      <Destination ToolID="814" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="703" Connection="Left" />
+      <Destination ToolID="815" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="705" Connection="Left" />
+      <Destination ToolID="816" Connection="Input" />
+    </Connection>
+  </Connections>
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="1000" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <RunWithE2 value="True" />
+    <DefaultTZ value="Local" />
+    <PredictiveToolsCodePage value="1252" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="False" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <IsTemplate value="False" />
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>Stratify_ETL</Name>
+      <Description>Enterprise ETL Workflow for NovaKart Retail Pvt. Ltd. (Stratify AI)</Description>
+      <RootToolName />
+      <ToolVersion />
+      <ToolInDb value="False" />
+      <CategoryName />
+      <SearchTags />
+      <Author>NovaKart Solution Architecture Team</Author>
+      <Company>NovaKart Retail Pvt. Ltd.</Company>
+      <Copyright>2026 NovaKart Retail</Copyright>
+      <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
+      <WorkflowId value="966630dd-b613-49cb-a05a-6bac56beb153" />
+      <Telemetry>
+        <PreviousWorkflowId value="8a3b5c7d-9e1f-4a2b-8c3d-7e9f1a2b3c4d" />
+        <OriginWorkflowId value="966630dd-b613-49cb-a05a-6bac56beb153" />
+      </Telemetry>
+      <PlatformWorkflowId value="" />
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+  </Properties>
+</AlteryxDocument>

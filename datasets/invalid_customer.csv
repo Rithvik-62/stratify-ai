@@ -1,0 +1,5 @@
+Customer_ID,Name,Email,Phone,Age,Country,Pincode,Segment,Loyalty,Validation_Status
+CUST_007,Invalid Email User,invalidemail.com,9876543211,35,India,110001,Retail,Gold,Invalid Email
+CUST_008,Invalid Age User,underage@test.com,9876543212,15,India,110001,Retail,Silver,Invalid Age
+CUST_009,Foreign Country User,foreign@test.com,9876543213,40,USA,110001,Retail,Gold,Invalid Country
+CUST_010,Invalid Segment User,badsegment@test.com,9876543214,29,India,110001,Unknown,Silver,Invalid Segment

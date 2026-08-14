@@ -1,0 +1,4 @@
+Employee_ID,Name,Department,Role,Salary,Performance_Score,Validation_Status
+EMP_006,Zero Salary Employee,HR,Intern,0,4,Invalid Salary
+EMP_007,Invalid Score Employee,IT,Dev,500000,6,Invalid Performance Score
+EMP_008,Unknown Dept Employee,Logistics,Driver,400000,3,Invalid Department
