@@ -44,6 +44,8 @@ from components.forecasting import render_forecasting_panel
 from components.rfm_analysis import render_rfm_intelligence_tab
 from components.scenario_simulator import render_scenario_simulator
 from components.data_quality import render_data_quality_hub
+from components.ai_chat import render_ai_copilot_tab
+from components.project_overview import render_project_overview_tab
 
 # Auto-refresh import
 try:
@@ -262,8 +264,9 @@ st.markdown("<br>", unsafe_allow_html=True)
 # ============================================================================
 # MASTER NAVIGATION TABS (UNIFIED ENTERPRISE CAPABILITY SUITE)
 # ============================================================================
-t_overview, t_forecast, t_rfm, t_sim, t_depts, t_health, t_ai, t_dq, t_reports, t_export = st.tabs([
+t_overview, t_copilot, t_forecast, t_rfm, t_sim, t_depts, t_health, t_ai, t_dq, t_reports, t_deck, t_export = st.tabs([
     "📊 Executive Control Center",
+    "💬 STRATIFY AI Copilot",
     "🔮 ML Predictive Forecasting",
     "🎯 Customer RFM Intelligence",
     "🎛️ Strategic What-If Simulator",
@@ -272,6 +275,7 @@ t_overview, t_forecast, t_rfm, t_sim, t_depts, t_health, t_ai, t_dq, t_reports, 
     "🤖 AI Insights (DeepSeek)",
     "🛡️ Data Quality & SLA Governance",
     "📄 Executive Reports & Gmail RPA",
+    "🎓 Presentation Deck & Architecture",
     "💾 One-Click Data Export Hub"
 ])
 
@@ -322,25 +326,31 @@ with t_overview:
     render_horizontal_pipeline_visualizer(incoming_cnt=incoming_cnt, processed_cnt=processed_cnt)
 
 # ============================================================================
-# TAB 2: ML PREDICTIVE FORECASTING
+# TAB 2: CONVERSATIONAL AI COPILOT
+# ============================================================================
+with t_copilot:
+    render_ai_copilot_tab(kpi_dict, active_sales_df)
+
+# ============================================================================
+# TAB 3: ML PREDICTIVE FORECASTING
 # ============================================================================
 with t_forecast:
     render_forecasting_panel(sales_df)
 
 # ============================================================================
-# TAB 3: CUSTOMER RFM INTELLIGENCE
+# TAB 4: CUSTOMER RFM INTELLIGENCE
 # ============================================================================
 with t_rfm:
     render_rfm_intelligence_tab(customers_df, sales_df)
 
 # ============================================================================
-# TAB 4: STRATEGIC WHAT-IF SIMULATOR
+# TAB 5: STRATEGIC WHAT-IF SIMULATOR
 # ============================================================================
 with t_sim:
     render_scenario_simulator(kpi_dict)
 
 # ============================================================================
-# TAB 5: DEPARTMENT ANALYTICS & MASTER DATA
+# TAB 6: DEPARTMENT ANALYTICS & MASTER DATA
 # ============================================================================
 with t_depts:
     st.markdown("### 🏢 Department Level Performance & Master Catalogs")
@@ -382,7 +392,7 @@ with t_depts:
             st.dataframe(employees_df, use_container_width=True)
 
 # ============================================================================
-# TAB 6: COMPREHENSIVE RATIOS & METRICS
+# TAB 7: COMPREHENSIVE RATIOS & METRICS
 # ============================================================================
 with t_health:
     st.markdown("### 🏥 Comprehensive Operational Department Ratios & Metrics")
@@ -390,7 +400,7 @@ with t_health:
     st.dataframe(df_ratios, use_container_width=True)
 
 # ============================================================================
-# TAB 7: AI INSIGHTS (DEEPSEEK)
+# TAB 8: AI INSIGHTS (DEEPSEEK)
 # ============================================================================
 with t_ai:
     st.markdown("### 🤖 STRATIFY AI Intelligence Center")
@@ -423,13 +433,13 @@ with t_ai:
     """, unsafe_allow_html=True)
 
 # ============================================================================
-# TAB 8: DATA QUALITY & SLA GOVERNANCE
+# TAB 9: DATA QUALITY & SLA GOVERNANCE
 # ============================================================================
 with t_dq:
     render_data_quality_hub(incoming_cnt, processed_cnt, sales_df)
 
 # ============================================================================
-# TAB 9: EXECUTIVE REPORTS & GMAIL SMTP
+# TAB 10: EXECUTIVE REPORTS & GMAIL SMTP
 # ============================================================================
 with t_reports:
     st.markdown("### 📄 Executive Reports & UiPath RPA Automation")
@@ -449,7 +459,13 @@ with t_reports:
                 st.download_button(f"⬇️ Download {fname}", f, file_name=fname, mime="application/pdf")
 
 # ============================================================================
-# TAB 10: ONE-CLICK DATA EXPORT HUB
+# TAB 11: PRESENTATION DECK & ARCHITECTURE GUIDE
+# ============================================================================
+with t_deck:
+    render_project_overview_tab()
+
+# ============================================================================
+# TAB 12: ONE-CLICK DATA EXPORT HUB
 # ============================================================================
 with t_export:
     st.markdown("### 💾 One-Click Enterprise Data Export Center")
