@@ -1572,7 +1572,7 @@ Profit = (([Quantity] * [Unit...</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\sales_clean.csv</File>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\realtime\processed_ready\sales_clean.csv</File>
               <Passwords />
               <Disable>False</Disable>
               <FormatSpecificOptions>
@@ -1667,7 +1667,7 @@ Profit = (([Quantity] * [Unit...</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Output\duplicate_sales.csv</File>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\realtime\rejected\duplicate_sales.csv</File>
               <Passwords />
               <Disable>False</Disable>
               <FormatSpecificOptions>

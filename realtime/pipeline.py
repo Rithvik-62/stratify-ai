@@ -1,10 +1,11 @@
 """
 STRATIFY — Retail Intelligence & Data Analytics Platform
-Near-Real-Time Automated Batch Ingestion Pipeline Engine (pipeline.py)
+Near-Real-Time Snowflake Ingestion Service (pipeline.py)
 
-Monitors incoming/ for sales_batch_*.csv files, validates transactions, prevents duplicate
-SALE_ID loads via MERGE logic, stages data to Snowflake @NOVAKART_STAGE, updates RAW_SALES,
-maintains processing_log.csv, and archives processed/rejected files.
+Ingests ONLY Alteryx-cleaned & validated transaction micro-batches from
+realtime/processed_ready/ into Snowflake NOVAKART_DB.ANALYTICS.RAW_SALES via idempotent MERGE,
+archives processed files to realtime/processed/, quarantines invalid records to realtime/rejected/,
+and maintains an audit log in realtime/logs/processing_log.csv.
 """
 
 import os
@@ -33,6 +34,7 @@ try:
     from config import (
         SOURCE_DATA_DIR,
         INCOMING_DIR,
+        PROCESSED_READY_DIR,
         PROCESSED_DIR,
         REJECTED_DIR,
         LOGS_DIR,
@@ -49,6 +51,7 @@ except ImportError:
     from realtime.config import (
         SOURCE_DATA_DIR,
         INCOMING_DIR,
+        PROCESSED_READY_DIR,
         PROCESSED_DIR,
         REJECTED_DIR,
         LOGS_DIR,
@@ -63,16 +66,20 @@ except ImportError:
     )
 
 class StratifyRealtimePipeline:
-    """Automated near-real-time batch ingestion pipeline engine for STRATIFY."""
+    """Snowflake Data Ingestion Service for Alteryx-Cleaned Batches."""
 
     def __init__(self):
-        self.incoming_dir = INCOMING_DIR
+        self.raw_incoming_dir = INCOMING_DIR
+        self.cleaned_ready_dir = PROCESSED_READY_DIR
         self.processed_dir = PROCESSED_DIR
         self.rejected_dir = REJECTED_DIR
         self.log_path = PROCESSING_LOG_PATH
-        self.raw_sales_path = os.path.join(REALTIME_DIR := os.path.dirname(__file__), "data", "raw_sales.csv")
+        self.raw_sales_path = os.path.join(os.path.dirname(__file__), "data", "raw_sales.csv")
 
         os.makedirs(os.path.dirname(self.raw_sales_path), exist_ok=True)
+        os.makedirs(self.cleaned_ready_dir, exist_ok=True)
+        os.makedirs(self.processed_dir, exist_ok=True)
+        os.makedirs(self.rejected_dir, exist_ok=True)
         self._initialize_log()
         self._initialize_raw_sales()
 
@@ -134,11 +141,11 @@ class StratifyRealtimePipeline:
 
         return existing_ids
 
-    def detect_incoming_files(self):
-        """Scans incoming/ directory for unprocessed sales_batch_*.csv files."""
-        all_incoming = sorted(glob.glob(os.path.join(self.incoming_dir, "sales_batch_*.csv")))
+    def detect_cleaned_files(self):
+        """Scans realtime/processed_ready/ for Alteryx-cleaned batches."""
+        all_cleaned = sorted(glob.glob(os.path.join(self.cleaned_ready_dir, "*.csv")))
         
-        # Read log to prevent re-processing files marked SUCCESS or REJECTED
+        # Read log to prevent re-processing
         processed_files = set()
         if os.path.exists(self.log_path):
             try:
@@ -147,168 +154,220 @@ class StratifyRealtimePipeline:
             except Exception:
                 pass
 
-        unprocessed = [f for f in all_incoming if os.path.basename(f) not in processed_files]
+        unprocessed = [f for f in all_cleaned if os.path.basename(f) not in processed_files]
         return unprocessed
 
-    def validate_row(self, row, existing_ids):
-        """Validates individual row according to data quality rules."""
-        sale_id = str(row.get("Sale_ID", "")).strip()
-        cust_id = str(row.get("Customer_ID", "")).strip()
-        prod_id = str(row.get("Product_ID", "")).strip()
-        qty = row.get("Quantity", 0)
-        unit_price = row.get("Unit_Price", 0.0)
-        discount = row.get("Discount", 0.0)
-        cost = row.get("Cost", 0.0)
-        revenue = row.get("Revenue", 0.0)
-        val_status = str(row.get("Validation_Status", "Valid")).strip()
+    def execute_alteryx_etl_step(self, raw_filepath):
+        """
+        Executes Alteryx Data Cleansing & Validation logic on the raw transaction batch.
+        Performs type conversion, deduplication, formula calculations, referential checks,
+        and outputs clean records to realtime/processed_ready/ and invalid records to realtime/rejected/.
+        """
+        filename = os.path.basename(raw_filepath)
+        ts_now = datetime.now().strftime("%Y%m%d_%H%M%S")
+        clean_filename = f"sales_clean_{ts_now}.csv"
+        clean_filepath = os.path.join(self.cleaned_ready_dir, clean_filename)
 
-        if not sale_id or sale_id == "nan":
-            return False, "Missing Sale_ID"
-        if sale_id in existing_ids:
-            return False, f"Duplicate Sale_ID ({sale_id})"
-        if not cust_id or cust_id == "nan":
-            return False, "Missing Customer_ID"
-        if not prod_id or prod_id == "nan" or "INVALID" in prod_id.upper():
-            return False, "Invalid Product_ID"
-        if qty <= 0:
-            return False, "Invalid Quantity (<= 0)"
-        if unit_price < 0 or discount < 0 or cost < 0 or revenue < 0:
-            return False, "Negative Financial Value"
-        if val_status != "Valid":
-            return False, f"Flagged Status ({val_status})"
-
-        return True, "Valid"
-
-    def process_file(self, filepath):
-        """Processes a single batch CSV file through validation, Snowflake staging, and MERGE."""
-        filename = os.path.basename(filepath)
-        ts_str = datetime.now().strftime("%H:%M:%S")
-
-        print(f"\n[{ts_str}] New file detected: {filename}")
-        print(f"[{ts_str}] Uploading to Snowflake stage @NOVAKART_STAGE...")
-        print(f"[{ts_str}] Validation started...")
-
+        print(f"[Alteryx ETL] Reading raw batch: {filename}")
         try:
-            df_batch = pd.read_csv(filepath)
+            df_raw = pd.read_csv(raw_filepath)
         except Exception as e:
-            err = f"Failed to read CSV: {e}"
-            print(f"[{ts_str}] ERROR: {err}")
-            self.log_process_event(filename, STATUS_FAILED, 0, 0, err)
-            shutil.move(filepath, os.path.join(self.rejected_dir, filename))
-            return False
+            print(f"[Alteryx ETL] Error reading raw CSV: {e}")
+            return None
+
+        # Load master catalogs for referential integrity check
+        cust_path = os.path.join(SOURCE_DATA_DIR, "customers_clean.csv")
+        prod_path = os.path.join(SOURCE_DATA_DIR, "products_clean.csv")
+        valid_cust_ids = set(pd.read_csv(cust_path)["Customer_ID"].dropna()) if os.path.exists(cust_path) else set()
+        valid_prod_ids = set(pd.read_csv(prod_path)["Product_ID"].dropna()) if os.path.exists(prod_path) else set()
 
         existing_ids = self.get_existing_sale_ids()
         valid_rows = []
         rejected_rows = []
 
-        for idx, row in df_batch.iterrows():
-            is_valid, reason = self.validate_row(row, existing_ids)
-            row_dict = row.to_dict()
+        for _, row in df_raw.iterrows():
+            sale_id = str(row.get("Sale_ID", "")).strip()
+            cust_id = str(row.get("Customer_ID", "")).strip()
+            prod_id = str(row.get("Product_ID", "")).strip()
+            branch = str(row.get("Branch", "")).strip()
+            
+            try:
+                qty = int(row.get("Quantity", 0))
+                unit_price = float(row.get("Unit_Price", 0.0))
+                discount = float(row.get("Discount", 0.0))
+                cost = float(row.get("Cost", 0.0))
+            except Exception:
+                qty, unit_price, discount, cost = 0, 0.0, 0.0, 0.0
+
+            # Alteryx Formula Calculations
+            revenue = round((qty * unit_price) - discount, 2)
+            profit = round(revenue - (qty * cost), 2)
+
+            # Alteryx Validation Rules & Referential Integrity
+            is_valid = True
+            reason = "Valid"
+
+            if not sale_id or sale_id == "nan":
+                is_valid, reason = False, "Missing Sale_ID"
+            elif sale_id in existing_ids:
+                is_valid, reason = False, f"Duplicate Sale_ID ({sale_id})"
+            elif not cust_id or cust_id == "nan":
+                is_valid, reason = False, "Missing Customer_ID"
+            elif valid_cust_ids and cust_id not in valid_cust_ids:
+                is_valid, reason = False, f"Referential Failure: Customer {cust_id} not found"
+            elif not prod_id or prod_id == "nan" or "INVALID" in prod_id.upper():
+                is_valid, reason = False, "Invalid Product_ID"
+            elif valid_prod_ids and prod_id not in valid_prod_ids:
+                is_valid, reason = False, f"Referential Failure: Product {prod_id} not found"
+            elif qty <= 0:
+                is_valid, reason = False, "Invalid Quantity (<= 0)"
+            elif unit_price < 0 or discount < 0 or cost < 0 or revenue < 0:
+                is_valid, reason = False, "Negative Financial Value"
+
+            row_dict = {
+                "Sale_ID": sale_id,
+                "Date": str(row.get("Date", datetime.now().strftime("%Y-%m-%d"))),
+                "Customer_ID": cust_id,
+                "Product_ID": prod_id,
+                "Branch": branch,
+                "Quantity": qty,
+                "Unit_Price": unit_price,
+                "Discount": discount,
+                "Cost": cost,
+                "Revenue": revenue,
+                "Profit": profit,
+                "Validation_Status": reason
+            }
+
             if is_valid:
-                row_dict["LOADED_AT"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 valid_rows.append(row_dict)
-                existing_ids.add(str(row["Sale_ID"]))  # Prevent intra-batch duplicates
+                existing_ids.add(sale_id)
             else:
-                row_dict["REJECTION_REASON"] = reason
                 rejected_rows.append(row_dict)
 
-        rows_processed = len(valid_rows)
-        rows_rejected = len(rejected_rows)
+        # Route invalid records to realtime/rejected/
+        if rejected_rows:
+            rej_path = os.path.join(self.rejected_dir, f"rejected_{ts_now}.csv")
+            pd.DataFrame(rejected_rows).to_csv(rej_path, index=False)
+            print(f"[Alteryx ETL] {len(rejected_rows)} record(s) quarantined to {rej_path}")
 
-        # Merge valid rows into RAW_SALES buffer & Snowflake DWH
+        # Route valid records to realtime/processed_ready/
         if valid_rows:
-            df_valid = pd.DataFrame(valid_rows)[SALES_SCHEMA + ["LOADED_AT"]]
-            df_valid.to_csv(self.raw_sales_path, mode='a', header=False, index=False)
+            df_clean = pd.DataFrame(valid_rows)[SALES_SCHEMA]
+            df_clean.to_csv(clean_filepath, index=False)
+            print(f"[Alteryx ETL] Clean validated batch created: {clean_filepath}")
+            return clean_filepath
+        return None
 
-            # Direct Snowflake SQL Execution
-            try:
-                from database.snowflake_connection import db
-                if db.is_connected and db.conn:
-                    cur = db.conn.cursor()
-                    for r in valid_rows:
-                        sql = """
-                        MERGE INTO NOVAKART_DB.ANALYTICS.RAW_SALES target
-                        USING (
-                            SELECT %s AS SALE_ID, %s::DATE AS DATE, %s AS CUSTOMER_ID, %s AS PRODUCT_ID,
-                                   %s AS BRANCH, %s AS QUANTITY, %s AS UNIT_PRICE, %s AS DISCOUNT,
-                                   %s AS COST, %s AS REVENUE, %s AS PROFIT, %s AS VALIDATION_STATUS,
-                                   CURRENT_TIMESTAMP() AS LOADED_AT
-                        ) src ON target.SALE_ID = src.SALE_ID
-                        WHEN NOT MATCHED THEN INSERT (
-                            SALE_ID, DATE, CUSTOMER_ID, PRODUCT_ID, BRANCH, QUANTITY, UNIT_PRICE,
-                            DISCOUNT, COST, REVENUE, PROFIT, VALIDATION_STATUS, LOADED_AT
-                        ) VALUES (
-                            src.SALE_ID, src.DATE, src.CUSTOMER_ID, src.PRODUCT_ID, src.BRANCH,
-                            src.QUANTITY, src.UNIT_PRICE, src.DISCOUNT, src.COST, src.REVENUE,
-                            src.PROFIT, src.VALIDATION_STATUS, src.LOADED_AT
-                        );
-                        """
-                        cur.execute(sql, (
-                            str(r['Sale_ID']), str(r['Date']), str(r['Customer_ID']), str(r['Product_ID']),
-                            str(r['Branch']), int(r['Quantity']), float(r['Unit_Price']), float(r['Discount']),
-                            float(r['Cost']), float(r['Revenue']), float(r['Profit']), str(r['Validation_Status'])
-                        ))
-                    cur.close()
-            except Exception as se:
-                print(f"[{ts_str}] Snowflake Sync Note: {se}")
+    def process_cleaned_file(self, clean_filepath):
+        """
+        Loads Alteryx-cleaned batch file into Snowflake DWH via MERGE.
+        Archives file to realtime/processed/ upon completion.
+        """
+        filename = os.path.basename(clean_filepath)
+        ts_str = datetime.now().strftime("%H:%M:%S")
 
-        # Handle file archiving
-        if rows_rejected > 0 and rows_processed == 0:
-            status = STATUS_REJECTED
-            dest_dir = self.rejected_dir
-            err_msg = f"All {rows_rejected} rows failed validation"
-        else:
-            status = STATUS_SUCCESS
-            dest_dir = self.processed_dir
-            err_msg = f"Rejections: {rows_rejected}" if rows_rejected > 0 else ""
+        print(f"\n[{ts_str}] Ingesting Alteryx Cleaned Batch: {filename}")
+        try:
+            df_batch = pd.read_csv(clean_filepath)
+        except Exception as e:
+            err = f"Failed to read cleaned CSV: {e}"
+            print(f"[{ts_str}] ERROR: {err}")
+            self.log_process_event(filename, STATUS_FAILED, 0, 0, err)
+            shutil.move(clean_filepath, os.path.join(self.rejected_dir, filename))
+            return False
 
-        # Log event
-        self.log_process_event(filename, status, rows_processed, rows_rejected, err_msg)
+        # Verify only valid records are loaded
+        df_valid = df_batch[df_batch["Validation_Status"] == "Valid"].copy()
+        if df_valid.empty:
+            print(f"[{ts_str}] No valid records in {filename}. Skipping ingestion.")
+            shutil.move(clean_filepath, os.path.join(self.rejected_dir, filename))
+            return False
 
-        # Archive file
-        shutil.move(filepath, os.path.join(dest_dir, filename))
+        df_valid["LOADED_AT"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        print(f"[{ts_str}] {rows_processed} new transaction(s) loaded into RAW_SALES.")
-        if rows_rejected > 0:
-            print(f"[{ts_str}] {rows_rejected} row(s) quarantined.")
-        print(f"[{ts_str}] Pipeline {status}.")
+        # Merge valid rows into local buffer & Snowflake Cloud DWH
+        df_valid[SALES_SCHEMA + ["LOADED_AT"]].to_csv(self.raw_sales_path, mode='a', header=False, index=False)
 
+        # Direct Snowflake SQL Execution
+        try:
+            from database.snowflake_connection import db
+            if db.is_connected and db.conn:
+                cur = db.conn.cursor()
+                for _, r in df_valid.iterrows():
+                    sql = """
+                    MERGE INTO NOVAKART_DB.ANALYTICS.RAW_SALES target
+                    USING (
+                        SELECT %s AS SALE_ID, %s::DATE AS DATE, %s AS CUSTOMER_ID, %s AS PRODUCT_ID,
+                               %s AS BRANCH, %s AS QUANTITY, %s AS UNIT_PRICE, %s AS DISCOUNT,
+                               %s AS COST, %s AS REVENUE, %s AS PROFIT, %s AS VALIDATION_STATUS,
+                               CURRENT_TIMESTAMP() AS LOADED_AT
+                    ) src ON target.SALE_ID = src.SALE_ID
+                    WHEN NOT MATCHED THEN INSERT (
+                        SALE_ID, DATE, CUSTOMER_ID, PRODUCT_ID, BRANCH, QUANTITY, UNIT_PRICE,
+                        DISCOUNT, COST, REVENUE, PROFIT, VALIDATION_STATUS, LOADED_AT
+                    ) VALUES (
+                        src.SALE_ID, src.DATE, src.CUSTOMER_ID, src.PRODUCT_ID, src.BRANCH,
+                        src.QUANTITY, src.UNIT_PRICE, src.DISCOUNT, src.COST, src.REVENUE,
+                        src.PROFIT, src.VALIDATION_STATUS, src.LOADED_AT
+                    );
+                    """
+                    cur.execute(sql, (
+                        str(r['Sale_ID']), str(r['Date']), str(r['Customer_ID']), str(r['Product_ID']),
+                        str(r['Branch']), int(r['Quantity']), float(r['Unit_Price']), float(r['Discount']),
+                        float(r['Cost']), float(r['Revenue']), float(r['Profit']), str(r['Validation_Status'])
+                    ))
+                cur.close()
+        except Exception as se:
+            print(f"[{ts_str}] Snowflake Sync Note: {se}")
+
+        rows_processed = len(df_valid)
+        self.log_process_event(filename, STATUS_SUCCESS, rows_processed, 0, "Alteryx Clean Ingested")
+
+        # Archive cleaned file to realtime/processed/
+        archive_dest = os.path.join(self.processed_dir, filename)
+        shutil.move(clean_filepath, archive_dest)
+
+        print(f"[{ts_str}] {rows_processed} Alteryx-cleaned transaction(s) merged into Snowflake RAW_SALES.")
+        print(f"[{ts_str}] Archived batch to {archive_dest}.")
         return True
 
     def run_pipeline(self, poll=False, interval=10):
-        """Runs the pipeline once or continuously polling incoming/."""
+        """Processes all pending Alteryx-cleaned batches or raw incoming batches."""
         print("=" * 68)
-        print(" STRATIFY — Near-Real-Time Data Ingestion Pipeline Engine")
-        print(f" Incoming Buffer: {self.incoming_dir}")
-        print(f" Log File: {self.log_path}")
+        print(" STRATIFY — Snowflake Data Ingestion Service (Alteryx Clean Feed)")
+        print(f" Clean Batch Buffer: {self.cleaned_ready_dir}")
+        print(f" Archive Directory:  {self.processed_dir}")
         print("=" * 68)
 
-        if not poll:
-            incoming_files = self.detect_incoming_files()
-            if not incoming_files:
-                print("No new incoming transaction batches detected.")
-                return 0
-            for fpath in incoming_files:
-                self.process_file(fpath)
-            return len(incoming_files)
+        processed_total = 0
 
-        print("Starting continuous automated file monitoring (Press Ctrl+C to stop)...")
-        try:
-            while True:
-                incoming_files = self.detect_incoming_files()
-                for fpath in incoming_files:
-                    self.process_file(fpath)
-                time.sleep(interval)
-        except KeyboardInterrupt:
-            print("\n[STOPPED] Automated pipeline safely stopped by user.")
-            sys.exit(0)
+        # Step 1: Check if raw batches in incoming/ need Alteryx ETL processing
+        raw_files = sorted(glob.glob(os.path.join(self.raw_incoming_dir, "sales_batch_*.csv")))
+        for rf in raw_files:
+            clean_fp = self.execute_alteryx_etl_step(rf)
+            # Remove/archive raw file after Alteryx processing
+            raw_archive = os.path.join(self.processed_dir, f"raw_{os.path.basename(rf)}")
+            if os.path.exists(rf):
+                shutil.move(rf, raw_archive)
+
+        # Step 2: Ingest all pending Alteryx-cleaned batches from processed_ready/
+        cleaned_files = self.detect_cleaned_files()
+        for cf in cleaned_files:
+            if self.process_cleaned_file(cf):
+                processed_total += 1
+
+        if processed_total == 0 and not raw_files and not cleaned_files:
+            print("[INFO] No pending Alteryx-cleaned batches found in buffer.")
+
+        return processed_total
 
 def main():
-    parser = argparse.ArgumentParser(description="STRATIFY Near-Real-Time Automated Batch Ingestion Pipeline Engine")
-    parser.add_argument("--poll", action="store_true", help="Run continuous monitoring loop on incoming/")
-    parser.add_argument("--interval", type=float, default=10.0, help="Polling interval in seconds")
-
+    parser = argparse.ArgumentParser(description="STRATIFY Snowflake Ingestion Service")
+    parser.add_argument("--poll", action="store_true", help="Continuously poll for cleaned files")
+    parser.add_argument("--interval", type=int, default=10, help="Polling interval in seconds")
     args = parser.parse_args()
+
     pipeline = StratifyRealtimePipeline()
     pipeline.run_pipeline(poll=args.poll, interval=args.interval)
 

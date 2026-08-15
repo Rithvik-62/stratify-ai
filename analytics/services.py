@@ -185,12 +185,13 @@ class PipelineService:
 
     @staticmethod
     def get_pipeline_counts():
-        """Returns file counts for incoming, processed, and rejected batch folders."""
+        """Returns file counts for incoming, cleaned (ready), processed, and rejected batch folders."""
         root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         inc = len(glob.glob(os.path.join(root_dir, "realtime", "incoming", "*.csv")))
+        ready = len(glob.glob(os.path.join(root_dir, "realtime", "processed_ready", "*.csv")))
         proc = len(glob.glob(os.path.join(root_dir, "realtime", "processed", "*.csv")))
         rej = len(glob.glob(os.path.join(root_dir, "realtime", "rejected", "*.csv")))
-        return {"incoming": inc, "processed": proc, "rejected": rej}
+        return {"incoming": inc, "cleaned_ready": ready, "processed": proc, "rejected": rej}
 
     @staticmethod
     def get_event_logs():

@@ -16,14 +16,17 @@ _datasets_secondary = PROJECT_ROOT / "Output"
 SOURCE_DATA_DIR = _datasets_primary if (_datasets_primary.exists() and (primary_csv := _datasets_primary / "sales_clean.csv").exists()) else _datasets_secondary
 
 # Realtime Data Pipeline Directories
-INCOMING_DIR = REALTIME_DIR / "incoming"
-PROCESSED_DIR = REALTIME_DIR / "processed"
-REJECTED_DIR = REALTIME_DIR / "rejected"
+INCOMING_DIR = REALTIME_DIR / "incoming"               # Raw generated batches
+PROCESSED_READY_DIR = REALTIME_DIR / "processed_ready" # Cleaned & validated by Alteryx
+CLEANED_DIR = PROCESSED_READY_DIR                      # Alias for Alteryx clean output
+PROCESSED_DIR = REALTIME_DIR / "processed"             # Archived after Snowflake ingestion
+REJECTED_DIR = REALTIME_DIR / "rejected"               # Quarantined invalid batches
 LOGS_DIR = REALTIME_DIR / "logs"
 PROCESSING_LOG_PATH = LOGS_DIR / "processing_log.csv"
 
 # Ensure Pipeline Directories Exist
 INCOMING_DIR.mkdir(parents=True, exist_ok=True)
+PROCESSED_READY_DIR.mkdir(parents=True, exist_ok=True)
 PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 REJECTED_DIR.mkdir(parents=True, exist_ok=True)
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
