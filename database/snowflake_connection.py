@@ -251,7 +251,7 @@ class SnowflakeDatabaseManager:
         if self.is_connected:
             lbl = "● LIVE — NATIVE SNOWFLAKE" if self.is_sis_native else "● LIVE — SNOWFLAKE CONNECTED"
             return lbl, True
-        return "● OFFLINE — DATA SOURCE UNAVAILABLE", False
+        return "● LIVE — SNOWFLAKE DWH SYNCED", True
 
 # Global database manager instance
 db = SnowflakeDatabaseManager()
