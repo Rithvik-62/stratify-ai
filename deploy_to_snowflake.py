@@ -41,16 +41,17 @@ def deploy_streamlit_to_snowflake():
         cursor.execute(f"PUT 'file://{env_yml_path}' @NOVAKART_DB.ANALYTICS.STRATIFY_APP_STAGE AUTO_COMPRESS=FALSE OVERWRITE=TRUE")
         print("  [OK] Uploaded app.py and environment.yml to root stage.")
 
-        # Upload sub-packages (database, components, ai, reports, uipath)
-        subdirs = ["database", "components", "ai", "reports", "uipath"]
+        # Upload sub-packages (database, analytics, components, ai, reports, uipath, Output)
+        subdirs = ["database", "analytics", "components", "ai", "reports", "uipath", "Output"]
         for sub in subdirs:
             sub_path = os.path.join(root_dir, sub)
             if os.path.exists(sub_path):
-                py_files = glob.glob(os.path.join(sub_path, "*.py"))
-                for py_f in py_files:
-                    clean_py_f = py_f.replace("\\", "/")
-                    cursor.execute(f"PUT 'file://{clean_py_f}' @NOVAKART_DB.ANALYTICS.STRATIFY_APP_STAGE/{sub}/ AUTO_COMPRESS=FALSE OVERWRITE=TRUE")
-                print(f"  [OK] Uploaded {len(py_files)} file(s) from {sub}/ to stage.")
+                files = glob.glob(os.path.join(sub_path, "*.*"))
+                for f in files:
+                    if f.endswith(".py") or f.endswith(".csv"):
+                        clean_f = f.replace("\\", "/")
+                        cursor.execute(f"PUT 'file://{clean_f}' @NOVAKART_DB.ANALYTICS.STRATIFY_APP_STAGE/{sub}/ AUTO_COMPRESS=FALSE OVERWRITE=TRUE")
+                print(f"  [OK] Uploaded {len(files)} file(s) from {sub}/ to stage.")
 
         # 3. Create Native Streamlit Object in Snowflake
         print("[3/4] Registering Native Streamlit in Snowflake (SiS) App Object...")
