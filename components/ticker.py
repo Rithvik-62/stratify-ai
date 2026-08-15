@@ -19,9 +19,11 @@ def render_realtime_ticker(sales_df, is_live=True, smtp_ready=True):
         rev_col = 'REVENUE' if 'REVENUE' in sales_df.columns else 'Revenue'
         branch_col = 'BRANCH' if 'BRANCH' in sales_df.columns else 'Branch'
         
-        last_row = sales_df.iloc[-1]
+        # Sort newest first
+        sorted_df = sales_df.sort_values(by=id_col, ascending=False).copy()
+        last_row = sorted_df.iloc[0]
         latest_sale = str(last_row.get(id_col, latest_sale))
-        latest_amt = f"₹{float(last_row.get(rev_col, 15065.18)):,.2f}"
+        latest_amt = f"₹{float(last_row.get(rev_col, 0.0)):,.2f}"
         latest_branch = str(last_row.get(branch_col, latest_branch))
 
     st.markdown(f"""
