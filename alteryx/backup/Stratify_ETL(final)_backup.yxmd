@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0"?>
 <AlteryxDocument yxmdVer="2025.2" RunE2="T">
   <Nodes>
     <Node ToolID="1">
@@ -123,7 +123,7 @@ Query=`Sheet1$`</DefaultAnnotationText>
           <Properties>
             <Configuration>
               <FormulaFields>
-                <FormulaField expression="IF IsNull([Phone])&#10;OR Length(Trim([Phone])) != 10&#10;OR !Contains(&quot;6789&quot;, Left(Trim([Phone]),1)) THEN&#10;    &quot;Invalid Phone&quot;&#10;&#10;ELSEIF IsNull([Email])&#10;OR Trim([Email]) = &quot;&quot; THEN&#10;    &quot;Missing Email&quot;&#10;&#10;ELSEIF !Contains([Email], &quot;@&quot;) THEN&#10;    &quot;Invalid Email&quot;&#10;&#10;ELSEIF IsNull([Age])&#10;OR [Age] &lt; 18&#10;OR [Age] &gt; 80 THEN&#10;    &quot;Invalid Age&quot;&#10;&#10;ELSEIF IsNull([Pincode])&#10;OR Length(Trim([Pincode])) != 6 THEN&#10;    &quot;Invalid Pincode&quot;&#10;&#10;ELSEIF [Country] != &quot;India&quot; THEN&#10;    &quot;Invalid Country&quot;&#10;&#10;ELSEIF [Customer_Segment] != &quot;Retail&quot;&#10;AND [Customer_Segment] != &quot;Corporate&quot;&#10;AND [Customer_Segment] != &quot;Wholesale&quot; THEN&#10;    &quot;Invalid Segment&quot;&#10;&#10;ELSEIF [Loyalty_Status] != &quot;Silver&quot;&#10;AND [Loyalty_Status] != &quot;Gold&quot;&#10;AND [Loyalty_Status] != &quot;Platinum&quot; THEN&#10;    &quot;Invalid Loyalty&quot;&#10;&#10;ELSE&#10;    &quot;Valid&quot;&#10;ENDIF" field="Validation_Status" size="50" type="WString" />
+                <FormulaField expression="IF IsNull([Phone])&#xA;OR Length(Trim([Phone])) != 10&#xA;OR !Contains(&quot;6789&quot;, Left(Trim([Phone]),1)) THEN&#xA;    &quot;Invalid Phone&quot;&#xA;&#xA;ELSEIF IsNull([Email])&#xA;OR Trim([Email]) = &quot;&quot; THEN&#xA;    &quot;Missing Email&quot;&#xA;&#xA;ELSEIF !Contains([Email], &quot;@&quot;) THEN&#xA;    &quot;Invalid Email&quot;&#xA;&#xA;ELSEIF IsNull([Age])&#xA;OR [Age] &lt; 18&#xA;OR [Age] &gt; 80 THEN&#xA;    &quot;Invalid Age&quot;&#xA;&#xA;ELSEIF IsNull([Pincode])&#xA;OR Length(Trim([Pincode])) != 6 THEN&#xA;    &quot;Invalid Pincode&quot;&#xA;&#xA;ELSEIF [Country] != &quot;India&quot; THEN&#xA;    &quot;Invalid Country&quot;&#xA;&#xA;ELSEIF [Customer_Segment] != &quot;Retail&quot;&#xA;AND [Customer_Segment] != &quot;Corporate&quot;&#xA;AND [Customer_Segment] != &quot;Wholesale&quot; THEN&#xA;    &quot;Invalid Segment&quot;&#xA;&#xA;ELSEIF [Loyalty_Status] != &quot;Silver&quot;&#xA;AND [Loyalty_Status] != &quot;Gold&quot;&#xA;AND [Loyalty_Status] != &quot;Platinum&quot; THEN&#xA;    &quot;Invalid Loyalty&quot;&#xA;&#xA;ELSE&#xA;    &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="WString" />
               </FormulaFields>
             </Configuration>
             <Annotation DisplayMode="0">
@@ -187,7 +187,7 @@ OR !Contai...</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <File MaxRecords="" FileFormat="0">D:\stratify-ai\realtime\rejected\invalid_customer.csv</File>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_customer.csv</File>
               <Passwords />
               <Disable>False</Disable>
               <FormatSpecificOptions>
@@ -388,8 +388,8 @@ Query=`Sheet1$`</DefaultAnnotationText>
                 <SelectField field="Product_Name" selected="True" type="WString" size="150" />
                 <SelectField field="Category" selected="True" type="WString" size="50" />
                 <SelectField field="Brand" selected="True" type="WString" size="50" />
-                <SelectField field="Cost_Price" selected="True" type="Double" size="8" />
-                <SelectField field="Selling_Price" selected="True" type="Double" size="8" />
+                <SelectField field="Cost_Price" selected="True" />
+                <SelectField field="Selling_Price" selected="True" />
                 <SelectField field="Supplier_ID" selected="True" />
                 <SelectField field="GST_Percentage" selected="True" type="Double" size="8" />
                 <SelectField field="GST" selected="False" type="Int32" size="4" />
@@ -452,7 +452,7 @@ Category = T...</DefaultAnnotationText>
           <Properties>
             <Configuration>
               <FormulaFields>
-                <FormulaField expression="IF IsNull([Product_ID]) OR Trim([Product_ID]) == &quot;&quot; THEN&#10;    &quot;Missing Product ID&quot;&#10;&#10;ELSEIF IsNull([Product_Name]) OR Trim([Product_Name]) == &quot;&quot; THEN&#10;    &quot;Missing Product Name&quot;&#10;&#10;ELSEIF IsNull([Category]) OR Trim([Category]) == &quot;&quot; THEN&#10;    &quot;Missing Category&quot;&#10;&#10;ELSEIF IsNull([Brand]) OR Trim([Brand]) == &quot;&quot; THEN&#10;    &quot;Missing Brand&quot;&#10;&#10;ELSEIF IsNull([Cost_Price]) OR IsNull([Selling_Price]) THEN&#10;    &quot;Missing Price&quot;&#10;&#10;ELSEIF [Cost_Price] &lt;= 0 OR [Selling_Price] &lt;= 0 THEN&#10;    &quot;Invalid Price&quot;&#10;&#10;ELSEIF [Selling_Price] &lt;= [Cost_Price] THEN&#10;    &quot;Invalid Price&quot;&#10;&#10;ELSEIF IsNull([GST_Percentage]) THEN&#10;    &quot;Missing GST&quot;&#10;&#10;ELSEIF [GST_Percentage] != 5&#10;AND [GST_Percentage] != 12&#10;AND [GST_Percentage] != 18&#10;AND [GST_Percentage] != 28 THEN&#10;    &quot;Invalid GST&quot;&#10;&#10;ELSE&#10;    &quot;Valid&quot;&#10;ENDIF" field="Validation_Status" size="50" type="V_String" />
+                <FormulaField expression="IF IsNull([Product_ID]) OR Trim([Product_ID]) == &quot;&quot; THEN&#xA;    &quot;Missing Product ID&quot;&#xA;&#xA;ELSEIF IsNull([Product_Name]) OR Trim([Product_Name]) == &quot;&quot; THEN&#xA;    &quot;Missing Product Name&quot;&#xA;&#xA;ELSEIF IsNull([Category]) OR Trim([Category]) == &quot;&quot; THEN&#xA;    &quot;Missing Category&quot;&#xA;&#xA;ELSEIF IsNull([Brand]) OR Trim([Brand]) == &quot;&quot; THEN&#xA;    &quot;Missing Brand&quot;&#xA;&#xA;ELSEIF IsNull([Cost_Price]) OR IsNull([Selling_Price]) THEN&#xA;    &quot;Missing Price&quot;&#xA;&#xA;ELSEIF [Cost_Price] &lt;= 0 OR [Selling_Price] &lt;= 0 THEN&#xA;    &quot;Invalid Price&quot;&#xA;&#xA;ELSEIF [Selling_Price] &lt;= [Cost_Price] THEN&#xA;    &quot;Invalid Price&quot;&#xA;&#xA;ELSEIF IsNull([GST_Percentage]) THEN&#xA;    &quot;Missing GST&quot;&#xA;&#xA;ELSEIF [GST_Percentage] != 5&#xA;AND [GST_Percentage] != 12&#xA;AND [GST_Percentage] != 18&#xA;AND [GST_Percentage] != 28 THEN&#xA;    &quot;Invalid GST&quot;&#xA;&#xA;ELSE&#xA;    &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="V_String" />
               </FormulaFields>
             </Configuration>
             <Annotation DisplayMode="0">
@@ -515,7 +515,7 @@ Category = T...</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <File MaxRecords="" FileFormat="0">D:\stratify-ai\realtime\rejected\invalid_product.csv</File>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_product.csv</File>
               <Passwords />
               <Disable>False</Disable>
               <FormatSpecificOptions>
@@ -643,7 +643,7 @@ Category = T...</DefaultAnnotationText>
           <Properties>
             <Configuration>
               <Passwords />
-              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">D:\stratify-ai\datasets\Inventory.xlsx|||`Sheet1$`</File>
+              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">.\datasets\Inventory.xlsx|||`Sheet1$`</File>
               <FormatSpecificOptions>
                 <FirstRowData>False</FirstRowData>
                 <ImportLine>1</ImportLine>
@@ -701,8 +701,8 @@ Query=`Sheet1$`</DefaultAnnotationText>
           <Properties>
             <Configuration>
               <FormulaFields>
-                <FormulaField expression="IF [Current_Stock] &lt;= [Minimum_Stock] THEN &quot;Critical&quot;&#10;ELSEIF [Current_Stock] &lt;= ([Minimum_Stock] * 1.5) THEN &quot;Low Stock&quot;&#10;ELSEIF [Current_Stock] &gt;= [Maximum_Stock] THEN &quot;Overstock&quot;&#10;ELSE &quot;Healthy&quot;&#10;ENDIF" field="Stock_Status" size="50" type="WString" />
-                <FormulaField expression="IF IsNull([Inventory_ID]) OR Trim([Inventory_ID]) == &quot;&quot; THEN&#10;    &quot;Missing Inventory ID&quot;&#10;&#10;ELSEIF IsNull([Product_ID]) OR Trim([Product_ID]) == &quot;&quot; THEN&#10;    &quot;Missing Product ID&quot;&#10;&#10;ELSEIF IsNull([Warehouse]) OR Trim([Warehouse]) == &quot;&quot; THEN&#10;    &quot;Missing Warehouse&quot;&#10;&#10;ELSEIF IsNull([Current_Stock]) THEN&#10;    &quot;Missing Current Stock&quot;&#10;&#10;ELSEIF IsNull([Minimum_Stock]) OR IsNull([Maximum_Stock]) THEN&#10;    &quot;Missing Stock Threshold&quot;&#10;&#10;ELSEIF [Current_Stock] &lt; 0 THEN&#10;    &quot;Negative Stock&quot;&#10;&#10;ELSEIF [Minimum_Stock] &lt; 0 OR [Maximum_Stock] &lt; 0 THEN&#10;    &quot;Negative Threshold&quot;&#10;&#10;ELSEIF [Maximum_Stock] &lt;= [Minimum_Stock] THEN&#10;    &quot;Invalid Thresholds&quot;&#10;&#10;ELSEIF [Current_Stock] &gt; [Maximum_Stock] THEN&#10;    &quot;Stock Above Maximum&quot;&#10;&#10;ELSE&#10;    &quot;Valid&quot;&#10;ENDIF" field="Validation_Status" size="50" type="V_String" />
+                <FormulaField expression="IF [Current_Stock] &lt;= [Minimum_Stock] THEN &quot;Critical&quot;&#xA;ELSEIF [Current_Stock] &lt;= ([Minimum_Stock] * 1.5) THEN &quot;Low Stock&quot;&#xA;ELSEIF [Current_Stock] &gt;= [Maximum_Stock] THEN &quot;Overstock&quot;&#xA;ELSE &quot;Healthy&quot;&#xA;ENDIF" field="Stock_Status" size="50" type="WString" />
+                <FormulaField expression="IF IsNull([Inventory_ID]) OR Trim([Inventory_ID]) == &quot;&quot; THEN&#xA;    &quot;Missing Inventory ID&quot;&#xA;&#xA;ELSEIF IsNull([Product_ID]) OR Trim([Product_ID]) == &quot;&quot; THEN&#xA;    &quot;Missing Product ID&quot;&#xA;&#xA;ELSEIF IsNull([Warehouse]) OR Trim([Warehouse]) == &quot;&quot; THEN&#xA;    &quot;Missing Warehouse&quot;&#xA;&#xA;ELSEIF IsNull([Current_Stock]) THEN&#xA;    &quot;Missing Current Stock&quot;&#xA;&#xA;ELSEIF IsNull([Minimum_Stock]) OR IsNull([Maximum_Stock]) THEN&#xA;    &quot;Missing Stock Threshold&quot;&#xA;&#xA;ELSEIF [Current_Stock] &lt; 0 THEN&#xA;    &quot;Negative Stock&quot;&#xA;&#xA;ELSEIF [Minimum_Stock] &lt; 0 OR [Maximum_Stock] &lt; 0 THEN&#xA;    &quot;Negative Threshold&quot;&#xA;&#xA;ELSEIF [Maximum_Stock] &lt;= [Minimum_Stock] THEN&#xA;    &quot;Invalid Thresholds&quot;&#xA;&#xA;ELSEIF [Current_Stock] &gt; [Maximum_Stock] THEN&#xA;    &quot;Stock Above Maximum&quot;&#xA;&#xA;ELSE&#xA;    &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="V_String" />
               </FormulaFields>
             </Configuration>
             <Annotation DisplayMode="0">
@@ -765,7 +765,7 @@ ELSEIF [Cur...</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <File MaxRecords="" FileFormat="0">D:\stratify-ai\realtime\rejected\invalid_inventory.csv</File>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_inventory.csv</File>
               <Passwords />
               <Disable>False</Disable>
               <FormatSpecificOptions>
@@ -927,7 +927,7 @@ ELSEIF [Cur...</DefaultAnnotationText>
           <Properties>
             <Configuration>
               <Passwords />
-              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">D:\stratify-ai\datasets\Employees.xlsx|||`Sheet1$`</File>
+              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">.\datasets\Employees.xlsx|||`Sheet1$`</File>
               <FormatSpecificOptions>
                 <FirstRowData>False</FirstRowData>
                 <ImportLine>1</ImportLine>
@@ -965,7 +965,7 @@ Query=`Sheet1$`</DefaultAnnotationText>
                 <SelectField field="Name" selected="True" type="WString" size="100" />
                 <SelectField field="Department" selected="True" type="WString" size="50" />
                 <SelectField field="Role" selected="True" type="WString" size="50" />
-                <SelectField field="Salary" selected="True" type="Double" size="8" />
+                <SelectField field="Salary" selected="True" />
                 <SelectField field="Performance_Score" selected="True" type="Int32" size="4" />
                 <SelectField field="*Unknown" selected="False" />
               </SelectFields>
@@ -985,7 +985,7 @@ Query=`Sheet1$`</DefaultAnnotationText>
           <Properties>
             <Configuration>
               <FormulaFields>
-                <FormulaField expression="IF IsNull([Salary]) OR [Salary] &lt;= 0 THEN&#10;    &quot;Invalid Salary&quot;&#10;&#10;ELSEIF IsNull([Performance_Score])&#10;OR [Performance_Score] &lt; 1&#10;OR [Performance_Score] &gt; 5 THEN&#10;    &quot;Invalid Performance Score&quot;&#10;&#10;ELSEIF IsNull([Department])&#10;OR Trim([Department]) = &quot;&quot; THEN&#10;    &quot;Missing Department&quot;&#10;&#10;ELSEIF [Department] != &quot;Sales&quot;&#10;AND [Department] != &quot;Finance&quot;&#10;AND [Department] != &quot;HR&quot;&#10;AND [Department] != &quot;IT&quot;&#10;AND [Department] != &quot;Marketing&quot;&#10;AND [Department] != &quot;Operations&quot;&#10;AND [Department] != &quot;Management&quot; THEN&#10;    &quot;Invalid Department&quot;&#10;&#10;ELSE&#10;    &quot;Valid&quot;&#10;ENDIF" field="Validation_Status" size="50" type="WString" />
+                <FormulaField expression="IF IsNull([Salary]) OR [Salary] &lt;= 0 THEN&#xA;    &quot;Invalid Salary&quot;&#xA;&#xA;ELSEIF IsNull([Performance_Score])&#xA;OR [Performance_Score] &lt; 1&#xA;OR [Performance_Score] &gt; 5 THEN&#xA;    &quot;Invalid Performance Score&quot;&#xA;&#xA;ELSEIF IsNull([Department])&#xA;OR Trim([Department]) = &quot;&quot; THEN&#xA;    &quot;Missing Department&quot;&#xA;&#xA;ELSEIF [Department] != &quot;Sales&quot;&#xA;AND [Department] != &quot;Finance&quot;&#xA;AND [Department] != &quot;HR&quot;&#xA;AND [Department] != &quot;IT&quot;&#xA;AND [Department] != &quot;Marketing&quot;&#xA;AND [Department] != &quot;Operations&quot;&#xA;AND [Department] != &quot;Management&quot; THEN&#xA;    &quot;Invalid Department&quot;&#xA;&#xA;ELSE&#xA;    &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="WString" />
               </FormulaFields>
             </Configuration>
             <Annotation DisplayMode="0">
@@ -1048,7 +1048,7 @@ Query=`Sheet1$`</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <File MaxRecords="" FileFormat="0">D:\stratify-ai\realtime\rejected\invalid_employee.csv</File>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_employee.csv</File>
               <Passwords />
               <Disable>False</Disable>
               <FormatSpecificOptions>
@@ -1199,7 +1199,7 @@ Query=`Sheet1$`</DefaultAnnotationText>
           <Properties>
             <Configuration>
               <Passwords />
-              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">D:\stratify-ai\datasets\Finance.xlsx|||`Sheet1$`</File>
+              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">.\datasets\Finance.xlsx|||`Sheet1$`</File>
               <FormatSpecificOptions>
                 <FirstRowData>False</FirstRowData>
                 <ImportLine>1</ImportLine>
@@ -1236,9 +1236,9 @@ Query=`Sheet1$`</DefaultAnnotationText>
                 <SelectField field="Transaction_ID" selected="True" type="WString" size="50" />
                 <SelectField field="Date" selected="True" type="Date" size="10" />
                 <SelectField field="Department" selected="True" type="WString" size="50" />
-                <SelectField field="Revenue" selected="True" type="Double" size="8" />
-                <SelectField field="Expenses" selected="True" type="Double" size="8" />
-                <SelectField field="Tax" selected="True" type="Double" size="8" />
+                <SelectField field="Revenue" selected="True" />
+                <SelectField field="Expenses" selected="True" />
+                <SelectField field="Tax" selected="True" />
                 <SelectField field="*Unknown" selected="False" />
               </SelectFields>
             </Configuration>
@@ -1259,7 +1259,7 @@ Query=`Sheet1$`</DefaultAnnotationText>
               <FormulaFields>
                 <FormulaField expression="[Revenue] - [Expenses]" field="Profit" size="8" type="Double" />
                 <FormulaField expression="[Revenue] - [Expenses] - [Tax]" field="Net_Profit" size="8" type="Double" />
-                <FormulaField expression="IF IsNull([Revenue]) OR [Revenue] &lt;= 0 THEN&#10;    &quot;Invalid Revenue&quot;&#10;&#10;ELSEIF IsNull([Expenses]) OR [Expenses] &lt; 0 THEN&#10;    &quot;Invalid Expenses&quot;&#10;&#10;ELSEIF IsNull([Tax]) OR [Tax] &lt; 0 THEN&#10;    &quot;Invalid Tax&quot;&#10;&#10;ELSEIF IsNull([Department]) OR Trim([Department]) = &quot;&quot; THEN&#10;    &quot;Missing Department&quot;&#10;&#10;ELSEIF IsNull([Date]) THEN&#10;    &quot;Missing Date&quot;&#10;&#10;ELSE&#10;    &quot;Valid&quot;&#10;ENDIF" field="Validation_Status" size="50" type="WString" />
+                <FormulaField expression="IF IsNull([Revenue]) OR [Revenue] &lt;= 0 THEN&#xA;    &quot;Invalid Revenue&quot;&#xA;&#xA;ELSEIF IsNull([Expenses]) OR [Expenses] &lt; 0 THEN&#xA;    &quot;Invalid Expenses&quot;&#xA;&#xA;ELSEIF IsNull([Tax]) OR [Tax] &lt; 0 THEN&#xA;    &quot;Invalid Tax&quot;&#xA;&#xA;ELSEIF IsNull([Department]) OR Trim([Department]) = &quot;&quot; THEN&#xA;    &quot;Missing Department&quot;&#xA;&#xA;ELSEIF IsNull([Date]) THEN&#xA;    &quot;Missing Date&quot;&#xA;&#xA;ELSE&#xA;    &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="WString" />
               </FormulaFields>
             </Configuration>
             <Annotation DisplayMode="0">
@@ -1323,7 +1323,7 @@ Vali...</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <File MaxRecords="" FileFormat="0">D:\stratify-ai\realtime\rejected\invalid_finance.csv</File>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_finance.csv</File>
               <Passwords />
               <Disable>False</Disable>
               <FormatSpecificOptions>
@@ -1474,8 +1474,12 @@ Vali...</DefaultAnnotationText>
           <Properties>
             <Configuration>
               <Passwords />
-              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="0">D:\stratify-ai\realtime\incoming\sales_batch_*.csv</File>
-              <FormatSpecificOptions><HeaderRow>True</HeaderRow><Delimeter>,</Delimeter><ImportLine>1</ImportLine></FormatSpecificOptions></Configuration>
+              <File OutputFileName="" RecordLimit="" SearchSubDirs="False" FileFormat="25">.\datasets\Sales.xlsx|||`Sheet1$`</File>
+              <FormatSpecificOptions>
+                <FirstRowData>False</FirstRowData>
+                <ImportLine>1</ImportLine>
+              </FormatSpecificOptions>
+            </Configuration>
             <Annotation DisplayMode="0">
               <Name />
               <DefaultAnnotationText>Sales.xlsx
@@ -1506,7 +1510,19 @@ Query=`Sheet1$`</DefaultAnnotationText>
             <Configuration>
               <OrderChanged value="False" />
               <CommaDecimal value="False" />
-              <SelectFields><SelectField field="Sale_ID" selected="True" type="WString" size="50" /><SelectField field="Date" selected="True" type="Date" size="10" /><SelectField field="Customer_ID" selected="True" type="WString" size="50" /><SelectField field="Product_ID" selected="True" type="WString" size="50" /><SelectField field="Branch" selected="True" type="WString" size="50" /><SelectField field="Quantity" selected="True" type="Int32" size="4" /><SelectField field="Unit_Price" selected="True" type="Double" size="8" /><SelectField field="Discount" selected="True" type="Double" size="8" /><SelectField field="Cost" selected="True" type="Double" size="8" /><SelectField field="Revenue" selected="True" type="Double" size="8" /><SelectField field="Profit" selected="True" type="Double" size="8" /><SelectField field="Validation_Status" selected="True" type="WString" size="50" /><SelectField field="*Unknown" selected="False" /></SelectFields></Configuration>
+              <SelectFields>
+                <SelectField field="Sale_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Date" selected="True" type="Date" size="10" />
+                <SelectField field="Customer_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Product_ID" selected="True" type="WString" size="50" />
+                <SelectField field="Branch" selected="True" type="WString" size="50" />
+                <SelectField field="Quantity" selected="True" type="Int32" size="4" />
+                <SelectField field="Unit_Price" selected="True" />
+                <SelectField field="Discount" selected="True" />
+                <SelectField field="Cost" selected="True" />
+                <SelectField field="*Unknown" selected="False" />
+              </SelectFields>
+            </Configuration>
             <Annotation DisplayMode="0">
               <Name />
               <DefaultAnnotationText />
@@ -1539,7 +1555,12 @@ Query=`Sheet1$`</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <FormulaFields><FormulaField expression="([Quantity] * [Unit_Price]) - [Discount]" field="Revenue" size="8" type="Double" /><FormulaField expression="(([Quantity] * [Unit_Price]) - [Discount]) - ([Quantity] * [Cost])" field="Profit" size="8" type="Double" /><FormulaField expression="IF IsNull([Sale_ID]) OR Trim([Sale_ID]) == &quot;&quot; THEN &quot;Missing Sale ID&quot;&#10;ELSEIF IsNull([Customer_ID]) OR Trim([Customer_ID]) == &quot;&quot; THEN &quot;Missing Customer ID&quot;&#10;ELSEIF IsNull([Product_ID]) OR Trim([Product_ID]) == &quot;&quot; THEN &quot;Missing Product ID&quot;&#10;ELSEIF IsNull([Date]) THEN &quot;Invalid Date&quot;&#10;ELSEIF [Quantity] &lt;= 0 THEN &quot;Invalid Quantity&quot;&#10;ELSEIF [Unit_Price] &lt; 0 OR [Discount] &lt; 0 OR [Cost] &lt; 0 THEN &quot;Negative Price/Cost&quot;&#10;ELSEIF (([Quantity] * [Unit_Price]) - [Discount]) &lt; 0 THEN &quot;Negative Revenue&quot;&#10;ELSE &quot;Valid&quot;&#10;ENDIF" field="Validation_Status" size="50" type="WString" /></FormulaFields></Configuration>
+              <FormulaFields>
+                <FormulaField expression="([Quantity] * [Unit_Price]) - [Discount]" field="Revenue" size="8" type="Double" />
+                <FormulaField expression="(([Quantity] * [Unit_Price]) - [Discount]) - ([Quantity] * [Cost])" field="Profit" size="8" type="Double" />
+                <FormulaField expression="IF IsNull([Customer_ID]) OR Trim([Customer_ID]) == &quot;&quot; THEN &quot;Missing Customer ID&quot;&#xA;ELSEIF IsNull([Product_ID]) OR Trim([Product_ID]) == &quot;&quot; THEN &quot;Missing Product ID&quot;&#xA;ELSEIF [Quantity] &lt;= 0 THEN &quot;Invalid Quantity&quot;&#xA;ELSEIF (([Quantity] * [Unit_Price]) - [Discount]) &lt;= 0 THEN &quot;Invalid Revenue&quot;&#xA;ELSE &quot;Valid&quot;&#xA;ENDIF" field="Validation_Status" size="50" type="WString" />
+              </FormulaFields>
+            </Configuration>
             <Annotation DisplayMode="0">
               <Name />
               <DefaultAnnotationText>Revenue = ([Quantity] * [Unit_Price]) - [Discount]
@@ -1600,7 +1621,7 @@ Profit = (([Quantity] * [Unit...</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <File MaxRecords="" FileFormat="0">D:\stratify-ai\realtime\rejected\invalid_sales.csv</File>
+              <File MaxRecords="" FileFormat="0">D:\stratify-ai\Invalid_Customer\invalid_sales.csv</File>
               <Passwords />
               <Disable>False</Disable>
               <FormatSpecificOptions>
