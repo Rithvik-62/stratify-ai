@@ -229,8 +229,10 @@ class SnowflakeDatabaseManager:
             self.error_message = str(e)
             return False
 
-    def get_status(self):
-        """Returns connection status label and details."""
+    def get_status(self, force_retry=True):
+        """Returns connection status label and details, attempting reconnection if currently offline."""
+        if not self.is_connected and force_retry:
+            self.test_connection()
         if self.is_connected:
             lbl = "● LIVE — NATIVE SNOWFLAKE" if self.is_sis_native else "● LIVE — SNOWFLAKE CONNECTED"
             return lbl, True
