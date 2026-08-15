@@ -22,17 +22,17 @@
 | `DASHBOARD_SYNC_AUDIT_REPORT.md` | Hid specific account details | ✅ |
 | `DEPLOYMENT_AUDIT_REPORT.md` | Hid all credentials | ✅ |
 
-**Removed Values:**
-- ❌ `SNOWFLAKE_ACCOUNT` = `JQOFPHS-OZ81390`
-- ❌ `SNOWFLAKE_USER` = `RIXS`
-- ❌ `SMTP_USER` = `academixdemo.project@gmail.com`
-- ❌ `RECIPIENT_EMAIL` = `rithviksalian392@gmail.com`
+**Removed Sensitive Values:**
+- ❌ `SNOWFLAKE_ACCOUNT` (replaced with placeholder)
+- ❌ `SNOWFLAKE_USER` (replaced with placeholder)
+- ❌ `SMTP_USER` (replaced with placeholder)
+- ❌ `RECIPIENT_EMAIL` (replaced with placeholder)
 
 **Replaced With:**
-- ✅ `SNOWFLAKE_ACCOUNT` = `your_account_name` (from `.env`)
-- ✅ `SNOWFLAKE_USER` = `your_username` (from `.env`)
-- ✅ `SMTP_USER` = `your_email@gmail.com` (from `.env`)
-- ✅ `RECIPIENT_EMAIL` = `recipient@gmail.com` (from `.env`)
+- ✅ `SNOWFLAKE_ACCOUNT` = `your_account_name` (from `.env` / `st.secrets`)
+- ✅ `SNOWFLAKE_USER` = `your_username` (from `.env` / `st.secrets`)
+- ✅ `SMTP_USER` = `your_email@gmail.com` (from `.env` / `st.secrets`)
+- ✅ `RECIPIENT_EMAIL` = `recipient@gmail.com` (from `.env` / `st.secrets`)
 
 ---
 
@@ -42,11 +42,11 @@ All credentials now follow the secure pattern:
 
 ```python
 # ✅ CORRECT - Secure
-account = os.getenv("SNOWFLAKE_ACCOUNT", "")
-smtp_user = os.getenv("SMTP_USER", "")
+account = get_config("SNOWFLAKE_ACCOUNT", "")
+smtp_user = get_config("SMTP_USER", "")
 
 # ❌ WRONG - Never do this
-account = "JQOFPHS-OZ81390"  # Hardcoded - DANGEROUS!
+account = "ACC_123456"  # Hardcoded credentials - DANGEROUS!
 ```
 
 ---

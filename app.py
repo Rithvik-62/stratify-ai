@@ -226,25 +226,18 @@ if HAS_AUTOREFRESH and selected_interval_ms is not None:
 # Render Top Navigation Header with Last Refresh Time
 render_top_navigation(last_refresh_time=st.session_state.last_refresh_timestamp)
 
-# Connection Test & Offline Safeguard
+# Connection Test & Status Banner
 status_label, is_connected = db.get_status()
 
 if not is_connected:
-    st.markdown(f"""
-    <div class="status-banner-offline">
-        <h3 style="margin:0 0 8px 0; color:#b91c1c;">● OFFLINE — DATA SOURCE UNAVAILABLE</h3>
-        <p style="margin:0; color:#334155; font-size:0.92rem;">
-            Unable to establish direct connection to Snowflake Data Warehouse (<code>NOVAKART_DB.ANALYTICS</code>).<br>
-            Error: <i>{db.error_message}</i>
-        </p>
-        <hr style="border-color:#fca5a5; margin:12px 0;">
-        <p style="margin:0; color:#64748b; font-size:0.85rem;">
-            <b>Configuration Required:</b> Please set valid Snowflake credentials in <code>.env</code> file:
-            <code>SNOWFLAKE_ACCOUNT</code>, <code>SNOWFLAKE_USER</code>, <code>SNOWFLAKE_PASSWORD</code>, <code>SNOWFLAKE_DATABASE</code>, <code>SNOWFLAKE_SCHEMA</code>.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    st.stop()
+    with st.expander("⚡ Data Source Notice: Running in Standalone / Demo Mode (Verified Clean Data)", expanded=False):
+        st.markdown(f"""
+        <div style="padding:8px 0; color:#334155; font-size:0.90rem;">
+            <b>Live Snowflake Status:</b> Direct warehouse connection is inactive (<i>{db.error_message}</i>).<br>
+            <b>Fallback Active:</b> All metrics, charts, forecasting, and intelligence tabs are populated from the verified clean master data (<code>Output/</code>).<br>
+            <b>Live Warehouse Activation:</b> Add your Snowflake credentials to Streamlit Cloud <b>App Settings &gt; Secrets</b> or local <code>.env</code>.
+        </div>
+        """, unsafe_allow_html=True)
 
 # Fetch Real Factual Data from Snowflake via Service Layer
 kpi_dict = KPIService.get_realtime_kpis()

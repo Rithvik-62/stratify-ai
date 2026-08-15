@@ -1,2 +1,0 @@
-Sale_ID,Date,Customer_ID,Product_ID,Branch,Quantity,Unit_Price,Discount,Cost,Revenue,Profit,Validation_Status
-SALE_016,2026-08-14,CUST0118,PROD0012,Apex Dark Store 1,3,1536.87,132.21,2785.74,4478.4,1692.66,Valid

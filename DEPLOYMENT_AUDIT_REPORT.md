@@ -32,10 +32,10 @@ Your STRATIFY project has passed comprehensive validation across all critical ar
 
 ### External API Configuration
 ```
-✅ DeepSeek AI:      Configured (sk-cc7...)
-✅ Serper Search:    Configured (3eac...)
-✅ Gmail SMTP:       Configured in `.env`
-✅ Recipient Email:  rithviksalian392@gmail.com
+✅ DeepSeek AI:      Configured (.env / secrets)
+✅ Serper Search:    Configured (.env / secrets)
+✅ Gmail SMTP:       Configured (.env / secrets)
+✅ Recipient Email:  Configured (.env / secrets)
 ```
 
 **Status:** All credentials correctly loaded from `.env` file ✅
@@ -144,11 +144,10 @@ Your STRATIFY project has passed comprehensive validation across all critical ar
 ### Snowflake Connection Status
 ```
 ✅ Connection Status:     CONNECTED
-✅ Account Validated:     JQOFPHS-OZ81390
+✅ Account Validated:     Configured via Environment / Secrets
 ✅ Authentication:        SUCCESS
 ✅ Database Access:       NOVAKART_DB.ANALYTICS
-✅ Last Sync:            2026-08-15 15:28:27 UTC
-✅ Connection Type:      Thread-Safe, Multi-Mode Compatible (Local + SiS)
+✅ Connection Type:      Thread-Safe, Multi-Mode Compatible (Local + Streamlit Cloud)
 ```
 
 ### Snowflake Objects Verified
@@ -229,8 +228,8 @@ Your STRATIFY project has passed comprehensive validation across all critical ar
 ### Gmail SMTP Email Distribution
 ```
 ✅ Server:         smtp.gmail.com:587
-✅ Account:        Configured in `.env`
-✅ Recipient:      rithviksalian392@gmail.com
+✅ Account:        Configured in `.env` / Streamlit Secrets
+✅ Recipient:      Configured in `.env` / Streamlit Secrets
 ✅ Purpose:        Executive report delivery & notifications
 ✅ Status:         READY
 ```

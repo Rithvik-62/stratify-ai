@@ -86,21 +86,17 @@ class StratifyUiPathAutomation:
 
     def send_gmail_smtp_report(self, pdf_path):
         """Sends PDF report attachment via Gmail SMTP server."""
-        try:
-            from dotenv import load_dotenv
-            load_dotenv(dotenv_path=ENV_PATH, override=True)
-        except Exception:
-            pass
-        smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
-        smtp_port = int(os.getenv("SMTP_PORT", "587"))
-        smtp_user = os.getenv("SMTP_USER", "").strip()
-        smtp_pass = os.getenv("SMTP_PASSWORD", "").strip().replace(" ", "")
-        recipient = os.getenv("RECIPIENT_EMAIL", smtp_user).strip()
+        from database.snowflake_connection import get_config
+        smtp_server = get_config("SMTP_SERVER", "smtp.gmail.com")
+        smtp_port = int(get_config("SMTP_PORT", "587") or 587)
+        smtp_user = get_config("SMTP_USER", "").strip()
+        smtp_pass = get_config("SMTP_PASSWORD", "").strip().replace(" ", "")
+        recipient = get_config("RECIPIENT_EMAIL", smtp_user).strip()
 
         filename = os.path.basename(pdf_path)
 
-        if not smtp_user or not smtp_pass or "your_gmail_app_password" in smtp_pass:
-            action_desc = "MANUAL ACTION REQUIRED — Please set valid Gmail SMTP_USER and SMTP_PASSWORD in .env file"
+        if not smtp_user or not smtp_pass or "your_gmail_app_password" in smtp_pass or "your_16_character" in smtp_pass:
+            action_desc = "MANUAL ACTION REQUIRED — Please set valid Gmail SMTP_USER and SMTP_PASSWORD in .env or Streamlit Secrets"
             self.log_event("STRATIFY_EMAIL_DISPATCH", "MANUAL_REQUIRED", filename, action_desc)
             return False, action_desc
 

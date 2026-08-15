@@ -19,7 +19,7 @@ STRATIFY is an enterprise Decision Intelligence Platform that connects **4 real-
                                                                        \/
  [TOOL 4: UIPATH RPA & GMAIL]  [EXECUTIVE DASHBOARD]     [TOOL 3: DEEPSEEK AI]
  PDF Archival & SMTP Email <=== Streamlit BI Platform   <=== Generative AI Insights
- (rithviksalian392@gmail)     (http://localhost:8501)       (deepseek-chat CDO Model)
+ (Recipient SMTP Inbox)       (http://localhost:8501)       (deepseek-chat CDO Model)
 
 +---------------------------------------------------------------------------------------------------+
 ```

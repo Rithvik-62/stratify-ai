@@ -20,10 +20,12 @@ try:
 except ImportError:
     pass
 
-DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "")
+from database.snowflake_connection import get_config
 
 def generate_ai_insights(kpi_dict, crit_inv_cnt=2, top_product_name="Cookware Set"):
     """Synthesizes AI insights using DeepSeek API or structured rule-based fallback."""
+    api_key = get_config("DEEPSEEK_API_KEY", "")
+
     if not kpi_dict:
         return {
             "status": "UNAVAILABLE",
@@ -40,7 +42,7 @@ def generate_ai_insights(kpi_dict, crit_inv_cnt=2, top_product_name="Cookware Se
     tot_tx = kpi_dict.get("TOTAL_TRANSACTIONS", 0)
 
     # DeepSeek API Call if key available
-    if DEEPSEEK_API_KEY:
+    if api_key and "your_deepseek_api_key" not in api_key:
         try:
             prompt = f"""
             Act as an Executive Business Intelligence Chief Data Officer.
@@ -57,7 +59,7 @@ def generate_ai_insights(kpi_dict, crit_inv_cnt=2, top_product_name="Cookware Se
             """
             
             headers = {
-                "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+                "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json"
             }
             payload = {

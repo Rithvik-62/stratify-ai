@@ -27,14 +27,25 @@ except ImportError:
 _snowflake_lock = threading.Lock()
 
 def get_config(key, default=""):
-    """Fetches config value from os.getenv or st.secrets (Streamlit Cloud compatible)."""
+    """Fetches config value from os.getenv or st.secrets (Streamlit Cloud compatible, supporting both flat & nested TOML)."""
     val = os.getenv(key)
     if val:
-        return val
+        return str(val).strip()
     try:
         import streamlit as st
-        if hasattr(st, "secrets") and key in st.secrets:
-            return str(st.secrets[key])
+        if hasattr(st, "secrets"):
+            if key in st.secrets:
+                return str(st.secrets[key]).strip()
+            if key.upper() in st.secrets:
+                return str(st.secrets[key.upper()]).strip()
+            if key.lower() in st.secrets:
+                return str(st.secrets[key.lower()]).strip()
+            if "secrets" in st.secrets and isinstance(st.secrets["secrets"], dict):
+                if key in st.secrets["secrets"]:
+                    return str(st.secrets["secrets"][key]).strip()
+            if "SNOWFLAKE" in st.secrets and isinstance(st.secrets["SNOWFLAKE"], dict):
+                if key in st.secrets["SNOWFLAKE"]:
+                    return str(st.secrets["SNOWFLAKE"][key]).strip()
     except Exception:
         pass
     return default

@@ -8,10 +8,11 @@ import os
 import json
 import requests
 from datetime import datetime
+from database.snowflake_connection import get_config
 
 def query_deepseek_copilot(prompt, kpi_dict, sales_df=None):
     """Queries DeepSeek AI API with live Snowflake business context for natural language Q&A."""
-    api_key = os.getenv("DEEPSEEK_API_KEY", "")
+    api_key = get_config("DEEPSEEK_API_KEY", "")
     
     # Construct rich context prompt
     rev = kpi_dict.get("TOTAL_REVENUE", 199973.82) if kpi_dict else 199973.82

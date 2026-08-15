@@ -1,31 +1,15 @@
 # ============================================================
 # STRATIFY — Git Ignore Configuration (.gitignore)
-# Protect Sensitive Credentials, Caches, & Archived Files
+# Protect Sensitive Credentials, Caches, & Generated Artifacts
 # ============================================================
-
-# Archive Unused Legacy Folder & Migration Audit
-archive_unused/
 
 # Environment Variables & Sensitive Credentials
 .env
 *.env
 .env.*
 !.env.example
-
-# Local generated runtime files & artifact outputs
-reports/*.pdf
-reports/archive/
-realtime/data/*.csv
-realtime/logs/*.csv
-realtime/rejected/*.csv
-realtime/processed/*.csv
-realtime/processed_ready/*.csv
-uipath/uipath_execution_log.csv
-uipath/.local/
-uipath/.tmh/
-uipath/.objects/
-uipath/.settings/
-uipath/.entities/
+.streamlit/secrets.toml
+!.streamlit/secrets.toml.example
 
 # Python Caches & Compiled Bytecode
 __pycache__/
@@ -59,36 +43,43 @@ ENV/
 env.bak/
 venv.bak/
 
-# IDEs & Text Editors
+# Generated Runtime Files, Logs, & Batch Outputs
+reports/*.pdf
+reports/archive/
+realtime/data/*.csv
+realtime/logs/*.csv
+realtime/rejected/*.csv
+realtime/processed/*.csv
+realtime/processed_ready/*.csv
+realtime/incoming/*.csv
+uipath/uipath_execution_log.csv
+uipath/.local/
+uipath/.tmh/
+uipath/.objects/
+uipath/.settings/
+uipath/.entities/
+*.log
+
+# Backups & Checkpoints
+archive_unused/
+*.bak
+alteryx/*.bak
+.ipynb_checkpoints/
+
+# IDEs & OS Files
 .idea/
 .vscode/
 *.swp
 *.swo
 *~
-.project
-.pydevproject
-.settings/
-
-# Operating System Files
+.project/
+**/.project/
+**/.project
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
+ehthumbs.db
 desktop.ini
-
-# Streamlit Caches & State
 .streamlit/config.toml.bak
-.streamlit/secrets.toml
-
-# Antigravity IDE & Gemini Internal Directories
 .gemini/
 .agents/
 .tempmediaStorage/
-
-# Log Files & Audit Buffers
-*.log
-realtime/incoming/*.csv
-realtime/processed/*.csv
