@@ -1,24 +1,25 @@
 """
 STRATIFY — Decision Intelligence Platform
-Executive "What-If" Scenario & Sensitivity Simulator Component (scenario_simulator.py)
+Executive "What-If" Scenario & Sensitivity Simulator Component (scenario_simulator.py) - High-Visibility Theme
 """
 
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+from components.charts import apply_high_contrast_layout
 
 def render_scenario_simulator(kpi_dict):
-    """Renders executive dynamic What-If simulation modeling tool."""
+    """Renders executive dynamic What-If simulation modeling tool with high-contrast visuals."""
     st.markdown("### 🎛️ Executive Strategic What-If Scenario Simulator")
     st.markdown("""
-    <div style="font-size:0.85rem; color:#64748b; margin-bottom:16px;">
+    <div style="font-size:0.92rem; font-weight:700; color:#334155; margin-bottom:18px;">
         Perform real-time sensitivity modeling on pricing, volume shocks, supplier cost inflation, and marketing investments.
     </div>
     """, unsafe_allow_html=True)
 
-    base_rev = kpi_dict.get("TOTAL_REVENUE", 199973.82) if kpi_dict else 199973.82
-    base_prof = kpi_dict.get("TOTAL_PROFIT", 64849.50) if kpi_dict else 64849.50
+    base_rev = kpi_dict.get("TOTAL_REVENUE", 715558.28) if kpi_dict else 715558.28
+    base_prof = kpi_dict.get("TOTAL_PROFIT", -391097.72) if kpi_dict else -391097.72
     base_cogs = base_rev - base_prof
 
     col_ctrl, col_res = st.columns([5, 7])
@@ -50,19 +51,19 @@ def render_scenario_simulator(kpi_dict):
             st.metric(
                 "Simulated Revenue",
                 f"₹{sim_rev:,.2f}",
-                f"{rev_diff:+,.2f} ({((sim_rev/base_rev)-1)*100:+.1f}%)"
+                f"{rev_diff:+,.2f} ({((sim_rev/base_rev)-1)*100:+.1f}%)" if base_rev else "N/A"
             )
         with m2:
             st.metric(
                 "Simulated Net Profit",
                 f"₹{sim_prof:,.2f}",
-                f"{prof_diff:+,.2f} ({((sim_prof/base_prof)-1)*100:+.1f}%)",
+                f"{prof_diff:+,.2f} ({((sim_prof/base_prof)-1)*100:+.1f}%)" if base_prof else "N/A",
                 delta_color="normal" if prof_diff >= 0 else "inverse"
             )
 
         m3, m4 = st.columns(2)
         with m3:
-            st.metric("New Profit Margin", f"{sim_margin:.2f}%", f"{sim_margin - (base_prof/base_rev*100):+.2f}% pts")
+            st.metric("New Profit Margin", f"{sim_margin:.2f}%", f"{sim_margin - (base_prof/base_rev*100):+.2f}% pts" if base_rev else "N/A")
         with m4:
             break_even = (sim_cogs + mktg_spend) / (1 - (base_cogs/base_rev)) if base_rev > base_cogs else 0.0
             st.metric("Estimated Break-Even Point", f"₹{break_even:,.2f}", "Min revenue to avoid loss")
@@ -75,27 +76,24 @@ def render_scenario_simulator(kpi_dict):
         x=['Baseline Actuals', 'Simulated Scenario'],
         y=[base_rev, sim_rev],
         name='Gross Revenue',
-        marker=dict(color='#2563eb', cornerradius=6),
+        marker=dict(color='#1e40af'),
         text=[f"₹{base_rev:,.0f}", f"₹{sim_rev:,.0f}"],
-        textposition='auto'
+        textposition='auto',
+        textfont=dict(size=13, color='#ffffff', family="Plus Jakarta Sans")
     ))
     fig.add_trace(go.Bar(
         x=['Baseline Actuals', 'Simulated Scenario'],
         y=[base_prof, sim_prof],
         name='Net Profit',
-        marker=dict(color='#10b981' if sim_prof >= base_prof else '#f59e0b', cornerradius=6),
+        marker=dict(color='#059669' if sim_prof >= base_prof else '#d97706'),
         text=[f"₹{base_prof:,.0f}", f"₹{sim_prof:,.0f}"],
-        textposition='auto'
+        textposition='auto',
+        textfont=dict(size=13, color='#ffffff', family="Plus Jakarta Sans")
     ))
 
     fig.update_layout(
         barmode='group',
-        template="plotly_white",
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(family="Plus Jakarta Sans, sans-serif", color="#0f172a"),
-        height=320,
-        margin=dict(t=20, b=20, l=10, r=10),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=13, color="#0f172a"))
     )
+    apply_high_contrast_layout(fig, height=330)
     st.plotly_chart(fig, use_container_width=True)

@@ -84,17 +84,54 @@ st.markdown("""
         color: #0f172a !important;
         font-weight: 800 !important;
     }
-    p, span, label, div {
-        color: #0f172a;
-    }
     label[data-testid="stWidgetLabel"] p {
-        font-size: 0.92rem !important;
+        font-size: 0.95rem !important;
         font-weight: 800 !important;
         color: #0f172a !important;
     }
 
-    /* Buttons Styling - Large, High Contrast, Always Visible, Zero Hover Flicker */
-    .stButton > button {
+    /* Selectbox & Dropdown Menus - Fix Blackout Menu Bug */
+    div[data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        border: 2px solid #94a3b8 !important;
+        border-radius: 8px !important;
+        font-weight: 800 !important;
+    }
+    div[data-baseweb="select"] span, div[data-baseweb="select"] div {
+        color: #0f172a !important;
+        font-weight: 800 !important;
+        font-size: 0.92rem !important;
+    }
+    div[data-baseweb="popover"], ul[data-baseweb="menu"], div[data-baseweb="menu"] {
+        background-color: #ffffff !important;
+        border: 2px solid #cbd5e1 !important;
+        border-radius: 10px !important;
+        box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15) !important;
+    }
+    li[role="option"], li[data-baseweb="menu-item"] {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        font-size: 0.92rem !important;
+        font-weight: 700 !important;
+        padding: 10px 16px !important;
+    }
+    li[role="option"]:hover, li[data-baseweb="menu-item"]:hover, li[aria-selected="true"] {
+        background-color: #dbeafe !important;
+        color: #1e40af !important;
+        font-weight: 800 !important;
+    }
+    li[role="option"] span, li[data-baseweb="menu-item"] span {
+        color: #0f172a !important;
+        font-weight: 700 !important;
+    }
+    li[role="option"]:hover span, li[aria-selected="true"] span {
+        color: #1e40af !important;
+        font-weight: 800 !important;
+    }
+
+    /* All Action Buttons & Download Buttons - Solid High Contrast */
+    .stButton > button, div.stDownloadButton > button {
         border-radius: 8px !important;
         font-family: 'Plus Jakarta Sans', sans-serif !important;
         font-weight: 800 !important;
@@ -103,20 +140,36 @@ st.markdown("""
         background-color: #1e40af !important;
         color: #ffffff !important;
         border: 2px solid #1d4ed8 !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
         transition: none !important;
         transform: none !important;
+        text-align: center !important;
     }
-    .stButton > button:hover, .stButton > button:active, .stButton > button:focus {
+    .stButton > button:hover, .stButton > button:active, .stButton > button:focus,
+    div.stDownloadButton > button:hover, div.stDownloadButton > button:active, div.stDownloadButton > button:focus {
         background-color: #1e3a8a !important;
         color: #ffffff !important;
         border-color: #1e3a8a !important;
         transform: none !important;
     }
-    .stButton > button p, .stButton > button span {
+    .stButton > button p, .stButton > button span,
+    div.stDownloadButton > button p, div.stDownloadButton > button span {
         color: #ffffff !important;
         font-weight: 800 !important;
         font-size: 0.90rem !important;
+    }
+
+    /* Inputs & Number Boxes - Clean White Background */
+    div[data-baseweb="input"] {
+        background-color: #ffffff !important;
+        border: 2px solid #94a3b8 !important;
+        border-radius: 8px !important;
+    }
+    div[data-baseweb="input"] input {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        font-weight: 800 !important;
+        font-size: 0.95rem !important;
     }
 
     /* Clean Tab Styling - High Contrast */
