@@ -90,14 +90,17 @@ class SnowflakeDatabaseManager:
         with _snowflake_lock:
             # 1. Try Native Streamlit in Snowflake (SiS) Session first
             try:
-                from snowflake.snowpark.context import get_active_session
-                self.snowpark_session = get_active_session()
-                if self.snowpark_session:
-                    self.is_connected = True
-                    self.is_sis_native = True
-                    self.last_sync_time = datetime.now()
-                    self.error_message = None
-                    return True
+                import importlib
+                snowpark_ctx = importlib.import_module("snowflake.snowpark.context")
+                get_active_session = getattr(snowpark_ctx, "get_active_session", None)
+                if get_active_session:
+                    self.snowpark_session = get_active_session()
+                    if self.snowpark_session:
+                        self.is_connected = True
+                        self.is_sis_native = True
+                        self.last_sync_time = datetime.now()
+                        self.error_message = None
+                        return True
             except Exception:
                 self.snowpark_session = None
 
@@ -200,12 +203,15 @@ class SnowflakeDatabaseManager:
     def _reconnect_nolock(self):
         """Helper to reconnect without extra lock."""
         try:
-            from snowflake.snowpark.context import get_active_session
-            self.snowpark_session = get_active_session()
-            if self.snowpark_session:
-                self.is_connected = True
-                self.is_sis_native = True
-                return True
+            import importlib
+            snowpark_ctx = importlib.import_module("snowflake.snowpark.context")
+            get_active_session = getattr(snowpark_ctx, "get_active_session", None)
+            if get_active_session:
+                self.snowpark_session = get_active_session()
+                if self.snowpark_session:
+                    self.is_connected = True
+                    self.is_sis_native = True
+                    return True
         except Exception:
             pass
 
