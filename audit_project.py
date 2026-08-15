@@ -11,6 +11,12 @@ import json
 from datetime import datetime
 import pandas as pd
 
+if hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 print("\n" + "=" * 100)
 print("🔍 STRATIFY PROJECT COMPREHENSIVE AUDIT REPORT")
 print(f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")

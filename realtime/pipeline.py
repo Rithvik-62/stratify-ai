@@ -201,7 +201,7 @@ class StratifyRealtimePipeline:
 
             # Alteryx Formula Calculations
             revenue = round((qty * unit_price) - discount, 2)
-            profit = round(revenue - (qty * cost), 2)
+            profit = round(revenue - cost, 2)
 
             # Alteryx Validation Rules & Referential Integrity
             is_valid = True
