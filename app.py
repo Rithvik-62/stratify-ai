@@ -87,51 +87,60 @@ st.markdown("""
         margin-bottom: 24px;
     }
 
-    /* Buttons Styling */
-    .stButton>button {
-        border-radius: 10px !important;
+    /* Buttons Styling - Clean, High Contrast, Always Visible, No Hover Color Shift */
+    .stButton > button {
+        border-radius: 8px !important;
         font-family: 'Plus Jakarta Sans', sans-serif !important;
         font-weight: 700 !important;
-        padding: 10px 20px !important;
+        padding: 10px 18px !important;
         font-size: 0.85rem !important;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
-    }
-
-    /* Custom Primary Master Automation Button */
-    div.stButton > button:first-child {
-        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+        background-color: #1e40af !important;
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border: 1px solid #1d4ed8 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        transition: none !important;
+        transform: none !important;
     }
-    div.stButton > button:first-child:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 10px 20px -3px rgba(37, 99, 235, 0.35) !important;
+    .stButton > button:hover, .stButton > button:active, .stButton > button:focus {
+        background-color: #1e3a8a !important;
+        color: #ffffff !important;
+        border-color: #1e3a8a !important;
+        transform: none !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    }
+    .stButton > button p, .stButton > button span {
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        font-size: 0.85rem !important;
     }
 
-    /* Custom Tab Styling */
+    /* Clean Tab Styling */
     .stTabs [data-baseweb="tab-list"] {
         gap: 6px;
-        background-color: #ffffff;
-        padding: 8px;
-        border-radius: 14px;
+        background-color: #f1f5f9;
+        padding: 6px;
+        border-radius: 10px;
         border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         overflow-x: auto;
     }
     .stTabs [data-baseweb="tab"] {
-        border-radius: 8px;
-        padding: 9px 16px;
+        border-radius: 6px;
+        padding: 8px 14px;
         font-weight: 700;
-        font-size: 0.82rem;
-        color: #64748b;
-        transition: all 0.2s ease;
+        font-size: 0.84rem;
+        color: #334155 !important;
+        background-color: #ffffff;
+        border: 1px solid #cbd5e1;
         white-space: nowrap;
     }
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+        background-color: #1e40af !important;
         color: #ffffff !important;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+        border-color: #1e40af !important;
+    }
+    .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
+        color: #ffffff !important;
+        font-weight: 700 !important;
     }
 </style>
 """, unsafe_allow_html=True)

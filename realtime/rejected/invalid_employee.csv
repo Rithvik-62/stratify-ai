@@ -1,0 +1,5 @@
+Employee_ID,Name,Department,Role,Salary,Joining_Date,Performance_Score,Location,Validation_Status
+EMP0007,Aditi Das,Operations,Logistics Coordinator,181405.29,2021-10-06,,Delhi,Invalid Performance Score
+EMP0059,Riya Das,IT,Data Engineer,,2025-08-14,2,Hyderabad,Invalid Salary
+EMP0069,Anushka Patel,Finance,Financial Analyst,,2021-01-08,4,Chennai,Invalid Salary
+EMP0086,Kunal Choudhury,HR,Talent Acquisition Specialist,,2023-10-05,3,Chennai,Invalid Salary

@@ -1,0 +1,18 @@
+Inventory_ID,Product_ID,Warehouse,Current_Stock,Minimum_Stock,Maximum_Stock,Stock_Status,Validation_Status
+INV0007,PROD0184,"",99,45,339,Healthy,Missing Warehouse
+INV0013,PROD0174,Bengaluru DC,379,35,299,Overstock,Stock Above Maximum
+INV0038,PROD0215,Mumbai DC,398,46,323,Overstock,Stock Above Maximum
+INV0069,PROD0215,Mumbai DC,448,31,380,Overstock,Stock Above Maximum
+INV0075,PROD0219,Chennai DC,494,39,426,Overstock,Stock Above Maximum
+INV0098,PROD0043,"",180,23,382,Healthy,Missing Warehouse
+INV0104,PROD0024,Delhi DC,235,32,214,Overstock,Stock Above Maximum
+INV0124,PROD0158,"",270,49,422,Healthy,Missing Warehouse
+INV0134,PROD0168,Mumbai DC,315,32,291,Overstock,Stock Above Maximum
+INV0138,PROD0245,Bengaluru DC,284,35,247,Overstock,Stock Above Maximum
+INV0194,PROD0065,"",69,34,219,Healthy,Missing Warehouse
+INV0208,PROD0137,Mumbai DC,466,33,374,Overstock,Stock Above Maximum
+INV0247,PROD0198,Chennai DC,236,25,210,Overstock,Stock Above Maximum
+INV0249,PROD0190,"",153,40,459,Healthy,Missing Warehouse
+INV0267,PROD0058,Hyderabad DC,428,47,398,Overstock,Stock Above Maximum
+INV0278,PROD0019,Delhi DC,364,30,312,Overstock,Stock Above Maximum
+INV0285,PROD0244,Mumbai DC,369,28,294,Overstock,Stock Above Maximum

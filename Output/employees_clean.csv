@@ -1,6 +1,147 @@
-Employee_ID,Name,Department,Role,Salary,Performance_Score,Validation_Status
-EMP_001,Vikram Sethi,Sales,Regional Sales Manager,1200000,5,Valid
-EMP_002,Ananya Roy,Finance,Financial Analyst,850000,4,Valid
-EMP_003,Karan Malhotra,IT,Data Engineer,1100000,5,Valid
-EMP_004,Deepika Rao,Marketing,Campaign Specialist,750000,3,Valid
-EMP_005,Manish Gupta,Operations,Warehouse Lead,650000,4,Valid
+Employee_ID,Name,Department,Role,Salary,Joining_Date,Performance_Score,Location,Validation_Status
+EMP0001,Pranav Malhotra,Management,General Manager,84019.55,2022-06-07,4,Delhi,Valid
+EMP0002,Aishwarya Verma,IT,Data Engineer,158572.13,2025-05-21,1,Delhi,Valid
+EMP0003,Dev Kumar,HR,HR Executive,46048.61,2021-09-16,4,Delhi,Valid
+EMP0004,Rajesh Nair,HR,Talent Acquisition Specialist,49798.97,2025-05-09,3,Bengaluru,Valid
+EMP0005,Arjun Trivedi,Operations,Warehouse Manager,119405.01,2023-12-24,1,Mumbai,Valid
+EMP0006,Varun Shah,Management,VP Sales,119643.77,2023-05-19,4,Mumbai,Valid
+EMP0008,Lakshmi Chatterjee,IT,Data Engineer,61532.09,2024-05-01,4,Bengaluru,Valid
+EMP0009,Siddharth Pillai,Management,VP Sales,158803.76,2026-05-02,2,Mumbai,Valid
+EMP0010,Aditi Agarwal,Finance,Accountant,171007.58,2026-05-27,4,Delhi,Valid
+EMP0011,Siddharth Shetty,HR,Talent Acquisition Specialist,142641.66,2021-01-23,5,Bengaluru,Valid
+EMP0012,Deepak Kumar,IT,IT Support Specialist,77293.89,2025-03-02,1,Chennai,Valid
+EMP0013,Kavya Patel,HR,HR Business Partner,44746.58,2024-04-13,4,Mumbai,Valid
+EMP0014,Neha Banerjee,Sales,Sales Executive,199580.93,2024-05-11,4,Delhi,Valid
+EMP0015,Rashmi Patel,IT,Software Engineer,176404.27,2025-01-22,5,Delhi,Valid
+EMP0016,Rashmi Bhat,Management,General Manager,197040.16,2021-07-27,4,Hyderabad,Valid
+EMP0017,Ganesh Bhat,Marketing,Marketing Executive,199527.94,2023-09-27,5,Chennai,Valid
+EMP0018,Priyanka Banerjee,Management,Head of Business Intelligence,32367.72,2025-09-13,1,Bengaluru,Valid
+EMP0019,Kunal Agarwal,IT,IT Support Specialist,167674.62,2021-03-23,4,Delhi,Valid
+EMP0020,Sunita Saxena,Operations,Operations Associate,189534.48,2024-07-10,1,Hyderabad,Valid
+EMP0021,Sai Sharma,IT,Data Engineer,42290.74,2025-07-01,3,Bengaluru,Valid
+EMP0022,Aishwarya Gupta,Marketing,Digital Marketing Lead,73410.68,2022-10-27,3,Hyderabad,Valid
+EMP0023,Aniket Chatterjee,Management,General Manager,154623.33,2025-05-19,1,Mumbai,Valid
+EMP0024,Anushka Chawla,Operations,Supply Chain Lead,80393.48,2026-02-16,3,Bengaluru,Valid
+EMP0025,Deepa Nair,Management,Head of Business Intelligence,60376.1,2023-09-22,4,Delhi,Valid
+EMP0026,Smriti Nair,Finance,Finance Manager,27787.28,2022-09-28,5,Chennai,Valid
+EMP0027,Smriti Chatterjee,Operations,Supply Chain Lead,94644.97,2022-02-11,5,Bengaluru,Valid
+EMP0028,Kavya Rao,IT,Data Engineer,118244.86,2026-03-02,3,Hyderabad,Valid
+EMP0029,Akash Kumar,HR,HR Executive,68033.13,2022-07-15,2,Bengaluru,Valid
+EMP0030,Varun Kulkarni,IT,Systems Architect,50440.92,2026-05-30,4,Bengaluru,Valid
+EMP0031,Rashmi Chatterjee,Operations,Supply Chain Lead,97156.62,2024-04-04,4,Hyderabad,Valid
+EMP0032,Lakshmi Trivedi,Marketing,Brand Specialist,100480.07,2026-03-11,3,Mumbai,Valid
+EMP0033,Kabir Mehta,Management,VP Sales,164222.49,2021-07-17,5,Chennai,Valid
+EMP0034,Meera Trivedi,Management,VP Sales,151018.59,2024-08-13,2,Chennai,Valid
+EMP0035,Kavya Agarwal,Management,Director of Operations,105541.8,2024-04-25,2,Hyderabad,Valid
+EMP0036,Suresh Chatterjee,IT,Software Engineer,181772.29,2024-12-17,3,Mumbai,Valid
+EMP0037,Pranav Agarwal,Marketing,Marketing Executive,149882.13,2024-12-13,2,Mumbai,Valid
+EMP0038,Ishita Chatterjee,IT,Data Engineer,82843.32,2025-11-29,2,Chennai,Valid
+EMP0039,Ananya Chawla,Sales,Regional Sales Head,127803.34,2021-05-26,4,Chennai,Valid
+EMP0040,Vivaan Kumar,Operations,Supply Chain Lead,171254.4,2026-03-18,3,Hyderabad,Valid
+EMP0041,Dev Singh,Operations,Logistics Coordinator,165859.94,2023-08-30,2,Mumbai,Valid
+EMP0042,Manav Gupta,Finance,Payroll Specialist,178836.29,2022-01-13,2,Delhi,Valid
+EMP0043,Deepa Malhotra,Sales,Regional Sales Head,104052.31,2022-06-12,1,Bengaluru,Valid
+EMP0044,Kunal Verma,Finance,Financial Analyst,193629.96,2021-01-10,1,Delhi,Valid
+EMP0045,Priya Nair,Finance,Payroll Specialist,56812.67,2022-12-09,2,Bengaluru,Valid
+EMP0046,Sunita Nair,HR,Talent Acquisition Specialist,113782.53,2023-07-01,5,Bengaluru,Valid
+EMP0047,Manav Choudhury,Marketing,Marketing Executive,86084.45,2023-11-28,4,Mumbai,Valid
+EMP0048,Siddharth Chawla,Marketing,SEO Lead,187506.13,2023-03-08,5,Hyderabad,Valid
+EMP0049,Neeraj Kumar,Marketing,Digital Marketing Lead,66903.99,2022-01-21,1,Hyderabad,Valid
+EMP0050,Aishwarya Nambiar,Management,Director of Operations,173360.48,2024-09-03,5,Delhi,Valid
+EMP0051,Smriti Chatterjee,IT,Systems Architect,74448.27,2025-04-13,4,Mumbai,Valid
+EMP0052,Rashmi Singh,Sales,Business Development Lead,29170.98,2024-02-24,3,Hyderabad,Valid
+EMP0053,Smriti Joshi,Management,Director of Operations,117321.27,2026-04-24,5,Bengaluru,Valid
+EMP0054,Akash Hegde,Sales,Sales Executive,33261.32,2022-01-21,1,Delhi,Valid
+EMP0055,Rekha Banerjee,Operations,Supply Chain Lead,114030.48,2021-04-02,2,Mumbai,Valid
+EMP0056,Akash Reddy,IT,Systems Architect,111673.16,2024-06-09,4,Bengaluru,Valid
+EMP0057,Ishan Choudhury,Marketing,Marketing Executive,183269.26,2026-02-18,4,Delhi,Valid
+EMP0058,Kunal Choudhury,Management,Head of Business Intelligence,32832.44,2022-05-20,4,Chennai,Valid
+EMP0060,Kavya Chawla,Sales,Business Development Lead,32314.89,2021-09-21,1,Mumbai,Valid
+EMP0061,Yash Das,Management,Head of Business Intelligence,36637.56,2021-12-09,4,Delhi,Valid
+EMP0062,Sonam Joshi,Marketing,Brand Specialist,43986.11,2025-08-13,5,Mumbai,Valid
+EMP0063,Riya Rao,Operations,Operations Associate,107067.47,2022-04-14,2,Bengaluru,Valid
+EMP0064,Aditya Kumar,HR,HR Business Partner,101669,2024-05-07,5,Bengaluru,Valid
+EMP0065,Aniket Hegde,Marketing,Marketing Executive,124540.24,2022-12-01,3,Delhi,Valid
+EMP0066,Riya Das,IT,Software Engineer,93479.58,2022-08-21,2,Chennai,Valid
+EMP0067,Neeraj Bhat,IT,IT Support Specialist,29429.19,2025-09-24,3,Mumbai,Valid
+EMP0068,Siddharth Chatterjee,Marketing,Marketing Executive,44489.02,2023-11-27,2,Chennai,Valid
+EMP0070,Varun Menon,IT,Software Engineer,123636.78,2024-08-21,4,Hyderabad,Valid
+EMP0071,Aishwarya Chawla,HR,HR Manager,184292.19,2023-10-02,4,Chennai,Valid
+EMP0072,Shreya Kulkarni,Operations,Warehouse Manager,64171.97,2025-02-06,4,Mumbai,Valid
+EMP0073,Pooja Gupta,IT,Software Engineer,100553.9,2021-03-29,5,Hyderabad,Valid
+EMP0074,Vikrant Rao,Management,General Manager,61417.66,2025-12-15,4,Hyderabad,Valid
+EMP0075,Aditi Kulkarni,Marketing,Brand Specialist,82051.92,2025-01-21,2,Chennai,Valid
+EMP0076,Vivaan Saxena,IT,Data Engineer,182562.01,2025-04-14,3,Hyderabad,Valid
+EMP0077,Vikrant Rao,HR,HR Executive,119995.02,2026-01-27,2,Chennai,Valid
+EMP0078,Neeraj Chatterjee,Finance,Payroll Specialist,188996.35,2026-04-16,2,Hyderabad,Valid
+EMP0079,Sunita Bhat,Finance,Finance Manager,197135.7,2025-04-25,5,Mumbai,Valid
+EMP0080,Siddharth Deshmukh,Marketing,SEO Lead,67997.23,2025-04-11,5,Hyderabad,Valid
+EMP0081,Dev Trivedi,Sales,Sales Executive,28756.56,2025-11-16,1,Bengaluru,Valid
+EMP0082,Anushka Shetty,IT,Systems Architect,192642.4,2021-05-16,3,Delhi,Valid
+EMP0083,Divya Mehta,IT,Systems Architect,75704.68,2024-02-25,2,Mumbai,Valid
+EMP0084,Abhinav Verma,Operations,Logistics Coordinator,52699.07,2023-08-20,2,Delhi,Valid
+EMP0085,Siddharth Choudhury,HR,HR Executive,157242.86,2023-02-20,2,Hyderabad,Valid
+EMP0087,Kunal Reddy,Finance,Accountant,134205.44,2026-02-21,2,Mumbai,Valid
+EMP0088,Ishita Nambiar,Management,Director of Operations,87074.57,2023-10-11,5,Bengaluru,Valid
+EMP0089,Pooja Gupta,Management,General Manager,58604.05,2023-12-02,2,Bengaluru,Valid
+EMP0090,Karthik Nambiar,Marketing,Brand Specialist,103562.94,2021-03-24,4,Delhi,Valid
+EMP0091,Neeraj Chatterjee,Sales,Account Manager,177607,2021-01-22,4,Chennai,Valid
+EMP0092,Deepak Singh,HR,HR Executive,146675.45,2023-02-08,5,Delhi,Valid
+EMP0093,Rashmi Nambiar,Marketing,Digital Marketing Lead,190008.59,2024-02-06,3,Mumbai,Valid
+EMP0094,Suresh Choudhury,IT,Software Engineer,165958.16,2025-10-31,1,Chennai,Valid
+EMP0095,Dev Kumar,Sales,Account Manager,90342.95,2025-06-30,1,Mumbai,Valid
+EMP0096,Aarav Hegde,Management,General Manager,177277.93,2021-11-16,4,Chennai,Valid
+EMP0097,Aishwarya Verma,Operations,Operations Associate,34829.12,2026-02-24,1,Bengaluru,Valid
+EMP0098,Ganesh Trivedi,IT,Systems Architect,61788.33,2023-03-04,2,Delhi,Valid
+EMP0099,Riya Nambiar,HR,Talent Acquisition Specialist,107111.83,2024-04-27,5,Bengaluru,Valid
+EMP0100,Rohan Nair,Finance,Finance Manager,50181.24,2026-06-16,1,Mumbai,Valid
+EMP0101,Sai Saxena,Marketing,Digital Marketing Lead,53424.13,2024-04-28,5,Delhi,Valid
+EMP0102,Riya Deshmukh,Marketing,Brand Specialist,153702.55,2024-09-03,2,Delhi,Valid
+EMP0103,Arjun Reddy,HR,HR Business Partner,182971.36,2025-03-28,4,Hyderabad,Valid
+EMP0104,Rohan Mehta,Operations,Warehouse Manager,147163.3,2026-05-19,3,Bengaluru,Valid
+EMP0105,Anushka Hegde,Management,Head of Business Intelligence,89827.59,2023-09-29,2,Delhi,Valid
+EMP0106,Yash Patel,IT,Data Engineer,96703.17,2022-10-27,4,Hyderabad,Valid
+EMP0107,Shreya Rao,IT,IT Support Specialist,98429.5,2021-10-13,2,Delhi,Valid
+EMP0108,Anushka Sharma,HR,Talent Acquisition Specialist,51431.76,2022-03-21,4,Bengaluru,Valid
+EMP0109,Pranav Mehta,Finance,Financial Analyst,112031.43,2025-08-27,2,Chennai,Valid
+EMP0110,Priyanka Hegde,HR,HR Manager,101143.83,2023-09-26,1,Bengaluru,Valid
+EMP0111,Akash Nambiar,HR,HR Business Partner,49758.61,2023-10-10,1,Mumbai,Valid
+EMP0112,Deepa Nair,Marketing,Brand Specialist,144710.07,2021-09-07,3,Chennai,Valid
+EMP0113,Rekha Gupta,Management,VP Sales,89674.32,2021-05-10,4,Bengaluru,Valid
+EMP0114,Aniket Mehta,IT,Systems Architect,184275.57,2024-07-22,5,Hyderabad,Valid
+EMP0115,Sunita Trivedi,Marketing,Digital Marketing Lead,182824.77,2025-05-20,2,Chennai,Valid
+EMP0116,Karthik Pillai,Operations,Logistics Coordinator,180847.48,2025-12-09,2,Bengaluru,Valid
+EMP0117,Priya Banerjee,HR,HR Manager,130454.96,2026-05-17,4,Delhi,Valid
+EMP0118,Pranav Nambiar,Finance,Finance Manager,173360.24,2022-05-21,3,Mumbai,Valid
+EMP0119,Priyanka Pillai,Operations,Supply Chain Lead,162144.75,2023-09-20,5,Delhi,Valid
+EMP0120,Vivaan Choudhury,Operations,Operations Associate,76733.43,2025-12-18,5,Mumbai,Valid
+EMP0121,Neha Trivedi,HR,HR Manager,147613.07,2022-09-03,3,Delhi,Valid
+EMP0122,Vihaan Malhotra,IT,IT Support Specialist,38774.19,2026-02-07,4,Mumbai,Valid
+EMP0123,Suresh Menon,Marketing,Marketing Executive,188958.02,2022-02-10,2,Chennai,Valid
+EMP0124,Akash Sharma,Sales,Sales Executive,176854.1,2023-01-26,4,Mumbai,Valid
+EMP0125,Ganesh Malhotra,Marketing,SEO Lead,56149.73,2025-04-07,3,Bengaluru,Valid
+EMP0126,Rajesh Patel,IT,Systems Architect,111918.41,2021-10-14,2,Mumbai,Valid
+EMP0127,Rohan Menon,Marketing,Brand Specialist,84177.66,2025-03-18,5,Bengaluru,Valid
+EMP0128,Abhinav Malhotra,Management,Head of Business Intelligence,146552.66,2021-07-03,1,Mumbai,Valid
+EMP0129,Neha Kumar,Sales,Sales Executive,34184.54,2022-04-07,2,Hyderabad,Valid
+EMP0130,Siddharth Saxena,Finance,Finance Manager,81516.29,2024-10-04,3,Hyderabad,Valid
+EMP0131,Ananya Bhat,IT,IT Support Specialist,121255.44,2024-04-22,5,Bengaluru,Valid
+EMP0132,Ananya Gupta,IT,Software Engineer,126777.06,2026-01-15,2,Mumbai,Valid
+EMP0133,Nikhil Iyer,Operations,Warehouse Manager,114403.93,2022-02-17,2,Chennai,Valid
+EMP0134,Kavya Singh,Sales,Regional Sales Head,104038.71,2026-06-05,2,Chennai,Valid
+EMP0135,Ishan Patel,HR,HR Executive,154992.35,2022-02-14,3,Chennai,Valid
+EMP0136,Manav Gupta,HR,HR Executive,138370.27,2025-12-29,1,Delhi,Valid
+EMP0137,Ananya Shetty,Management,VP Sales,175562.65,2026-04-24,4,Hyderabad,Valid
+EMP0138,Priyanka Menon,Finance,Payroll Specialist,109030.73,2025-06-17,1,Mumbai,Valid
+EMP0139,Vihaan Chawla,Sales,Sales Executive,190687.74,2022-09-14,5,Hyderabad,Valid
+EMP0140,Dev Patel,Marketing,Digital Marketing Lead,138010.12,2025-02-28,4,Delhi,Valid
+EMP0141,Manav Menon,Sales,Sales Executive,77858.77,2026-03-20,1,Mumbai,Valid
+EMP0142,Pooja Sharma,Sales,Sales Executive,151841.58,2025-12-21,3,Chennai,Valid
+EMP0143,Ananya Nambiar,Operations,Logistics Coordinator,36074.67,2022-03-18,4,Bengaluru,Valid
+EMP0144,Rahul Pillai,HR,HR Manager,97174.24,2024-03-27,3,Bengaluru,Valid
+EMP0145,Rekha Pillai,Finance,Finance Manager,29272.25,2025-11-21,4,Mumbai,Valid
+EMP0146,Rahul Saxena,Operations,Logistics Coordinator,122815.27,2025-06-10,1,Mumbai,Valid
+EMP0147,Anushka Reddy,Operations,Warehouse Manager,104845.06,2021-12-02,3,Delhi,Valid
+EMP0148,Akash Hegde,IT,Data Engineer,96225.29,2023-02-02,3,Hyderabad,Valid
+EMP0149,Amit Bhat,Operations,Logistics Coordinator,88057.55,2024-05-18,3,Delhi,Valid
+EMP0150,Deepa Kulkarni,HR,Talent Acquisition Specialist,180704.66,2026-02-24,5,Mumbai,Valid
