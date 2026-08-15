@@ -7,7 +7,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <Caption>📦 Customers ETL - NovaKart Retail</Caption>
+          <Caption>Customers ETL - NovaKart Retail</Caption>
           <Style TextColor="#314c5a" FillColor="#e1f5fe" BorderColor="#0288d1" Transparency="25" Margin="25" />
           <Disabled value="False" />
           <Folded value="False" />
@@ -273,7 +273,7 @@ OR !Contai...</DefaultAnnotationText>
             <Configuration>
               <Value name="Check Box (135)">False</Value>
               <Value name="Check Box (136)">False</Value>
-              <Value name="List Box (11)">"Customer_ID","Customer_Name","Email","Phone","Gender","Age","City","State","Country","Pincode","Industry","Customer_Segment","Signup_Date","Last_Purchase_Date","Loyalty_Status"</Value>
+              <Value name="List Box (11)">"Customer_ID","Customer_Name","Email","Phone","Gender","City","State","Country","Pincode","Industry","Customer_Segment","Loyalty_Status"</Value>
               <Value name="Check Box (84)">True</Value>
               <Value name="Check Box (117)">True</Value>
               <Value name="Check Box (15)">True</Value>
@@ -329,7 +329,7 @@ OR !Contai...</DefaultAnnotationText>
       </GuiSettings>
       <Properties>
         <Configuration>
-          <Caption>📦 Products ETL - NovaKart Retail</Caption>
+          <Caption>Products ETL - NovaKart Retail</Caption>
           <Style TextColor="#314c5a" FillColor="#e8f5e9" BorderColor="#388e3c" Transparency="25" Margin="25" />
           <Disabled value="False" />
           <Folded value="False" />
@@ -624,7 +624,7 @@ Category = T...</DefaultAnnotationText>
       </GuiSettings>
       <Properties>
         <Configuration>
-          <Caption>📦 Inventory ETL - NovaKart Retail</Caption>
+          <Caption>Inventory ETL - NovaKart Retail</Caption>
           <Style TextColor="#314c5a" FillColor="#fff3e0" BorderColor="#ef6c00" Transparency="25" Margin="25" />
           <Disabled value="False" />
           <Folded value="False" />
@@ -908,7 +908,7 @@ ELSEIF [Cur...</DefaultAnnotationText>
       </GuiSettings>
       <Properties>
         <Configuration>
-          <Caption>📦 Employees ETL - NovaKart Retail</Caption>
+          <Caption>Employees ETL - NovaKart Retail</Caption>
           <Style TextColor="#314c5a" FillColor="#f3e5f5" BorderColor="#7b1fa2" Transparency="25" Margin="25" />
           <Disabled value="False" />
           <Folded value="False" />
@@ -1180,7 +1180,7 @@ Query=`Sheet1$`</DefaultAnnotationText>
       </GuiSettings>
       <Properties>
         <Configuration>
-          <Caption>📦 Finance ETL - NovaKart Retail</Caption>
+          <Caption>Finance ETL - NovaKart Retail</Caption>
           <Style TextColor="#314c5a" FillColor="#fffde7" BorderColor="#fbc02d" Transparency="25" Margin="25" />
           <Disabled value="False" />
           <Folded value="False" />
@@ -1455,7 +1455,7 @@ Vali...</DefaultAnnotationText>
       </GuiSettings>
       <Properties>
         <Configuration>
-          <Caption>📦 Sales ETL - NovaKart Retail</Caption>
+          <Caption>Sales ETL - NovaKart Retail</Caption>
           <Style TextColor="#314c5a" FillColor="#ffebee" BorderColor="#c62828" Transparency="25" Margin="25" />
           <Disabled value="False" />
           <Folded value="False" />
@@ -1695,7 +1695,7 @@ Profit = (([Quantity] * [Unit...</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <Caption>📦 Relationship Validation - Referencial Integrity Check</Caption>
+              <Caption>Relationship Validation - Referencial Integrity Check</Caption>
               <Style TextColor="#314c5a" FillColor="#e0f2f1" BorderColor="#00796b" Transparency="25" Margin="25" />
               <Disabled value="False" />
               <Folded value="False" />
@@ -1957,7 +1957,7 @@ Profit = (([Quantity] * [Unit...</DefaultAnnotationText>
       </GuiSettings>
       <Properties>
         <Configuration>
-          <Caption>📦 Output Summary - Export Destination Overview</Caption>
+          <Caption>Output Summary - Export Destination Overview</Caption>
           <Style TextColor="#314c5a" FillColor="#cfd8dc" BorderColor="#455a64" Transparency="25" Margin="25" />
           <Disabled value="False" />
           <Folded value="False" />
