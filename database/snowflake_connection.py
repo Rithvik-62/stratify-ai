@@ -123,12 +123,7 @@ class SnowflakeDatabaseManager:
                         pass
                     self.conn = None
 
-                try:
-                    import snowflake.connector
-                except ImportError:
-                    import subprocess
-                    subprocess.check_call([sys.executable, "-m", "pip", "install", "--no-cache-dir", "snowflake-connector-python==3.12.3"])
-                    import snowflake.connector
+                import snowflake.connector
 
                 kwargs = {
                     "user": self.user,
@@ -225,12 +220,7 @@ class SnowflakeDatabaseManager:
 
             if not (self.account and self.user and self.password):
                 return False
-            try:
-                import snowflake.connector
-            except ImportError:
-                import subprocess
-                subprocess.check_call([sys.executable, "-m", "pip", "install", "--no-cache-dir", "snowflake-connector-python==3.12.3"])
-                import snowflake.connector
+            import snowflake.connector
             kwargs = {
                 "user": self.user,
                 "password": self.password,
