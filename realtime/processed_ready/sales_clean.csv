@@ -1,0 +1,3 @@
+Sale_ID,Date,Customer_ID,Product_ID,Branch,Quantity,Unit_Price,Discount,Cost,Revenue,Profit,Validation_Status
+SALE_024,2026-08-15,CUST0343,PROD0073,Apex Panipat POS,4,15093.53,2398.4,40008,57975.72,-102056.28,Valid
+SALE_025,2026-08-15,CUST0237,PROD0238,Apex Panipat POS,3,3959.57,409.45,7888.5,11469.26,-12196.24,Valid
