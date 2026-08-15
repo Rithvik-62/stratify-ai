@@ -17,3 +17,5 @@ sales_clean_20260815_130744.csv,2026-08-15 13:07:45,SUCCESS,1,0,Alteryx Clean In
 sales_clean_20260815_131053.csv,2026-08-15 13:10:54,SUCCESS,1,0,Alteryx Clean Ingested
 sales_clean_20260815_132937.csv,2026-08-15 13:29:39,SUCCESS,1,0,Alteryx Clean Ingested
 sales_clean_20260815_142045.csv,2026-08-15 14:20:46,SUCCESS,1,0,Alteryx Clean Ingested
+sales_clean.csv,2026-08-15 15:17:03,SUCCESS,5,0,Alteryx Clean Ingested
+sales_clean_20260815_151657.csv,2026-08-15 15:17:04,SUCCESS,1,0,Alteryx Clean Ingested

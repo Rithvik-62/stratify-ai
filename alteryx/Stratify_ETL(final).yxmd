@@ -1683,7 +1683,10 @@ Profit = (([Quantity] * [Unit...</DefaultAnnotationText>
                     <Table />
                   </Hints>
                 </View1>
-                <View2 />
+                <View2>
+                  <DefaultTab>Profile</DefaultTab>
+                  <Hints />
+                </View2>
               </Layout>
             </Configuration>
             <Annotation DisplayMode="0">

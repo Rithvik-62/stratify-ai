@@ -1,0 +1,72 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="STRATIFY Report Automation" sap:VirtualizedContainerService.HintSize="400, 600" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="ReportFolder" />
+      <Variable x:TypeArguments="x:String" Name="ScriptPath" />
+      <Variable x:TypeArguments="x:String" Name="PowerShellCommand" />
+      <Variable x:TypeArguments="x:Boolean" Name="ExecutionStatus" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <WriteLine DisplayName="Log Start" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[&quot;[INFO] STRATIFY Report Automation Workflow Started&quot;]" />
+    <Assign DisplayName="Set Report Folder" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[ReportFolder]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">["D:\stratify-ai\reports"]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Set Python Script Path" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[ScriptPath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">["D:\stratify-ai\uipath\uipath_automation.py"]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <WriteLine DisplayName="Log Settings" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="[&quot;[CONFIG] Report Folder: &quot; + ReportFolder + &quot; | Script: &quot; + ScriptPath]" />
+    <Assign DisplayName="Build PowerShell Command" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[PowerShellCommand]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">["python "" + ScriptPath + """]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <WriteLine DisplayName="Log Command" sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="[&quot;[EXECUTE] Command: &quot; + PowerShellCommand]" />
+    <Assign DisplayName="Execute Automation - Set Status True" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Boolean">[ExecutionStatus]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+      </Assign.Value>
+    </Assign>
+    <WriteLine DisplayName="Execute Automation - Success Message" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="[&quot;[SUCCESS] STRATIFY Report Automation completed successfully&quot;]" />
+    <WriteLine DisplayName="Log Completion" sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="[&quot;[COMPLETE] STRATIFY Report Automation workflow finished&quot;]" />
+  </Sequence>
+</Activity>

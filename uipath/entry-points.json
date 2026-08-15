@@ -1,0 +1,10 @@
+{
+  "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+  "entryPoints": [
+    {
+      "filePath": "STRATIFY_REPORT_AUTOMATION.xaml",
+      "uniqueId": "5557ff0a-4090-4d38-bbb8-dbd3803be757",
+      "type": "process"
+    }
+  ]
+}

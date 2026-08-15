@@ -12,6 +12,21 @@ archive_unused/
 .env.*
 !.env.example
 
+# Local generated runtime files & artifact outputs
+reports/*.pdf
+reports/archive/
+realtime/data/*.csv
+realtime/logs/*.csv
+realtime/rejected/*.csv
+realtime/processed/*.csv
+realtime/processed_ready/*.csv
+uipath/uipath_execution_log.csv
+uipath/.local/
+uipath/.tmh/
+uipath/.objects/
+uipath/.settings/
+uipath/.entities/
+
 # Python Caches & Compiled Bytecode
 __pycache__/
 *.py[cod]

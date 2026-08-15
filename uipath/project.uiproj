@@ -1,0 +1,6 @@
+{
+  "Name": "uipath",
+  "ProjectType": "Process",
+  "Description": "Blank Process",
+  "MainFile": "STRATIFY_REPORT_AUTOMATION.xaml"
+}
