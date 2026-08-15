@@ -1,6 +1,6 @@
 """
 STRATIFY — Decision Intelligence Platform
-Ultra-Modern Top Navigation Bar & Brand Header Component (header.py)
+Top Navigation Bar & Brand Header Component (header.py) - High-Visibility Theme
 """
 
 import streamlit as st
@@ -8,7 +8,7 @@ from datetime import datetime
 from database.snowflake_connection import db
 
 def render_top_navigation(last_refresh_time=None):
-    """Renders high-end modern top navigation bar with high-contrast typography and glowing pulse."""
+    """Renders high-contrast top navigation bar with clear typography and live indicator."""
     
     st.markdown("""
     <style>
@@ -22,9 +22,9 @@ def render_top_navigation(last_refresh_time=None):
         }
 
         .brand-badge {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            width: 52px;
+            height: 52px;
+            background: #1e40af;
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -32,98 +32,83 @@ def render_top_navigation(last_refresh_time=None):
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 900;
             color: #ffffff;
-            font-size: 1.7rem;
-            box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 1.8rem;
+            box-shadow: 0 4px 10px rgba(30, 64, 175, 0.3);
             flex-shrink: 0;
         }
 
         .brand-title {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1.85rem;
+            font-size: 1.95rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #2563eb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 0.04em;
+            color: #0f172a;
+            letter-spacing: 0.03em;
             line-height: 1.05;
             margin: 0;
         }
 
         .brand-tagline {
-            font-size: 0.76rem;
-            color: #2563eb;
+            font-size: 0.85rem;
+            color: #1e40af;
             font-weight: 800;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             margin-top: 3px;
         }
 
         .status-pill-live {
             background: #dcfce7;
-            color: #15803d;
+            color: #14532d;
             padding: 8px 18px;
             border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            border: 1px solid #bbf7d0;
+            font-size: 0.88rem;
+            font-weight: 800;
+            border: 2px solid #86efac;
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.12);
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.15);
         }
 
         .status-pill-offline {
             background: #fee2e2;
-            color: #b91c1c;
+            color: #7f1d1d;
             padding: 8px 18px;
             border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            border: 1px solid #fca5a5;
+            font-size: 0.88rem;
+            font-weight: 800;
+            border: 2px solid #fca5a5;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .pulse-dot-green {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             background-color: #16a34a;
             border-radius: 50%;
-            box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
-            animation: pulse-green 2s infinite;
+            display: inline-block;
         }
 
         .pulse-dot-red {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             background-color: #dc2626;
             border-radius: 50%;
-            box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
-            animation: pulse-red 2s infinite;
-        }
-
-        @keyframes pulse-green {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
-        }
-
-        @keyframes pulse-red {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+            display: inline-block;
         }
 
         .meta-info {
             text-align: right;
-            font-size: 0.8rem;
-            color: #64748b;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.4;
         }
         .meta-info b {
             color: #0f172a;
+            font-weight: 800;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -139,7 +124,7 @@ def render_top_navigation(last_refresh_time=None):
             <div class="brand-badge">S</div>
             <div>
                 <div class="brand-title">STRATIFY</div>
-                <div class="brand-tagline">Decision Intelligence Platform</div>
+                <div class="brand-tagline">Executive Business & Decision Intelligence Platform</div>
             </div>
         </div>
         """, unsafe_allow_html=True)

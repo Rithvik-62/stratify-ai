@@ -79,25 +79,31 @@ st.markdown("""
         margin-bottom: 24px;
         box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
     }
-    .status-banner-offline {
-        background: #fee2e2;
-        border: 1px solid #fca5a5;
-        border-radius: 14px;
-        padding: 18px 24px;
-        margin-bottom: 24px;
+    /* Headings & Text - High Contrast */
+    h1, h2, h3, h4, h5, h6 {
+        color: #0f172a !important;
+        font-weight: 800 !important;
+    }
+    p, span, label, div {
+        color: #0f172a;
+    }
+    label[data-testid="stWidgetLabel"] p {
+        font-size: 0.92rem !important;
+        font-weight: 800 !important;
+        color: #0f172a !important;
     }
 
-    /* Buttons Styling - Clean, High Contrast, Always Visible, No Hover Color Shift */
+    /* Buttons Styling - Large, High Contrast, Always Visible, Zero Hover Flicker */
     .stButton > button {
         border-radius: 8px !important;
         font-family: 'Plus Jakarta Sans', sans-serif !important;
-        font-weight: 700 !important;
-        padding: 10px 18px !important;
-        font-size: 0.85rem !important;
+        font-weight: 800 !important;
+        padding: 12px 20px !important;
+        font-size: 0.90rem !important;
         background-color: #1e40af !important;
         color: #ffffff !important;
-        border: 1px solid #1d4ed8 !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        border: 2px solid #1d4ed8 !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12) !important;
         transition: none !important;
         transform: none !important;
     }
@@ -106,31 +112,30 @@ st.markdown("""
         color: #ffffff !important;
         border-color: #1e3a8a !important;
         transform: none !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
     }
     .stButton > button p, .stButton > button span {
         color: #ffffff !important;
-        font-weight: 700 !important;
-        font-size: 0.85rem !important;
+        font-weight: 800 !important;
+        font-size: 0.90rem !important;
     }
 
-    /* Clean Tab Styling */
+    /* Clean Tab Styling - High Contrast */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 6px;
-        background-color: #f1f5f9;
-        padding: 6px;
-        border-radius: 10px;
-        border: 1px solid #e2e8f0;
+        gap: 8px;
+        background-color: #f8fafc;
+        padding: 8px;
+        border-radius: 12px;
+        border: 2px solid #cbd5e1;
         overflow-x: auto;
     }
     .stTabs [data-baseweb="tab"] {
-        border-radius: 6px;
-        padding: 8px 14px;
-        font-weight: 700;
-        font-size: 0.84rem;
-        color: #334155 !important;
+        border-radius: 8px;
+        padding: 10px 16px;
+        font-weight: 800;
+        font-size: 0.88rem;
+        color: #1e293b !important;
         background-color: #ffffff;
-        border: 1px solid #cbd5e1;
+        border: 1.5px solid #cbd5e1;
         white-space: nowrap;
     }
     .stTabs [aria-selected="true"] {
@@ -140,7 +145,7 @@ st.markdown("""
     }
     .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
         color: #ffffff !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
     }
 </style>
 """, unsafe_allow_html=True)

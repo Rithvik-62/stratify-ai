@@ -1,13 +1,13 @@
 """
 STRATIFY — Decision Intelligence Platform
-Live Streaming Transaction Feed Component (transaction_feed.py) - Enterprise Light Theme
+Live Streaming Transaction Feed Component (transaction_feed.py) - High-Visibility Theme
 """
 
 import streamlit as st
 import pandas as pd
 
 def render_live_transaction_feed(sales_df):
-    """Renders real-time transaction stream from Snowflake in Enterprise Light Theme."""
+    """Renders real-time transaction stream from Snowflake in High-Visibility Theme."""
     st.markdown("### ⚡ LIVE TRANSACTION FEED")
 
     if sales_df is None or sales_df.empty:
@@ -29,17 +29,17 @@ def render_live_transaction_feed(sales_df):
     status = top_row.get('VALIDATION_STATUS', top_row.get('Validation_Status', 'Valid'))
 
     st.markdown(f"""
-    <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:16px; border-radius:10px; margin-bottom:16px;">
+    <div style="background:#f0fdf4; border:2px solid #86efac; padding:18px; border-radius:12px; margin-bottom:16px;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div>
-                <span style="color:#16a34a; font-weight:800; font-size:1.1rem;">● {sid}</span>
-                <span style="color:#64748b; font-size:0.8rem; margin-left:8px;">Just now (Snowflake Ingested)</span>
+                <span style="color:#15803d; font-weight:900; font-size:1.25rem;">● {sid}</span>
+                <span style="color:#1e293b; font-weight:800; font-size:0.92rem; margin-left:10px;">Latest Ingestion (Snowflake DWH Verified)</span>
             </div>
-            <span style="background:#dcfce7; color:#15803d; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.75rem;">{status}</span>
+            <span style="background:#dcfce7; color:#14532d; border:1px solid #86efac; padding:6px 14px; border-radius:20px; font-weight:800; font-size:0.85rem;">{status}</span>
         </div>
-        <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.88rem; color:#0f172a;">
-            <div><b>Product ID:</b> {pid} | <b>Branch:</b> {branch}</div>
-            <div><b>Revenue:</b> ₹{rev:,.2f} | <b>Profit:</b> ₹{prof:,.2f}</div>
+        <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:0.95rem; color:#0f172a;">
+            <div><b>Product Catalog Item:</b> <span style="color:#1e40af; font-weight:800;">{pid}</span> | <b>Branch POS:</b> <b>{branch}</b></div>
+            <div><b>Revenue:</b> <span style="color:#15803d; font-weight:800;">₹{rev:,.2f}</span> | <b>Profit:</b> <b>₹{prof:,.2f}</b></div>
         </div>
     </div>
     """, unsafe_allow_html=True)
