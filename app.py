@@ -319,7 +319,7 @@ with ctl4:
         with st.spinner("Compiling PDF & Executing Gmail SMTP Dispatch..."):
             pdf_p = generate_executive_report()
             rpa = StratifyUiPathAutomation()
-            rpa.run_report_archival_workflow()
+            rpa.run_report_archival_workflow(target_pdf=pdf_p)
             st.session_state.last_refresh_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             st.success(f"Report compiled & dispatched: {os.path.basename(pdf_p)}")
 

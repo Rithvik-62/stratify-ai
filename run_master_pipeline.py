@@ -145,7 +145,7 @@ def run_master_automated_pipeline():
     ts = datetime.now().strftime("%H:%M:%S")
     print(f"[{ts}] Executing UiPath RPA archival & email dispatch...")
     rpa = StratifyUiPathAutomation()
-    rpa.run_report_archival_workflow()
+    rpa.run_report_archival_workflow(target_pdf=pdf_path)
     print(f"[{ts}] UiPath automation completed")
 
     print("\n============================================================")

@@ -136,27 +136,33 @@ class StratifyUiPathAutomation:
             self.log_event("STRATIFY_EMAIL_DISPATCH", "ERROR", filename, err_msg)
             return False, err_msg
 
-    def run_report_archival_workflow(self):
+    def run_report_archival_workflow(self, target_pdf=None):
         """Workflow: Detects new Executive PDF reports, archives previous reports, and dispatches via Gmail SMTP."""
         workflow_name = "STRATIFY_REPORT_AUTOMATION"
         
-        pdf_files = sorted(glob.glob(os.path.join(REPORTS_DIR, "STRATIFY_Executive_*.pdf")))
-        if not pdf_files:
-            self.log_event(workflow_name, "IDLE", "N/A", "No new executive PDF report detected in reports/")
-            return False
+        if target_pdf and os.path.exists(target_pdf):
+            latest_pdf = target_pdf
+            pdf_files = sorted(glob.glob(os.path.join(REPORTS_DIR, "STRATIFY_Executive_*.pdf")), key=os.path.getmtime)
+        else:
+            pdf_files = sorted(glob.glob(os.path.join(REPORTS_DIR, "STRATIFY_Executive_*.pdf")), key=os.path.getmtime)
+            if not pdf_files:
+                self.log_event(workflow_name, "IDLE", "N/A", "No new executive PDF report detected in reports/")
+                return False
+            latest_pdf = pdf_files[-1]
 
-        latest_pdf = pdf_files[-1]
         latest_filename = os.path.basename(latest_pdf)
-
         self.log_event(workflow_name, "SUCCESS", latest_filename, "Detected new executive PDF report")
 
         # Archive older reports if more than 1 exists
-        older_reports = pdf_files[:-1]
+        older_reports = [f for f in pdf_files if f != latest_pdf]
         for old_file in older_reports:
-            old_name = os.path.basename(old_file)
-            archive_dest = os.path.join(ARCHIVE_DIR, old_name)
-            shutil.move(old_file, archive_dest)
-            self.log_event(workflow_name, "ARCHIVED", old_name, f"Moved older report to reports/archive/{old_name}")
+            try:
+                old_name = os.path.basename(old_file)
+                archive_dest = os.path.join(ARCHIVE_DIR, old_name)
+                shutil.move(old_file, archive_dest)
+                self.log_event(workflow_name, "ARCHIVED", old_name, f"Moved older report to reports/archive/{old_name}")
+            except Exception:
+                pass
 
         # Execute Gmail SMTP Email Dispatch
         self.send_gmail_smtp_report(latest_pdf)
