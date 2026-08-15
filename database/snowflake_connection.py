@@ -116,7 +116,8 @@ class SnowflakeDatabaseManager:
                     "account": self.account,
                     "database": self.database,
                     "schema": self.schema,
-                    "login_timeout": 8
+                    "login_timeout": 25,
+                    "network_timeout": 25
                 }
                 if self.warehouse:
                     kwargs["warehouse"] = self.warehouse
@@ -211,7 +212,8 @@ class SnowflakeDatabaseManager:
                 "account": self.account,
                 "database": self.database,
                 "schema": self.schema,
-                "login_timeout": 8
+                "login_timeout": 25,
+                "network_timeout": 25
             }
             if self.warehouse:
                 kwargs["warehouse"] = self.warehouse
