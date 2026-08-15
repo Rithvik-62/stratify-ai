@@ -960,16 +960,7 @@ Query=`Sheet1$`</DefaultAnnotationText>
             <Configuration>
               <OrderChanged value="False" />
               <CommaDecimal value="False" />
-              <SelectFields>
-                <SelectField field="Employee_ID" selected="True" type="WString" size="50" />
-                <SelectField field="Name" selected="True" type="WString" size="100" />
-                <SelectField field="Department" selected="True" type="WString" size="50" />
-                <SelectField field="Role" selected="True" type="WString" size="50" />
-                <SelectField field="Salary" selected="True" type="Double" size="8" />
-                <SelectField field="Performance_Score" selected="True" type="Int32" size="4" />
-                <SelectField field="*Unknown" selected="False" />
-              </SelectFields>
-            </Configuration>
+              <SelectFields><SelectField field="Employee_ID" selected="True" type="WString" size="50" /><SelectField field="Employee_Name" selected="True" rename="Name" type="WString" size="100" /><SelectField field="Department" selected="True" type="WString" size="50" /><SelectField field="Designation" selected="True" rename="Role" type="WString" size="50" /><SelectField field="Salary" selected="True" type="Double" size="8" /><SelectField field="Joining_Date" selected="True" type="Date" size="10" /><SelectField field="Performance_Score" selected="True" type="Int32" size="4" /><SelectField field="Location" selected="True" type="WString" size="50" /><SelectField field="*Unknown" selected="False" /></SelectFields></Configuration>
             <Annotation DisplayMode="0">
               <Name />
               <DefaultAnnotationText />
@@ -1232,16 +1223,7 @@ Query=`Sheet1$`</DefaultAnnotationText>
             <Configuration>
               <OrderChanged value="False" />
               <CommaDecimal value="False" />
-              <SelectFields>
-                <SelectField field="Transaction_ID" selected="True" type="WString" size="50" />
-                <SelectField field="Date" selected="True" type="Date" size="10" />
-                <SelectField field="Department" selected="True" type="WString" size="50" />
-                <SelectField field="Revenue" selected="True" type="Double" size="8" />
-                <SelectField field="Expenses" selected="True" type="Double" size="8" />
-                <SelectField field="Tax" selected="True" type="Double" size="8" />
-                <SelectField field="*Unknown" selected="False" />
-              </SelectFields>
-            </Configuration>
+              <SelectFields><SelectField field="Month" selected="True" rename="Date" type="Date" size="10" /><SelectField field="Revenue" selected="True" type="Double" size="8" /><SelectField field="Expenses" selected="True" type="Double" size="8" /><SelectField field="Profit" selected="True" type="Double" size="8" /><SelectField field="Marketing_Cost" selected="True" type="Double" size="8" /><SelectField field="Salary_Cost" selected="True" type="Double" size="8" /><SelectField field="Operational_Cost" selected="True" type="Double" size="8" /><SelectField field="Tax" selected="True" type="Double" size="8" /><SelectField field="Net_Profit" selected="True" type="Double" size="8" /><SelectField field="*Unknown" selected="False" /></SelectFields></Configuration>
             <Annotation DisplayMode="0">
               <Name />
               <DefaultAnnotationText />
@@ -1256,12 +1238,7 @@ Query=`Sheet1$`</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <FormulaFields>
-                <FormulaField expression="[Revenue] - [Expenses]" field="Profit" size="8" type="Double" />
-                <FormulaField expression="[Revenue] - [Expenses] - [Tax]" field="Net_Profit" size="8" type="Double" />
-                <FormulaField expression="IF IsNull([Revenue]) OR [Revenue] &lt;= 0 THEN&#10;    &quot;Invalid Revenue&quot;&#10;&#10;ELSEIF IsNull([Expenses]) OR [Expenses] &lt; 0 THEN&#10;    &quot;Invalid Expenses&quot;&#10;&#10;ELSEIF IsNull([Tax]) OR [Tax] &lt; 0 THEN&#10;    &quot;Invalid Tax&quot;&#10;&#10;ELSEIF IsNull([Department]) OR Trim([Department]) = &quot;&quot; THEN&#10;    &quot;Missing Department&quot;&#10;&#10;ELSEIF IsNull([Date]) THEN&#10;    &quot;Missing Date&quot;&#10;&#10;ELSE&#10;    &quot;Valid&quot;&#10;ENDIF" field="Validation_Status" size="50" type="WString" />
-              </FormulaFields>
-            </Configuration>
+              <FormulaFields><FormulaField expression="[Revenue] - [Expenses]" field="Profit" size="8" type="Double" /><FormulaField expression="[Revenue] - [Expenses] - [Tax]" field="Net_Profit" size="8" type="Double" /><FormulaField expression="IF IsNull([Revenue]) OR [Revenue] &lt;= 0 THEN &quot;Invalid Revenue&quot;&#10;ELSEIF IsNull([Expenses]) OR [Expenses] &lt; 0 THEN &quot;Invalid Expenses&quot;&#10;ELSEIF IsNull([Tax]) OR [Tax] &lt; 0 THEN &quot;Invalid Tax&quot;&#10;ELSEIF IsNull([Date]) THEN &quot;Missing Date&quot;&#10;ELSE &quot;Valid&quot;&#10;ENDIF" field="Validation_Status" size="50" type="WString" /></FormulaFields></Configuration>
             <Annotation DisplayMode="0">
               <Name />
               <DefaultAnnotationText>Profit = [Revenue] - [Expenses]
@@ -1407,10 +1384,7 @@ Vali...</DefaultAnnotationText>
           </GuiSettings>
           <Properties>
             <Configuration>
-              <UniqueFields>
-                <Field field="Transaction_ID" />
-              </UniqueFields>
-            </Configuration>
+              <UniqueFields><Field field="Date" /></UniqueFields></Configuration>
             <Annotation DisplayMode="0">
               <Name />
               <DefaultAnnotationText />
