@@ -27,25 +27,39 @@ except ImportError:
 _snowflake_lock = threading.Lock()
 
 def get_config(key, default=""):
-    """Fetches config value from os.getenv or st.secrets (Streamlit Cloud compatible, supporting both flat & nested TOML)."""
+    """Fetches config value from os.getenv or st.secrets (Streamlit Cloud compatible, supporting flat, nested, and connections TOML)."""
     val = os.getenv(key)
     if val:
         return str(val).strip()
     try:
         import streamlit as st
-        if hasattr(st, "secrets"):
-            if key in st.secrets:
-                return str(st.secrets[key]).strip()
-            if key.upper() in st.secrets:
-                return str(st.secrets[key.upper()]).strip()
-            if key.lower() in st.secrets:
-                return str(st.secrets[key.lower()]).strip()
-            if "secrets" in st.secrets and isinstance(st.secrets["secrets"], dict):
-                if key in st.secrets["secrets"]:
-                    return str(st.secrets["secrets"][key]).strip()
-            if "SNOWFLAKE" in st.secrets and isinstance(st.secrets["SNOWFLAKE"], dict):
-                if key in st.secrets["SNOWFLAKE"]:
-                    return str(st.secrets["SNOWFLAKE"][key]).strip()
+        if hasattr(st, "secrets") and st.secrets:
+            # 1. Direct top-level checks
+            for k in [key, key.upper(), key.lower()]:
+                if k in st.secrets:
+                    return str(st.secrets[k]).strip()
+
+            # 2. Short alias without prefix (e.g. USER, ACCOUNT, PASSWORD)
+            short_key = key.replace("SNOWFLAKE_", "").replace("SMTP_", "").replace("DEEPSEEK_", "")
+            for sk in [short_key, short_key.upper(), short_key.lower()]:
+                if sk in st.secrets:
+                    return str(st.secrets[sk]).strip()
+
+            # 3. Search in nested tables: [snowflake], [SNOWFLAKE], [connections.snowflake]
+            for section_name in ["snowflake", "SNOWFLAKE", "secrets", "SECRETS"]:
+                if section_name in st.secrets and isinstance(st.secrets[section_name], dict):
+                    sec = st.secrets[section_name]
+                    for candidate in [key, key.upper(), key.lower(), short_key, short_key.upper(), short_key.lower()]:
+                        if candidate in sec:
+                            return str(sec[candidate]).strip()
+
+            if "connections" in st.secrets and isinstance(st.secrets["connections"], dict):
+                conn_sec = st.secrets["connections"]
+                for sub in ["snowflake", "SNOWFLAKE"]:
+                    if sub in conn_sec and isinstance(conn_sec[sub], dict):
+                        for candidate in [key, key.upper(), key.lower(), short_key, short_key.upper(), short_key.lower()]:
+                            if candidate in conn_sec[sub]:
+                                return str(conn_sec[sub][candidate]).strip()
     except Exception:
         pass
     return default
