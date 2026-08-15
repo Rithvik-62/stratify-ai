@@ -1,46 +1,49 @@
 # 🎯 STRATIFY — Live College Presentation & Interview Demo Guide
+**Classification:** Near-Real-Time End-to-End BI Pipeline with a Manual Alteryx Execution Gate  
 
-## 1. The 30-Second Elevator Pitch
+---
 
-> *"I built **STRATIFY** — a fully automated, real-time Business Intelligence and Decision Intelligence platform that integrates **Alteryx** for ETL data engineering, **Snowflake cloud data warehouse** on AWS, **Python with DeepSeek Generative AI** for financial KPI modeling and RFM segmentation, and **UiPath RPA** for automated executive report delivery. It processes live POS transaction batches, evaluates business health scores, generates an 8-page executive PDF, and dispatches it via Gmail SMTP — all with one click. It is deployed both on Streamlit Cloud and natively inside Snowflake."*
+## 1. The 30-Second Viva Pitch
+
+> *"STRATIFY is an enterprise Decision Intelligence platform that connects a 4-tool modern data stack: **Alteryx** for ETL data preparation and referential integrity validation, **Snowflake cloud data warehouse** on AWS for scalable analytical storage, **Python & DeepSeek Generative AI** for automated KPI modeling and CDO decision insights, and **UiPath RPA with Gmail SMTP** for executive report distribution. It features a manual Alteryx execution gate due to standalone desktop licensing, after which the entire pipeline ingests data, updates live Snowflake views, compiles an 8-page PDF, and delivers it via email automatically."*
 
 ---
 
 ## 2. Live Demo Script (Step-by-Step)
 
-### Step 1: Open Dashboard (`http://localhost:8501`)
-- Highlight the **Live Status Banner** showing active connection to Snowflake (`NOVAKART_DB.ANALYTICS` on AWS `ap-southeast-7`).
-- Point out the **Live Transaction Ticker** with real-time ingestion velocity.
-- Show the **Executive KPI Grid** (Revenue, Profit, Margin, Transactions, AOV, Customers, Products, Critical Stock).
+### Step 1: Launch Web Dashboard
+```bash
+streamlit run app.py
+```
+- Point out the **Live Snowflake Status Indicator** (`NOVAKART_DB.ANALYTICS` on AWS `ap-southeast-7`).
+- Show current KPIs: Total Revenue, Profit, Margin, Transactions.
 
-### Step 2: Trigger Live Pipeline Execution
-- Click the blue primary button: **`⚡ RUN DEMO PIPELINE NOW`**.
-- Walk the audience through the 4 tools executing in sequence:
-  1. **Source Generator:** Creates a new POS micro-batch.
-  2. **Alteryx / Python ETL:** Validates data types, cleans nulls, and deduplicates `Sale_ID`.
-  3. **Snowflake DWH:** Merges into `RAW_SALES` without duplicate keys.
-  4. **DeepSeek AI:** Synthesizes strategic CDO recommendations.
-  5. **ReportLab:** Compiles the 8-page Executive Review PDF.
-  6. **UiPath RPA Robot:** Detects the PDF, archives old versions, and sends an email via Gmail SMTP.
+### Step 2: Trigger Live Transaction Batch
+```bash
+python realtime/generator.py --mode single --count 1
+```
+- Shows a new batch file created in `realtime/incoming/sales_batch_*.csv`.
+- The dashboard pipeline monitor immediately reflects: `⚠️ ALERT: Awaiting Alteryx (Ctrl+R)`.
 
-### Step 3: Verify Real-Time Dashboard Updates
-- Show that **Total Transactions** incremented (e.g. 9 ➔ 10).
-- Show that **Total Revenue** and **Profit** dynamically increased based on the real Snowflake query.
-- Show the new transaction appearing immediately at the top of the **Live Transaction Stream**.
-- Show the updated **Pipeline Architecture Monitor** and event logs in `processing_log.csv`.
+### Step 3: Run Alteryx Designer (Manual Gate)
+- In Alteryx Designer, press **`Ctrl + R`**.
+- Alteryx runs data type casting, deduplication, formula recalculations, and referential integrity checks against `Customers` and `Products`.
+- Alteryx outputs the clean validated batch to `realtime/processed_ready/`.
 
-### Step 4: Explore Advanced Enterprise Modules
-- **`🔮 ML Predictive Forecasting`**: Show the 30-day forecast chart with 95% confidence intervals and $R^2 = 0.942$.
-- **`🎯 Customer RFM Intelligence`**: Explain how the 486 customers are segmented into Champions, Loyal, At-Risk, and Hibernating.
-- **`🎛️ Strategic What-If Simulator`**: Drag the pricing slider (+5%) and volume slider (+10%) to show dynamic net profit and break-even point recalculations.
-- **`💬 STRATIFY AI Copilot`**: Click a preset prompt chip to demonstrate natural language Q&A with live Snowflake context.
+### Step 4: Run Snowflake Ingestion
+```bash
+python realtime/pipeline.py
+```
+- `pipeline.py` ingests the Alteryx-cleaned batch into Snowflake `RAW_SALES` via `MERGE INTO`.
+- Archives the batch to `realtime/processed/`.
 
----
+### Step 5: Verify Live Snowflake Dashboard Updates
+- The dashboard automatically detects updated data from Snowflake.
+- Transaction count and revenue increase dynamically based on live SQL queries.
+- Pipeline status transitions to: `● Pipeline Healthy`.
 
-## 3. Frequently Asked Questions & Viva Answers
-
-| Question | Strong Answer |
-|---|---|
-| **Q: How does STRATIFY avoid duplicate transaction loading?** | We enforce an idempotent `MERGE INTO` statement keyed on `SALE_ID`. If a batch contains an existing SALE_ID, Snowflake updates the record instead of duplicating it, guaranteeing 100% data uniqueness. |
-| **Q: Why combine Alteryx, Snowflake, and Python?** | Alteryx excels at visual ETL workflows and enterprise data preparation; Snowflake delivers scalable cloud storage with sub-second analytical queries; Python provides ML forecasting, generative AI synthesis, and custom reporting. |
-| **Q: Is the data real-time or simulated?** | The data is simulated to model a production retail network with 4 branches, but the **pipeline itself is 100% real and production-grade** — writing to a live AWS Snowflake warehouse and delivering real emails with PDF attachments. |
+### Step 6: Generate Executive Report & RPA Email
+```bash
+python run_master_pipeline.py
+```
+- Compiles the 8-page Executive Review PDF and sends it directly to your email inbox via Gmail SMTP.

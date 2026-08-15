@@ -1,96 +1,99 @@
-# ⚡ STRATIFY — Enterprise System Architecture & Data Engineering Guide
+# ⚡ STRATIFY — System Architecture & Data Pipeline Guide
 **Platform:** STRATIFY — Executive Business Intelligence & Decision Intelligence Platform  
-**Target Architecture:** 4-Tool Enterprise Data Pipeline (Near-Real-Time Batch BI)  
+**Classification:** Near-Real-Time End-to-End BI Pipeline with a Manual Alteryx Execution Gate  
 
 ---
 
-## 1. End-to-End Pipeline Architecture
+## 1. End-to-End Enterprise Architecture
 
 ```
-                BUSINESS DATA SOURCE (POS Terminals)
+                    [1. BUSINESS DATA SOURCE]
+                     (POS Terminal Simulator)
+                                │
+                                ▼ (Raw CSV Batch)
+                   realtime/incoming/sales_batch_*.csv
+                                │
+                                ▼
+                   ┌───────────────────────────┐
+                   │    TOOL 1: ALTERYX ETL    │
+                   │ (Manual Execution Gate:   │
+                   │  Alteryx Designer Ctrl+R) │
+                   │                           │
+                   │ - Data Type Casting       │
+                   │ - Formula Recalculation   │
+                   │ - Deduplication (Unique)  │
+                   │ - Multi-Rule Validation   │
+                   │ - Referential Integrity   │
+                   └─────────────┬─────────────┘
                                  │
-                                 ▼
-                     INCOMING CSV MICRO-BATCH
-                    (realtime/incoming/*.csv)
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │       TOOL 1:           │
-                    │   ALTERYX ETL ENGINE    │
-                    │ (Validation & Cleanse)  │
-                    └────────────┬────────────┘
-                                 │
-                            CLEAN DATA
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │       TOOL 2:           │
-                    │   SNOWFLAKE CLOUD DWH   │
-                    │ (Stage, Tables & Views) │
-                    └────────────┬────────────┘
-                                 │
-                          ANALYTICS VIEWS
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │   PYTHON DATA SERVICES  │
-                    │ (KPIService, Analytics) │
-                    └────────────┬────────────┘
-                                 │
-             ┌───────────────────┼───────────────────┐
-             │                   │                   │
-             ▼                   ▼                   ▼
-    ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-    │  WEB DASHBOARD  │ │  DEEPSEEK AI    │ │  EXECUTIVE PDF  │
-    │  (Streamlit UI) │ │ (CDO Insights)  │ │ (ReportLab 8-Pg)│
-    └────────┬────────┘ └────────┬────────┘ └────────┬────────┘
-             │                   │                   │
-             └───────────────────┼───────────────────┘
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │       TOOL 4:           │
-                    │    UIPATH RPA ROBOT     │
-                    │ (Archival & Gmail SMTP) │
-                    └─────────────────────────┘
+                 ┌───────────────┴───────────────┐
+                 │                               │
+                 ▼ (Clean Valid Batch)           ▼ (Invalid Records)
+    realtime/processed_ready/sales_clean_*.csv    realtime/rejected/invalid_sales.csv
+                 │
+                 ▼
+    ┌─────────────────────────────┐
+    │ TOOL 2: SNOWFLAKE INGESTION │
+    │ (Automatic Ingestion Engine)│
+    │                             │
+    │ - Reads processed_ready/    │
+    │ - Idempotent SQL MERGE INTO │
+    │ - Target: RAW_SALES         │
+    └────────────┬────────────────┘
+                 │
+                 ├─────────────────────────────────────────┐
+                 │ (Archive Clean Batch)                   │ (Live SQL Queries)
+                 ▼                                         ▼
+    realtime/processed/sales_clean_*.csv        Snowflake Analytical Views
+                                                (VW_STRATIFY_REALTIME_KPI)
+                                                           │
+                                                           ▼
+                                                [3. PYTHON SERVICES]
+                                                - KPIService / Ratios
+                                                - HistoricalService
+                                                           │
+                                      ┌────────────────────┼────────────────────┐
+                                      │                    │                    │
+                                      ▼                    ▼                    ▼
+                            [4. WEB DASHBOARD]     [5. DEEPSEEK AI]    [6. EXECUTIVE PDF]
+                            (Streamlit Live UI)    (CDO Insights)      (8-Page ReportLab)
+                                      │                    │                    │
+                                      └────────────────────┼────────────────────┘
+                                                           │
+                                                           ▼
+                                                [7. UIPATH RPA & GMAIL]
+                                                - Archival: reports/archive/
+                                                - Dispatch: Live Gmail SMTP
 ```
 
 ---
 
-## 2. Core Architectural Principles
+## 2. Alteryx Licensing & Manual Execution Gate
 
-1. **Near-Real-Time Batch Processing:**  
-   STRATIFY simulates real-world operational data ingestion using micro-batches. Each incoming batch is processed through the ETL, warehouse, analytics, and reporting pipeline.
-
-2. **Snowflake as the Single Source of Truth (SSOT):**  
-   All metrics displayed on the dashboard, in DeepSeek AI prompts, and in the PDF report are queried directly from Snowflake Data Warehouse (`NOVAKART_DB.ANALYTICS`). No local CSV files are used for reporting.
-
-3. **Idempotent Ingestion & MERGE Logic:**  
-   Transactions are deduplicated using `SALE_ID` as the primary key. If a record already exists in Snowflake, the `MERGE INTO` statement prevents duplicate insertion.
-
-4. **Transparent Governance & Health Scoring:**  
-   Business health scores, profit margins, and departmental ratios are computed using explicit mathematical formulas in Python and SQL—never fabricated.
+> [!IMPORTANT]
+> **Alteryx Licensing Classification:**  
+> **Alteryx Designer (Version 2025.2.1.117)** is the authoritative ETL data-engineering engine used by STRATIFY. The installed standalone desktop license does not include the headless server command-line feature (`API or FlowChartMode`). Therefore, the real-world workflow execution in Alteryx Designer is performed via the manual execution gate (`Ctrl + R`). Once Alteryx produces the validated output in `realtime/processed_ready/`, the Snowflake cloud ingestion, Python analytics, Streamlit dashboard, DeepSeek AI synthesis, PDF compilation, and UiPath RPA email delivery execute **100% automatically**.
 
 ---
 
-## 3. Technology Stack & Component Specifications
+## 3. Component Integration Matrix & Automation Status
 
-| Layer | Technology / Tool | Implementation File | Role |
-| :--- | :--- | :--- | :--- |
-| **Data Generation** | Python 3.11+ | `realtime/generator.py` | Generates realistic retail transactions across 4 branches. |
-| **ETL & Data Prep** | Alteryx Designer | `alteryx/Stratify_ETL(final).yxmd` | Validates schema, cleans nulls, and standardizes data types. |
-| **ETL Parity Engine** | Python | `realtime/pipeline.py` | Automated command-line execution engine for Alteryx logic. |
-| **Cloud Data Warehouse** | Snowflake Cloud | `NOVAKART_DB.ANALYTICS` | AWS `ap-southeast-7` instance running star-schema analytics. |
-| **Data Service Layer** | Python Service Classes | `analytics/services.py` | `KPIService`, `AnalyticsService`, `HistoricalService`, `PipelineService`. |
-| **Generative AI** | DeepSeek AI API | `ai/deepseek_insights.py` | Interprets factual financial KPIs for executive CDO decision support. |
-| **Executive Reporting** | ReportLab Platypus | `reports/generate_pdf_report.py` | Compiles formal 8-page Executive Review PDF documents. |
-| **Process Automation** | UiPath & Gmail SMTP | `uipath/uipath_automation.py` | Detects new reports, archives older versions, and dispatches emails. |
-| **Executive Dashboard** | Streamlit & Plotly | `app.py`, `components/` | High-contrast modern luxury executive BI control center. |
+| Component | Technology | Automation Status | Real Connection | Manual Action Required |
+|---|---|---|---|---|
+| **1. POS Generator** | Python 3.11+ | 🟢 Automated | Local Filesystem I/O (`realtime/incoming/`) | None (Run via CLI or Master Pipeline) |
+| **2. Alteryx ETL** | Alteryx Designer `.yxmd` | 🟡 Manual Gate | Local Filesystem I/O (`realtime/processed_ready/`) | Open workflow in Alteryx Designer and press `Ctrl + R` |
+| **3. Snowflake DWH** | Snowflake Cloud (AWS `ap-southeast-7`) | 🟢 Automated | `snowflake-connector-python` (`NOVAKART_DB.ANALYTICS`) | None (Automatic idempotent SQL `MERGE INTO`) |
+| **4. Python Services** | Python Service Layer | 🟢 Automated | Snowflake SQL analytical views | None (Dynamic KPI & ratio calculations) |
+| **5. Web Dashboard** | Streamlit + Plotly | 🟢 Automated | Live queries to `VW_STRATIFY_REALTIME_KPI` | None (Real-time auto-refresh) |
+| **6. DeepSeek AI** | DeepSeek REST API | 🟢 Automated | `api.deepseek.com` | None (Auto executive CDO synthesis) |
+| **7. Executive PDF** | ReportLab Platypus | 🟢 Automated | Local compiler from live Snowflake DWH | None (Auto 8-page PDF build) |
+| **8. UiPath RPA & SMTP**| Python RPA + Gmail SMTP | 🟢 Automated | `smtp.gmail.com:587` | None (Auto archival & email delivery) |
 
 ---
 
-## 4. Security & Governance
+## 4. Fail-Safe Ingestion Rules
 
-- All secrets and credentials reside in environment variables or `.env` (`SNOWFLAKE_PASSWORD`, `DEEPSEEK_API_KEY`, `SMTP_PASSWORD`).
-- No credentials are committed to version control.
-- An example environment template is provided in `.env.example`.
+1. **No Raw Bypass:** `realtime/pipeline.py` never ingests `realtime/incoming/sales_batch_*.csv` directly into Snowflake.
+2. **Clean Output Verification:** Snowflake ingestion triggers **only** when validated files exist in `realtime/processed_ready/`.
+3. **Quarantine Isolation:**corrupted, negative, or invalid records are routed to `realtime/rejected/`.
+4. **Zero Duplicates:** Primary key `Sale_ID` uniqueness is enforced at Alteryx (`Unique ToolID 603`) and Snowflake (`MERGE INTO`).

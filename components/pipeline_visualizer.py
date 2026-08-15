@@ -9,7 +9,7 @@ import pandas as pd
 from datetime import datetime
 from database.snowflake_connection import db
 
-def get_pipeline_nodes_status(incoming_cnt=0, processed_cnt=0, sales_df=None):
+def get_pipeline_nodes_status(incoming_cnt=0, ready_cnt=0, processed_cnt=0, sales_df=None):
     """Evaluates actual real-time status of each pipeline stage."""
     status_lbl, is_snowflake_connected = db.get_status()
     deepseek_key = os.getenv("DEEPSEEK_API_KEY", "")
@@ -19,28 +19,45 @@ def get_pipeline_nodes_status(incoming_cnt=0, processed_cnt=0, sales_df=None):
 
     now_str = datetime.now().strftime("%H:%M:%S")
     sync_str = db.last_sync_time.strftime("%H:%M:%S") if db.last_sync_time else now_str
-    sales_cnt = len(sales_df) if sales_df is not None else 9
+    sales_cnt = len(sales_df) if sales_df is not None else 15
+
+    # Determine Alteryx Status State
+    if incoming_cnt > 0 and ready_cnt == 0:
+        alteryx_status = "WAITING"
+        alteryx_desc = "Awaiting Alteryx (Ctrl+R)"
+        snow_status = "HEALTHY" if is_snowflake_connected else "FAILED"
+        snow_desc = "NOVAKART_DB Synced"
+    elif ready_cnt > 0:
+        alteryx_status = "HEALTHY"
+        alteryx_desc = "Clean Output Ready"
+        snow_status = "RUNNING"
+        snow_desc = "Loading Snowflake..."
+    else:
+        alteryx_status = "HEALTHY"
+        alteryx_desc = "Cleaned & Validated"
+        snow_status = "HEALTHY" if is_snowflake_connected else "FAILED"
+        snow_desc = "Pipeline Healthy"
 
     return [
         {"name": "SOURCE (POS BATCHES)", "status": "HEALTHY", "time": now_str, "rows": f"{incoming_cnt} pending", "desc": "CSV generator"},
-        {"name": "ALTERYX (ETL ENGINE)", "status": "HEALTHY", "time": now_str, "rows": f"{processed_cnt} batches", "desc": "Cleaned & Validated"},
-        {"name": "SNOWFLAKE (DWH)", "status": "HEALTHY" if is_snowflake_connected else "FAILED", "time": sync_str, "rows": f"{sales_cnt} loaded", "desc": "NOVAKART_DB"},
+        {"name": "ALTERYX (ETL ENGINE)", "status": alteryx_status, "time": now_str, "rows": f"{ready_cnt} ready" if ready_cnt > 0 else f"{processed_cnt} archived", "desc": alteryx_desc},
+        {"name": "SNOWFLAKE (DWH)", "status": snow_status, "time": sync_str, "rows": f"{sales_cnt} loaded", "desc": snow_desc},
         {"name": "PYTHON (ANALYTICS)", "status": "HEALTHY", "time": now_str, "rows": "12+ KPIs", "desc": "Service Layer"},
         {"name": "STRATIFY (DASHBOARD)", "status": "HEALTHY", "time": now_str, "rows": "11 Tabs", "desc": "Live Streamlit UI"},
         {"name": "DEEPSEEK (AI ENGINE)", "status": "HEALTHY" if deepseek_ready else "WAITING", "time": now_str, "rows": "CDO Insights", "desc": "LLM Synthesis"},
         {"name": "UIPATH (RPA & GMAIL)", "status": "HEALTHY" if smtp_ready else "WAITING", "time": now_str, "rows": "8-Page PDF", "desc": "Report Archival"}
     ]
 
-def render_horizontal_pipeline_visualizer(incoming_cnt=0, processed_cnt=0, sales_df=None):
+def render_horizontal_pipeline_visualizer(incoming_cnt=0, ready_cnt=0, processed_cnt=0, sales_df=None):
     """Renders comprehensive pipeline architecture monitor and event audit log."""
     st.markdown("### ⚙️ Pipeline Architecture & System Health Monitor")
-    st.markdown("""
-    <div style="font-size:0.85rem; color:#64748b; margin-bottom:16px;">
-        Live real-time monitoring across all 7 pipeline stages from POS Ingestion to Snowflake, DeepSeek AI, and UiPath RPA.
-    </div>
-    """, unsafe_allow_html=True)
+    
+    if incoming_cnt > 0 and ready_cnt == 0:
+        st.warning("⚠️ **ALERT: Awaiting Alteryx Execution** — Raw transaction detected in `realtime/incoming/`. Open `alteryx/Stratify_ETL(final).yxmd` in Alteryx Designer and press `Ctrl+R` to generate clean batch.")
+    elif ready_cnt > 0:
+        st.info("ℹ️ **Alteryx Clean Output Ready** — Validated batch available in `realtime/processed_ready/`. Ingesting into Snowflake.")
 
-    nodes = get_pipeline_nodes_status(incoming_cnt, processed_cnt, sales_df)
+    nodes = get_pipeline_nodes_status(incoming_cnt, ready_cnt, processed_cnt, sales_df)
 
     status_color_map = {
         "HEALTHY": ("#15803d", "#dcfce7", "#bbf7d0"),
@@ -69,23 +86,15 @@ def render_horizontal_pipeline_visualizer(incoming_cnt=0, processed_cnt=0, sales
     st.markdown("<br>", unsafe_allow_html=True)
 
     # Pipeline Event Log Table
-    st.markdown("##### 📜 Recent Pipeline Execution Event Logs")
+    st.markdown("##### 📜 Recent Pipeline Execution Event Logs (`processing_log.csv`)")
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     log_path = os.path.join(root_dir, "realtime", "logs", "processing_log.csv")
     
     if os.path.exists(log_path):
         df_log = pd.read_csv(log_path)
         if not df_log.empty:
-            # Format display dataframe matching Section 13 specification
-            df_disp = df_log.copy()
-            st.dataframe(df_disp, use_container_width=True)
+            st.dataframe(df_log, use_container_width=True)
         else:
             st.info("No pipeline events logged yet.")
     else:
-        # Sample empty structured log
-        df_sample = pd.DataFrame([
-            {"TIMESTAMP": datetime.now().strftime("%H:%M:%S"), "COMPONENT": "ALTERYX", "EVENT": "Batch Processed", "STATUS": "SUCCESS", "ROWS": 1, "DURATION": "0.8s", "MESSAGE": "Clean output created"},
-            {"TIMESTAMP": datetime.now().strftime("%H:%M:%S"), "COMPONENT": "SNOWFLAKE", "EVENT": "Batch Loaded", "STATUS": "SUCCESS", "ROWS": 1, "DURATION": "1.2s", "MESSAGE": "SALE_ID merged into RAW_SALES"},
-            {"TIMESTAMP": datetime.now().strftime("%H:%M:%S"), "COMPONENT": "PYTHON", "EVENT": "Analytics Refreshed", "STATUS": "SUCCESS", "ROWS": "-", "DURATION": "0.4s", "MESSAGE": "KPIs recalculated from DWH"}
-        ])
-        st.dataframe(df_sample, use_container_width=True)
+        st.info("Log file will be created upon first execution.")

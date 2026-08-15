@@ -193,8 +193,9 @@ ratios_list = KPIService.get_comprehensive_ratios()
 
 # Pipeline file counts & health
 pipe_counts = PipelineService.get_pipeline_counts()
-incoming_cnt = pipe_counts["incoming"]
-processed_cnt = pipe_counts["processed"]
+incoming_cnt = pipe_counts.get("incoming", 0)
+ready_cnt = pipe_counts.get("cleaned_ready", 0)
+processed_cnt = pipe_counts.get("processed", 0)
 
 # Check Gmail SMTP Status
 smtp_pass = os.getenv("SMTP_PASSWORD", "")
@@ -347,7 +348,7 @@ with t_overview:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 8. Horizontal Pipeline Monitor
-    render_horizontal_pipeline_visualizer(incoming_cnt=incoming_cnt, processed_cnt=processed_cnt, sales_df=sales_df)
+    render_horizontal_pipeline_visualizer(incoming_cnt=incoming_cnt, ready_cnt=ready_cnt, processed_cnt=processed_cnt, sales_df=sales_df)
 
 # ============================================================================
 # TAB 2: CONVERSATIONAL AI COPILOT
