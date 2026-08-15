@@ -317,6 +317,25 @@ class StratifyRealtimePipeline:
                         str(r['Branch']), int(r['Quantity']), float(r['Unit_Price']), float(r['Discount']),
                         float(r['Cost']), float(r['Revenue']), float(r['Profit']), str(r['Validation_Status'])
                     ))
+
+                    # Synchronize Inventory in Snowflake: decrement stock and update Critical/Healthy status
+                    try:
+                        qty_sold = int(r['Quantity'])
+                        pid = str(r['Product_ID'])
+                        pid_alt = pid.replace("_", "") if "_" in pid else f"PROD_{pid[4:]}" if pid.startswith("PROD") and len(pid) > 4 else pid
+                        inv_sql = """
+                        UPDATE NOVAKART_DB.ANALYTICS.INVENTORY
+                        SET CURRENT_STOCK = GREATEST(0, CURRENT_STOCK - %s),
+                            STOCK_STATUS = CASE 
+                                WHEN GREATEST(0, CURRENT_STOCK - %s) <= MINIMUM_STOCK THEN 'Critical'
+                                ELSE 'Healthy'
+                            END
+                        WHERE PRODUCT_ID = %s OR PRODUCT_ID = %s;
+                        """
+                        cur.execute(inv_sql, (qty_sold, qty_sold, pid, pid_alt))
+                    except Exception as inv_e:
+                        print(f"[{ts_str}] Inventory Sync Note: {inv_e}")
+
                 cur.close()
         except Exception as se:
             print(f"[{ts_str}] Snowflake Sync Note: {se}")

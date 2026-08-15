@@ -117,25 +117,38 @@ class RetailTransactionSimulator:
     def get_product_details(self, product_id):
         """Retrieves actual selling price, cost price, and name for a given product_id."""
         if self.products_df is not None:
-            # Check for exact or normalized ID match
+            # Check for exact or normalized ID match (e.g. PROD0001 or PROD_001)
             prod_row = self.products_df[self.products_df["Product_ID"] == product_id]
+            if prod_row.empty and "_" in product_id:
+                norm_id = product_id.replace("_", "")
+                prod_row = self.products_df[self.products_df["Product_ID"] == norm_id]
+            if prod_row.empty and not "_" in product_id and product_id.startswith("PROD"):
+                norm_id = f"PROD_{product_id[4:]}"
+                prod_row = self.products_df[self.products_df["Product_ID"] == norm_id]
+
             if not prod_row.empty:
                 r = prod_row.iloc[0]
+                sp = float(r.get("Selling_Price", 1000.0))
+                cp = float(r.get("Cost_Price", sp * 0.65))
+                if cp >= sp:
+                    cp = round(sp * 0.70, 2)
                 return {
                     "Name": r.get("Product_Name", product_id),
-                    "Selling_Price": float(r.get("Selling_Price", 1000)),
-                    "Cost_Price": float(r.get("Cost_Price", 600))
+                    "Category": r.get("Category", "General"),
+                    "Selling_Price": sp,
+                    "Cost_Price": cp
                 }
 
         # Fallback to historical sales defaults if not found in catalog
-        sales_row = self.sales_df[self.sales_df["Product_ID"] == product_id]
-        if not sales_row.empty:
-            r = sales_row.iloc[0]
-            unit_p = float(r.get("Unit_Price", 1000))
-            cost_p = float(r.get("Cost", unit_p * 0.75)) / max(1, int(r.get("Quantity", 1)))
-            return {"Name": f"Product {product_id}", "Selling_Price": unit_p, "Cost_Price": cost_p}
+        if self.sales_df is not None:
+            sales_row = self.sales_df[self.sales_df["Product_ID"] == product_id]
+            if not sales_row.empty:
+                r = sales_row.iloc[0]
+                unit_p = float(r.get("Unit_Price", 1000.0))
+                cost_p = round(unit_p * 0.68, 2)
+                return {"Name": f"Product {product_id}", "Category": "Retail", "Selling_Price": unit_p, "Cost_Price": cost_p}
 
-        return {"Name": f"Product {product_id}", "Selling_Price": 1500.0, "Cost_Price": 1000.0}
+        return {"Name": f"Product {product_id}", "Category": "General", "Selling_Price": 1500.0, "Cost_Price": 950.0}
 
     def generate_transaction(self, sale_id, testing_mode=False, invalid_type=None):
         """Generates a single retail transaction dictionary matching sales_clean.csv schema."""
@@ -144,7 +157,7 @@ class RetailTransactionSimulator:
         if testing_mode and invalid_type:
             return self._generate_invalid_transaction(sale_id, current_date, invalid_type)
 
-        # Standard Valid Transaction Generation
+        # Standard Valid Transaction Generation Across Diverse Categories & Branches
         customer_id = random.choice(self.customer_list)
         product_id = random.choice(self.product_list)
         branch = random.choice(self.branch_list)
@@ -153,13 +166,21 @@ class RetailTransactionSimulator:
         unit_price = prod_info["Selling_Price"]
         cost_unit = prod_info["Cost_Price"]
 
-        quantity = random.randint(1, 5)
+        # Retail Order Profiling: 80% standard basket (1-4 units), 20% bulk/high-velocity (5-8 units)
+        quantity = random.randint(1, 4) if random.random() < 0.80 else random.randint(5, 8)
         gross_value = unit_price * quantity
         cost = round(cost_unit * quantity, 2)
 
-        # Generate realistic discount (0 to 10% of gross value)
-        discount = round(random.uniform(0, gross_value * 0.10), 2) if gross_value > 500 else 0.0
+        # Realistic promotional discount (0% to 12% max, ensuring healthy positive margins)
+        discount_rate = random.uniform(0.02, 0.12) if random.random() < 0.45 else 0.0
+        discount = round(gross_value * discount_rate, 2)
         revenue = round(gross_value - discount, 2)
+
+        # Ensure gross margin is strictly positive
+        if revenue <= cost:
+            discount = round(gross_value * 0.05, 2)
+            revenue = round(gross_value - discount, 2)
+
         profit = round(revenue - cost, 2)
 
         transaction = {
