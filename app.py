@@ -227,15 +227,23 @@ if HAS_AUTOREFRESH and selected_interval_ms is not None:
 render_top_navigation(last_refresh_time=st.session_state.last_refresh_timestamp)
 
 # Connection Test & Status Banner
-status_label, is_connected = db.get_status()
+status_label, is_connected = db.get_status(force_retry=True)
 
 if not is_connected:
     with st.expander("⚡ Data Source Notice: Running in Standalone / Demo Mode (Verified Clean Data)", expanded=False):
+        secrets_found = []
+        try:
+            import streamlit as st_sec
+            if hasattr(st_sec, "secrets") and st_sec.secrets:
+                secrets_found = [k for k in st_sec.secrets.keys() if "pass" not in k.lower() and "key" not in k.lower()]
+        except Exception:
+            pass
         st.markdown(f"""
         <div style="padding:8px 0; color:#334155; font-size:0.90rem;">
             <b>Live Snowflake Status:</b> Direct warehouse connection is inactive (<i>{db.error_message}</i>).<br>
+            <b>Streamlit Cloud Secrets Detected:</b> <code>{secrets_found or 'None detected in Streamlit Cloud dashboard'}</code><br>
             <b>Fallback Active:</b> All metrics, charts, forecasting, and intelligence tabs are populated from the verified clean master data (<code>Output/</code>).<br>
-            <b>Live Warehouse Activation:</b> Add your Snowflake credentials to Streamlit Cloud <b>App Settings &gt; Secrets</b> or local <code>.env</code>.
+            <b>Live Warehouse Activation:</b> Add your Snowflake credentials to Streamlit Cloud <b>App Settings &gt; Secrets</b>.
         </div>
         """, unsafe_allow_html=True)
 
