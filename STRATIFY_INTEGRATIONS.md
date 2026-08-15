@@ -17,7 +17,7 @@ This document specifies the technical connection protocols and schemas for all i
 ## 2. Tool 2: Snowflake Cloud Data Warehouse
 - **Cloud Provider:** Amazon Web Services (AWS)
 - **Region:** `ap-southeast-7`
-- **Account:** `JQOFPHS-OZ81390`
+- **Account:** `your_account_name` (set in `.env`)
 - **Database / Schema:** `NOVAKART_DB.ANALYTICS`
 - **Stage Object:** `@NOVAKART_DB.ANALYTICS.NOVAKART_STAGE`
 - **Target Table:** `RAW_SALES` (Ingestion via `MERGE INTO`)

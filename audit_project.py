@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 STRATIFY PROJECT COMPREHENSIVE AUDIT SCRIPT
 Validates all configurations, data integrity, and connections
@@ -23,16 +24,16 @@ print("1️⃣  ENVIRONMENT & CONFIGURATION AUDIT")
 print("─" * 100)
 
 env_vars = {
-    'SNOWFLAKE_ACCOUNT': ('JQOFPHS-OZ81390', '✓ Configured'),
-    'SNOWFLAKE_USER': ('RIXS', '✓ Configured'),
-    'SNOWFLAKE_DATABASE': ('NOVAKART_DB', '✓ Configured'),
-    'SNOWFLAKE_SCHEMA': ('ANALYTICS', '✓ Configured'),
-    'SNOWFLAKE_WAREHOUSE': ('COMPUTE_WH', '✓ Configured'),
-    'DEEPSEEK_API_KEY': ('sk-cc7...', '✓ Configured'),
-    'SERPER_API_KEY': ('3eac...', '✓ Configured'),
-    'SMTP_SERVER': ('smtp.gmail.com', '✓ Configured'),
-    'SMTP_USER': ('academixdemo.project@gmail.com', '✓ Configured'),
-    'RECIPIENT_EMAIL': ('rithviksalian392@gmail.com', '✓ Configured'),
+    'SNOWFLAKE_ACCOUNT': ('your_account_name', '✓ Set in .env'),
+    'SNOWFLAKE_USER': ('your_username', '✓ Set in .env'),
+    'SNOWFLAKE_DATABASE': ('NOVAKART_DB', '✓ Database name'),
+    'SNOWFLAKE_SCHEMA': ('ANALYTICS', '✓ Schema name'),
+    'SNOWFLAKE_WAREHOUSE': ('COMPUTE_WH', '✓ Warehouse name'),
+    'DEEPSEEK_API_KEY': ('your_deepseek_api_key', '✓ Set in .env'),
+    'SERPER_API_KEY': ('your_serper_api_key', '✓ Set in .env'),
+    'SMTP_SERVER': ('smtp.gmail.com', '✓ Standard SMTP'),
+    'SMTP_USER': ('your_email@gmail.com', '✓ Set in .env'),
+    'RECIPIENT_EMAIL': ('recipient@gmail.com', '✓ Set in .env'),
 }
 
 print("\n✓ Environment Variables:")

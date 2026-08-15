@@ -38,9 +38,9 @@ cp .env.example .env
 
 ```ini
 # Snowflake Data Warehouse Credentials
-SNOWFLAKE_ACCOUNT=JQOFPHS-OZ81390
-SNOWFLAKE_USER=RIXS
-SNOWFLAKE_PASSWORD=your_snowflake_password
+SNOWFLAKE_ACCOUNT=your_account_name
+SNOWFLAKE_USER=your_username
+SNOWFLAKE_PASSWORD=your_password
 SNOWFLAKE_DATABASE=NOVAKART_DB
 SNOWFLAKE_SCHEMA=ANALYTICS
 SNOWFLAKE_WAREHOUSE=COMPUTE_WH
@@ -52,9 +52,9 @@ DEEPSEEK_API_KEY=your_deepseek_api_key_here
 # Gmail SMTP Email Distribution
 SMTP_SERVER=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=academixdemo.project@gmail.com
-SMTP_PASSWORD=your_gmail_16_char_app_password
-RECIPIENT_EMAIL=your_email@domain.com
+SMTP_USER=your_email@gmail.com
+SMTP_PASSWORD=your_gmail_app_password
+RECIPIENT_EMAIL=your_recipient_email@gmail.com
 ```
 
 ---

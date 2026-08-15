@@ -22,8 +22,8 @@ Your STRATIFY project has passed comprehensive validation across all critical ar
 
 ### Snowflake Data Warehouse Configuration
 ```
-✅ Account:     JQOFPHS-OZ81390
-✅ User:        RIXS
+✅ Account:     Configured in `.env`
+✅ User:        Configured in `.env`
 ✅ Database:    NOVAKART_DB
 ✅ Schema:      ANALYTICS
 ✅ Warehouse:   COMPUTE_WH
@@ -34,7 +34,7 @@ Your STRATIFY project has passed comprehensive validation across all critical ar
 ```
 ✅ DeepSeek AI:      Configured (sk-cc7...)
 ✅ Serper Search:    Configured (3eac...)
-✅ Gmail SMTP:       Configured (academixdemo.project@gmail.com)
+✅ Gmail SMTP:       Configured in `.env`
 ✅ Recipient Email:  rithviksalian392@gmail.com
 ```
 
@@ -229,7 +229,7 @@ Your STRATIFY project has passed comprehensive validation across all critical ar
 ### Gmail SMTP Email Distribution
 ```
 ✅ Server:         smtp.gmail.com:587
-✅ Account:        academixdemo.project@gmail.com
+✅ Account:        Configured in `.env`
 ✅ Recipient:      rithviksalian392@gmail.com
 ✅ Purpose:        Executive report delivery & notifications
 ✅ Status:         READY

@@ -75,7 +75,7 @@
 ### 1. Database Connection Status
 ```
 ✅ Connection: LIVE & ACTIVE
-✅ Account: JQOFPHS-OZ81390
+✅ Account: Configured in `.env` (hidden for security)
 ✅ Database: NOVAKART_DB
 ✅ Schema: ANALYTICS
 ✅ Warehouse: COMPUTE_WH (Online)

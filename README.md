@@ -80,7 +80,7 @@ See [DEPLOYMENT_GUIDE_PUBLIC.md](./DEPLOYMENT_GUIDE_PUBLIC.md) for detailed inst
 ## 📋 Prerequisites
 
 ### Required Credentials
-- **Snowflake Account** (JQOFPHS-OZ81390 or your own account)
+- **Snowflake Account** (your own account)
   - Database: `NOVAKART_DB`
   - Schema: `ANALYTICS`
   - Warehouse: `COMPUTE_WH`

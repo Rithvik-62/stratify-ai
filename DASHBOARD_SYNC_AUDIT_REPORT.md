@@ -106,7 +106,7 @@ Your STRATIFY dashboard is **properly synchronized** with Snowflake and all disp
 ```
 ✅ Database Connection: CONNECTED
 ✅ Warehouse: COMPUTE_WH (Online)
-✅ Account: JQOFPHS-OZ81390
+✅ Account: Configured in `.env` (hidden for security)
 ✅ Database: NOVAKART_DB
 ✅ Schema: ANALYTICS
 ✅ Last Sync Time: 2026-08-15 15:34:16 UTC

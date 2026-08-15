@@ -31,9 +31,9 @@ STRATIFY is an enterprise Decision Intelligence Platform that connects **4 real-
 | Tool # | Enterprise Tool | Function & Responsibility in Pipeline | Configuration / Location |
 | :--- | :--- | :--- | :--- |
 | **Tool 1** | **Alteryx Designer / Engine** | Raw data extraction, schema validation, duplicate removal, null handling, data cleansing | `alteryx/STRATIFY_Realtime_ETL.yxmd` & `realtime/pipeline.py` |
-| **Tool 2** | **Snowflake Data Warehouse** | Enterprise Cloud Data Storage & Staging (`NOVAKART_DB.ANALYTICS`) | Account: `JQOFPHS-OZ81390` |
+| **Tool 2** | **Snowflake Data Warehouse** | Enterprise Cloud Data Storage & Staging (`NOVAKART_DB.ANALYTICS`) | Account: Set in `.env` |
 | **Tool 3** | **DeepSeek Generative AI** | CDO Executive Synthesis, Business Risk Analysis, Strategy Recommendations | `ai/deepseek_insights.py` (`deepseek-chat`) |
-| **Tool 4** | **UiPath RPA & Gmail SMTP** | Robotic Process Automation, PDF Archival, Executive Email Delivery | `uipath/uipath_automation.py` (`academixdemo.project@gmail.com`) |
+| **Tool 4** | **UiPath RPA & Gmail SMTP** | Robotic Process Automation, PDF Archival, Executive Email Delivery | `uipath/uipath_automation.py` (set in `.env`) |
 
 ---
 
@@ -95,7 +95,7 @@ python uipath/uipath_automation.py
 ```
 
 - **RPA Log Audit**: `uipath/uipath_execution_log.csv`
-- **Email Delivery**: Dispatches PDF attachment via `academixdemo.project@gmail.com` to `rithviksalian392@gmail.com`.
+- **Email Delivery**: Dispatches PDF attachment via email (configured in `.env` `SMTP_USER` and `RECIPIENT_EMAIL`).
 
 ---
 

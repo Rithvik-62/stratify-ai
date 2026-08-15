@@ -1,7 +1,7 @@
 """
 STRATIFY — Native Streamlit in Snowflake (SiS) Deployment Script (deploy_to_snowflake.py)
 
-Deploys the STRATIFY Decision Intelligence Platform directly into Snowflake Data Warehouse (JQOFPHS-OZ81390).
+Deploys the STRATIFY Decision Intelligence Platform directly into Snowflake Data Warehouse.
 """
 
 import os
@@ -66,8 +66,12 @@ def deploy_streamlit_to_snowflake():
 
         # 4. Generate Navigation Instructions
         print("[4/4] Generating Snowsight Access Link & Instructions...")
-        account_locator = os.getenv("SNOWFLAKE_ACCOUNT", "JQOFPHS-OZ81390")
-        snowsight_url = "https://app.snowflake.com/ap-southeast-7.aws/tj83997/#/streamlit-apps"
+        account_locator = os.getenv("SNOWFLAKE_ACCOUNT", "")
+        if not account_locator:
+            print("  ⚠️  Warning: Set SNOWFLAKE_ACCOUNT in .env for Snowsight URL generation")
+            snowsight_url = "https://app.snowflake.com - Replace with your account region"
+        else:
+            snowsight_url = f"https://app.snowflake.com/{account_locator}/#/streamlit-apps"
         
         print("\n============================================================")
         print("DEPLOYMENT SUCCESSFUL — STREAMLIT NATIVELY RUNNING IN SNOWFLAKE")
