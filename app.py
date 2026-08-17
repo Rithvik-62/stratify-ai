@@ -279,15 +279,24 @@ with col_refr:
         st.session_state.refresh_interval_setting = selected_refresh_choice
         st.rerun()
 
-# Dynamic branch data filtering
+# Dynamic branch data filtering — robust for Snowflake (BRANCH) and CSV fallback (Branch)
+def _filter_branch(df, branch_name):
+    if df is None:
+        return df
+    if 'BRANCH' in df.columns:
+        return df[df['BRANCH'] == branch_name]
+    elif 'Branch' in df.columns:
+        return df[df['Branch'] == branch_name]
+    return df
+
 if "Apex Delhi POS" in selected_branch:
-    active_sales_df = sales_df[sales_df['BRANCH'] == "Apex Delhi POS"] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+    active_sales_df = _filter_branch(sales_df, "Apex Delhi POS")
 elif "Apex Dark Store 1" in selected_branch:
-    active_sales_df = sales_df[sales_df['BRANCH'] == "Apex Dark Store 1"] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+    active_sales_df = _filter_branch(sales_df, "Apex Dark Store 1")
 elif "Apex Dark Store 2" in selected_branch:
-    active_sales_df = sales_df[sales_df['BRANCH'] == "Apex Dark Store 2"] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+    active_sales_df = _filter_branch(sales_df, "Apex Dark Store 2")
 elif "Apex Panipat POS" in selected_branch:
-    active_sales_df = sales_df[sales_df['BRANCH'] == "Apex Panipat POS"] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+    active_sales_df = _filter_branch(sales_df, "Apex Panipat POS")
 else:
     active_sales_df = sales_df
 
@@ -326,14 +335,56 @@ with ctl4:
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ============================================================================
-# PROMINENT HIGH-VISIBILITY KPI METRICS GRID
+# BRANCH-FILTERED KPI RECALCULATION
+# When a specific branch is selected, recalculate all KPIs from active_sales_df
 # ============================================================================
+is_global_view = "Global Enterprise" in selected_branch
+
+if not is_global_view and active_sales_df is not None and len(active_sales_df) > 0:
+    # Extract clean branch label for display
+    branch_label = selected_branch.split(" ", 1)[-1] if " " in selected_branch else selected_branch
+
+    # Compute filtered KPIs from active branch data — handles both Snowflake and CSV column names
+    _rev_col  = 'REVENUE'  if 'REVENUE'  in active_sales_df.columns else ('Revenue'  if 'Revenue'  in active_sales_df.columns else None)
+    _prof_col = 'PROFIT'   if 'PROFIT'   in active_sales_df.columns else ('Profit'   if 'Profit'   in active_sales_df.columns else None)
+    _rev  = float(active_sales_df[_rev_col].sum())  if _rev_col  else 0.0
+    _prof = float(active_sales_df[_prof_col].sum()) if _prof_col else 0.0
+    _tx   = int(len(active_sales_df))
+    _aov  = round(_rev / _tx, 2) if _tx > 0 else 0.0
+    _marg = round((_prof / _rev) * 100, 2) if _rev > 0 else 0.0
+
+
+    active_kpi_dict = {
+        "TOTAL_REVENUE":       _rev,
+        "TOTAL_PROFIT":        _prof,
+        "PROFIT_MARGIN_PCT":   _marg,
+        "TOTAL_TRANSACTIONS":  _tx,
+        "AVERAGE_ORDER_VALUE": _aov,
+    }
+
+    # Show branch filter indicator banner
+    st.markdown(
+        f"""<div style='background:#eff6ff;border:1.5px solid #3b82f6;border-radius:10px;
+        padding:10px 18px;margin-bottom:12px;font-size:14px;color:#1e40af;font-weight:600;'>
+        🏪 Viewing: <b>{branch_label}</b> &nbsp;|&nbsp;
+        Revenue: <b>₹{_rev:,.2f}</b> &nbsp;|&nbsp;
+        Profit: <b>+₹{_prof:,.2f}</b> &nbsp;|&nbsp;
+        Margin: <b>{_marg:.2f}%</b> &nbsp;|&nbsp;
+        Transactions: <b>{_tx}</b>
+        </div>""",
+        unsafe_allow_html=True
+    )
+else:
+    active_kpi_dict = kpi_dict
+    if not is_global_view:
+        st.warning(f"No transactions found for the selected branch. Showing global view.")
+
 cust_count = len(customers_df) if customers_df is not None else 486
 prod_count = len(products_df) if products_df is not None else 250
-emp_count = len(employees_df) if employees_df is not None else 5
+emp_count  = len(employees_df) if employees_df is not None else 5
 crit_count = (inventory_df['CURRENT_STOCK'] < inventory_df['MINIMUM_STOCK']).sum() if inventory_df is not None and 'CURRENT_STOCK' in inventory_df.columns else 2
 
-render_executive_kpi_grid(kpi_dict, cust_cnt=cust_count, prod_cnt=prod_count, crit_inv=crit_count, emp_cnt=emp_count)
+render_executive_kpi_grid(active_kpi_dict, cust_cnt=cust_count, prod_cnt=prod_count, crit_inv=crit_count, emp_cnt=emp_count)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -359,8 +410,8 @@ t_overview, t_copilot, t_forecast, t_rfm, t_sim, t_depts, t_health, t_ai, t_dq, 
 # ============================================================================
 with t_overview:
     # 1. Business Health Score Component
-    rev_val = kpi_dict.get("TOTAL_REVENUE", 0.0) if kpi_dict else 0.0
-    margin_val = kpi_dict.get("PROFIT_MARGIN_PCT", 0.0) if kpi_dict else 0.0
+    rev_val    = active_kpi_dict.get("TOTAL_REVENUE", 0.0)      if active_kpi_dict else 0.0
+    margin_val = active_kpi_dict.get("PROFIT_MARGIN_PCT", 0.0)  if active_kpi_dict else 0.0
     avg_perf_val = float(employees_df['PERFORMANCE_SCORE'].mean()) if employees_df is not None and 'PERFORMANCE_SCORE' in employees_df.columns else 4.2
 
     render_business_health_score(rev_val, margin_val, crit_count, cust_cnt=cust_count, avg_perf=avg_perf_val)
@@ -410,7 +461,7 @@ with t_copilot:
 # TAB 3: ML PREDICTIVE FORECASTING
 # ============================================================================
 with t_forecast:
-    render_forecasting_panel(sales_df)
+    render_forecasting_panel(active_sales_df if not is_global_view and active_sales_df is not None and len(active_sales_df) > 0 else sales_df)
 
 # ============================================================================
 # TAB 4: CUSTOMER RFM INTELLIGENCE
