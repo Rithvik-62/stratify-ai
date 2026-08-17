@@ -27,7 +27,7 @@ def query_deepseek_copilot(prompt, kpi_dict, sales_df=None):
     - Net Profit: ₹{prof:,.2f}
     - Profit Margin: {margin:.2f}% (Benchmark: >30%)
     - Ingested Transactions: {tx_count}
-    - Top Store Locations: Apex Delhi POS, Nexus Mumbai POS, Horizon Bangalore POS, Online E-Commerce
+    - Top Store Locations: Apex Delhi POS, Apex Dark Store 1, Apex Dark Store 2, Apex Panipat POS
     - Active Customer Base: 486 Registered Accounts
     - Active Product SKUs: 250 Catalog Items
     - Critical Inventory Stock Items: 2 SKUs below safety stock
@@ -48,7 +48,7 @@ def query_deepseek_copilot(prompt, kpi_dict, sales_df=None):
         elif "inventory" in p_lower or "stock" in p_lower:
             return "⚠️ **Inventory Alert:** 2 product SKUs (`PROD0014` and `PROD0089`) have fallen below minimum safety stock levels. Automated purchase requisition is recommended to prevent stockouts."
         elif "branch" in p_lower or "location" in p_lower:
-            return "🏢 **Branch Performance:** *Apex Delhi POS* leads in revenue generation (₹76,400+), followed by *Nexus Mumbai POS* with highest transaction frequency. *Online E-Commerce* is scaling at +22% MoM."
+            return "🏢 **Branch Performance:** *Apex Delhi POS* leads in revenue generation (₹603,017.87 — 9 transactions), followed by *Apex Dark Store 1* (₹394,004.33 — 9 transactions). *Apex Dark Store 2* contributed ₹241,117.67 and *Apex Panipat POS* ₹103,041.79."
         elif "pipeline" in p_lower or "tool" in p_lower:
             return "⚙️ **4-Tool Architecture Status:** All 4 pipeline stages (Alteryx ETL ➔ Snowflake DWH ➔ DeepSeek AI ➔ UiPath RPA & Gmail) are operating in 100% real-time synchronization with < 0.4s DWH query latency."
         else:

@@ -262,9 +262,9 @@ with col_rbac:
         [
             "🌐 Global Enterprise (Consolidated All Branches)",
             "📍 Apex Delhi POS",
-            "📍 Nexus Mumbai POS",
-            "📍 Horizon Bangalore POS",
-            "🛒 Online E-Commerce"
+            "🏪 Apex Dark Store 1",
+            "🏪 Apex Dark Store 2",
+            "📍 Apex Panipat POS"
         ],
         index=0
     )
@@ -280,14 +280,14 @@ with col_refr:
         st.rerun()
 
 # Dynamic branch data filtering
-if "Delhi" in selected_branch:
-    active_sales_df = sales_df[sales_df['BRANCH'].str.contains("Delhi", case=False, na=False)] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
-elif "Mumbai" in selected_branch:
-    active_sales_df = sales_df[sales_df['BRANCH'].str.contains("Mumbai", case=False, na=False)] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
-elif "Bangalore" in selected_branch:
-    active_sales_df = sales_df[sales_df['BRANCH'].str.contains("Bangalore", case=False, na=False)] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
-elif "Online" in selected_branch:
-    active_sales_df = sales_df[sales_df['BRANCH'].str.contains("Online", case=False, na=False)] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+if "Apex Delhi POS" in selected_branch:
+    active_sales_df = sales_df[sales_df['BRANCH'] == "Apex Delhi POS"] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+elif "Apex Dark Store 1" in selected_branch:
+    active_sales_df = sales_df[sales_df['BRANCH'] == "Apex Dark Store 1"] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+elif "Apex Dark Store 2" in selected_branch:
+    active_sales_df = sales_df[sales_df['BRANCH'] == "Apex Dark Store 2"] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
+elif "Apex Panipat POS" in selected_branch:
+    active_sales_df = sales_df[sales_df['BRANCH'] == "Apex Panipat POS"] if sales_df is not None and 'BRANCH' in sales_df.columns else sales_df
 else:
     active_sales_df = sales_df
 
