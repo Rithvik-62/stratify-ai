@@ -119,12 +119,24 @@ def run_master_automated_pipeline():
     print(f"[{ts}] {new_sale_id} verified in Snowflake")
     time.sleep(1)
 
-    # Step 6: Refresh Analytics
+    # Step 6: Refresh Analytics & Sync Output CSV Fallbacks
     ts = datetime.now().strftime("%H:%M:%S")
     print(f"[{ts}] Refreshing analytics & KPI service...")
     kpi_dict = KPIService.get_realtime_kpis()
     hist_comp = HistoricalService.get_historical_comparison()
     print(f"[{ts}] Snowflake Live Revenue: ₹{kpi_dict.get('TOTAL_REVENUE', 0.0):,.2f} | Transactions: {kpi_dict.get('TOTAL_TRANSACTIONS', 0)}")
+    
+    # Auto-sync Output CSV fallback files
+    try:
+        df_fresh_sales = db.query('SELECT SALE_ID AS "Sale_ID", DATE AS "Date", CUSTOMER_ID AS "Customer_ID", PRODUCT_ID AS "Product_ID", BRANCH AS "Branch", QUANTITY AS "Quantity", UNIT_PRICE AS "Unit_Price", DISCOUNT AS "Discount", COST AS "Cost", REVENUE AS "Revenue", PROFIT AS "Profit", VALIDATION_STATUS AS "Validation_Status" FROM NOVAKART_DB.ANALYTICS.VW_STRATIFY_SALES_REALTIME ORDER BY SALE_ID')
+        if df_fresh_sales is not None and not df_fresh_sales.empty:
+            df_fresh_sales.to_csv("Output/sales_clean.csv", index=False)
+        df_fresh_inv = db.query('SELECT INVENTORY_ID AS "Inventory_ID", PRODUCT_ID AS "Product_ID", WAREHOUSE AS "Warehouse", CURRENT_STOCK AS "Current_Stock", MINIMUM_STOCK AS "Minimum_Stock", MAXIMUM_STOCK AS "Maximum_Stock", STOCK_STATUS AS "Stock_Status", VALIDATION_STATUS AS "Validation_Status" FROM NOVAKART_DB.ANALYTICS.INVENTORY ORDER BY INVENTORY_ID')
+        if df_fresh_inv is not None and not df_fresh_inv.empty:
+            df_fresh_inv.to_csv("Output/inventory_clean.csv", index=False)
+        print(f"[{ts}] Local fallback CSVs synced with live Snowflake state")
+    except Exception as e:
+        print(f"[{ts}] Note: CSV fallback sync skipped: {e}")
     time.sleep(1)
 
     # Step 7: DeepSeek AI Insights

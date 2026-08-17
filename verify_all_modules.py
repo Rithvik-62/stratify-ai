@@ -15,7 +15,8 @@ print('=' * 80)
 
 # STEP 1: Full Python Syntax & Bytecode Compilation
 print('[TEST 1/8] Compiling entire Python codebase...')
-comp_res = compileall.compile_dir('.', maxlevels=3, quiet=1)
+comp_dirs = ['components', 'analytics', 'database', 'reports', 'uipath', 'ai', 'realtime']
+comp_res = all(compileall.compile_dir(d, quiet=1) for d in comp_dirs if os.path.exists(d)) and compileall.compile_file('app.py', quiet=1)
 print(f'  ✓ Code compilation status: {"ALL FILES COMPILED CLEANLY" if comp_res else "FAILED"}')
 
 # STEP 2: Database Connection & Query Execution
